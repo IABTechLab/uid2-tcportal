@@ -21,12 +21,49 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-var express = require('express');
-var router = express.Router();
+import axios from 'axios';
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+import logger from '../utils/logging';
+import {
+  isDevelopment, SENDGRID_API_KEY, SENDGRID_SENDER, SENDGRID_TEMPLATE_ID, 
+} from '../utils/process';
+import { encrypt } from './encryption';
 
-module.exports = router;
+export type VerificationResponse = { email: string, encrypted: string, code: string };
+export async function sendVerificationCode(email: string, code: number): Promise<VerificationResponse> {
+
+  if (isDevelopment) {
+    logger.log('debug', `in development mode, code is ${code}`);
+    return {
+      email,
+      code: code.toString(),
+      encrypted: await encrypt(email),
+    };
+  }
+
+  const response = await axios.post<VerificationResponse>('https://api.sendgrid.com/v3/mail/send',
+    /* eslint-disable quote-props */
+    {
+      'from' : {
+        'email' : SENDGRID_SENDER,
+      },
+      'personalizations' : [
+        {
+          'to' : [{ email }],
+          'dynamic_template_data' : {
+            code,
+          },
+        },
+      ],
+      'template_id' : SENDGRID_TEMPLATE_ID,
+    },
+    {
+      'headers' : {
+        'Authorization' : `Bearer ${SENDGRID_API_KEY}`,
+        'Content-Type' : 'application/json', 
+      },
+      /* eslint-enable quote-props */
+    });
+
+  return response.data;
+}

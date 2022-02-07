@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/images/favicon.png" />
     <meta name="og:type" content="website" />
     <meta name="twitter:card" content="photo" />
-    <script src="https://www.google.com/recaptcha/api.js?render=6Lctdo4aAAAAAMVYJ8bs_7VbYskEyBq3hDX2m6eQ"></script>
+    {{{recaptchaScript}}}
     <link rel="stylesheet" type="text/css" href="/stylesheets/email_verify.css" />
     <style>
       @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
@@ -176,7 +176,6 @@
         cursor: pointer;
       }
     </style>
-    <meta name="author" content="AnimaApp.com - Design to code, Automated." />
   </head>
   <body style="margin: 0; background: rgba(255, 255, 255, 1)">
     <input type="hidden" id="anPageName" name="page" value="desktop-2" />
@@ -187,14 +186,13 @@
             <input type="hidden" name="encrypted" value="{{encrypted}}"/>
             <input type="hidden" id="recaptcha" name="recaptcha" />
       <div class="desktop-2 anima-screen">
-        <div class="welcome-to-160780-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">Welcome to</div>
+        <div class="welcome-to-160780-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome to"}}</div>
         <div class="ad-transpa-com-160783-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
-            Transparency and Control Portal
+            {{__ "Transparency and Control Portal"}}
         </div>
         <div class="rectangle-121-C61RwL"></div>
         <div class="this-site--net-160779-C61RwL raleway-medium-stratos-12px">
-          This site will allow you to view and manage how your interests are used to deliver relevant advertising across
-          the internet.
+          {{__ "This site will allow you to view and manage how your interests are used to deliver relevant advertising across the internet."}}
         </div>
           {{#if error}}
               <div class="error this-site--net-160765-C61RwL raleway-medium-stratos-12px">
@@ -205,34 +203,36 @@
           <input type="text" style="border-style: none" disabled="disabled" class="link-i16079952333-qRYxj9 raleway-medium-stratos-12px border-class-1" value="{{email}}"></input>
         </div>
         <div class="desktopui--ry-default-C61RwL">
-          <input style="border-style: none" class="link-i16080146939-wxkpqU raleway-medium-stratos-12px border-class-1" placeholder="Enter your verification code" value="{{code}}" name="code"></input>
+          <input style="border-style: none" class="link-i16080146939-wxkpqU raleway-medium-stratos-12px border-class-1" placeholder="{{__ "Enter your verification code"}}" value="{{code}}" name="code"></input>
         </div>
         <div class="desktop-un-ary-button-C61RwL">
           <div class="rectangle-98-pdOPXM"></div>
             <button style="border-style: none; cursor: pointer; align-items: center" class="link-i16080046888-pdOPXM anima-valign-text-middle raleway-bold-white-14px border-class-1">
-                NEXT
+                {{__ "NEXT"}}
             </button>
         </div>
         <div class="x-check-you-ail-160802-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
-          ...Check your email...
+          {{__ "...Check your email..."}}
         </div>
         <div class="please-ent-ail-160803-C61RwL raleway-medium-stratos-12px">
-          Please enter the verification code that was sent to your email.
+          {{__ "Please enter the verification code that was sent to your email."}}
         </div>
-        <div class="powered-by-160781-C61RwL raleway-bold-stratos-12px">Powered by</div>
-        <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1-1@2x.png" />
+        <div class="powered-by-160781-C61RwL raleway-bold-stratos-12px">{{__ "Powered by"}}</div>
+        <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
       </div>
       </form>
+      {{{siteKeyInput}}}
       <script>
           const form = document.getElementById("code_submit");
           form.addEventListener("submit", onSubmit);
           function onSubmit(e) {
               e.preventDefault(); // prevent submitting the form
               grecaptcha.ready(function () {
-                  grecaptcha.execute('6Lctdo4aAAAAAMVYJ8bs_7VbYskEyBq3hDX2m6eQ', { action: 'code_submit' }).then(function (token) {
-                      document.getElementById('recaptcha').value = token;
-                      form.submit();
-                  });
+                const siteInputKey = document.getElementById('recpatchaSiteKey').value;
+                grecaptcha.execute(siteInputKey, { action: 'code_submit' }).then(function (token) {
+                    document.getElementById('recaptcha').value = token;
+                    form.submit();
+                });
               });
           }
       </script>

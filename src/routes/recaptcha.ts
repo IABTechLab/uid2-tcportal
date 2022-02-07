@@ -21,39 +21,16 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-const axios = require('axios');
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+import axios from 'axios';
 
-const sendVerificationCode = function(email, code, cb) {
+const { RECAPTCHA_SECRET } = process.env;
+const API_ENDPOINT = 'https://www.google.com/recaptcha/api/siteverify';
 
-    axios.post("https://api.sendgrid.com/v3/mail/send",
-         {
-                "from" : {
-                    "email" : "noreply@transparentadvertising.org"
-                },
-            "personalizations" : [
-                {
-                    "to" : [ { "email" : email}],
-                    "dynamic_template_data" : {
-                        "code" : code
-                    }
-                }
-            ],
-            "template_id" : "d-04a7859751a04139b89ed9b46807f81c"
-        },
-        {
-            headers : { "Authorization" : "Bearer " + SENDGRID_API_KEY,
-                "Content-Type" : "application/json"},
-        }
+export async function validate(recaptchaData: string): Promise<boolean> {
+  const url = `${API_ENDPOINT}?response=${recaptchaData}&secret=${RECAPTCHA_SECRET}`;
 
-
-).then((res) => {
-        cb(null, res.data);
-    }).catch((error) => {
-        cb(error);
-    })
+  const response = await axios.post<{ score: number }>(url);
+  return response.data.score >= 0.5;
 }
 
-module.exports = {
-    send : sendVerificationCode
-}
+export default validate;

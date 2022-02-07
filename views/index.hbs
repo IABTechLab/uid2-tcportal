@@ -2,11 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1440, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/images/favicon.png" />
     <meta name="og:type" content="website" />
-    <meta name="twitter:card" content="photo" />
-    <script src="https://www.google.com/recaptcha/api.js?render=6Lctdo4aAAAAAMVYJ8bs_7VbYskEyBq3hDX2m6eQ"></script>
+    {{{recaptchaScript}}}
     <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
     <style>
       @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
@@ -176,19 +175,18 @@
         cursor: pointer;
       }
     </style>
-    <meta name="author" content="AnimaApp.com - Design to code, Automated." />
   </head>
   <body style="margin: 0; background: rgba(255, 255, 255, 1)">
     <input type="hidden" id="anPageName" name="page" value="desktop-1" />
     <div class="anima-container-center-horizontal">
       <div class="desktop-1 anima-screen">
-        <div class="welcome-to-160766-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">Welcome to</div>
+        <div class="welcome-to-160766-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome to"}}</div>
         <div class="ad-transpa-com-160769-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
-            Transparency and Control Portal
+            {{__ "Transparency and Control Portal"}}
         </div>
         <div class="rectangle-121-C61RwL"></div>
         <div class="this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-            This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email below. You represent and warrant that this is your email.
+            {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email below. You represent and warrant that this is your email."}}
         </div>
         {{#if error}}
             <div class="error this-site--net-160765-C61RwL raleway-medium-stratos-12px">
@@ -201,10 +199,11 @@
             </div>
         {{/if}}
           <form id="email_prompt" action="/" method="post">
+            {{{siteKeyInput}}}
             <input type="hidden" name="step" value="email_prompt">
             <input type="hidden" id="recaptcha" name="recaptcha" />
             <div class="desktopui--ry-default-C61RwL">
-              <input type="text" style="border-style: none" class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" name="email" placeholder="Enter your email address" value="{{email}}">
+              <input type="text" style="border-style: none" class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" name="email" placeholder="{{__ "Enter your email address"}}" value="{{email}}">
               </input>
               <!--
               <div class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1">
@@ -215,20 +214,20 @@
             <div class="desktop-un-ary-button-C61RwL">
               <div class="rectangle-98-pdOPXM"></div>
                   <button style="border-style: none; cursor: pointer; align-items: center" class="link-i16077046888-pdOPXM anima-valign-text-middle raleway-bold-white-14px border-class-1">
-                      NEXT
+                      {{__ "NEXT"}}
                   </button>
             </div>
           </form>
-          
           <script>
               const form = document.getElementById("email_prompt");
               form.addEventListener("submit", onSubmit);
               function onSubmit(e) {
-                  e.preventDefault(); // prevent submitting the form
+                  e.preventDefault();
                   grecaptcha.ready(function () {
-                      grecaptcha.execute('6Lctdo4aAAAAAMVYJ8bs_7VbYskEyBq3hDX2m6eQ', { action: 'email_prompt' }).then(function (token) {
-                          document.getElementById('recaptcha').value = token;
-                          form.submit();
+                        const key = document.getElementById('recpatchaSiteKey').value;
+                        grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {                      
+                        document.getElementById('recaptcha').value = token;
+                        form.submit();
                       });
                   });
               }

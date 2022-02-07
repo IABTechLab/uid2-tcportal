@@ -21,32 +21,13 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-const axios = require('axios');
-const RECAPTCHA_SECRET = process.env.RECAPTCHA_SECRET;
-const API_ENDPOINT = "https://www.google.com/recaptcha/api/siteverify";
+import express from 'express';
 
-const validate = function(recaptchaData, cb) {
-    var url = API_ENDPOINT + "?response=" + recaptchaData + "&secret=" + RECAPTCHA_SECRET;
+const router = express.Router();
 
-    axios.post(url
-    ).then((res) => {
-        if (res.data.score >= 0.5){
-            cb(true);
-        } else {
-            cb(false);
-        }
-    }).catch((error) => {
-        // Something went wrong.
-        // Could be a transient issue getting to the API - don't block
-        console.log(error)
-        cb(true);
-    })
+/* GET users listing. */
+router.get('/', (_req, res, _next) => {
+  res.send('respond with a resource');
+});
 
-}
-
-module.exports = {
-    validate : validate
-}
-
-
-
+export default router;

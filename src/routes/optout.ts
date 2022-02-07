@@ -21,26 +21,18 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-const axios = require('axios');
-const OPTOUT_KEY = process.env.OPTOUT_API_KEY;
+import axios from 'axios';
 
-const API_ENDPOINT = "https://prod.uidapi.com/token/logout";
+import { OPTOUT_API_KEY, OPTOUT_ENDPOINT_URL } from '../utils/process';
 
-const optout = function(email, cb) {
+export async function optout(email: string): Promise<any> {
+  const url = `${OPTOUT_ENDPOINT_URL}?email=${encodeURIComponent(email)}`;
 
-    var url = API_ENDPOINT +"?email=" +encodeURIComponent(email);
-
-    axios.get(url,
-        {
-            headers : { "Authorization" : "Bearer " + OPTOUT_KEY },
-        }
-    ).then((res) => {
-        cb(null, res.data);
-    }).catch((error) => {
-        cb(error);
-    })
+  const response = await axios.get<any>(url,
+    {
+      headers : { Authorization : `Bearer ${OPTOUT_API_KEY}` },
+    });
+  return response;
 }
 
-module.exports = {
-    send : optout
-}
+export default optout;

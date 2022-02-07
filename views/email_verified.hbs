@@ -176,7 +176,6 @@
         cursor: pointer;
       }
     </style>
-    <meta name="author" content="AnimaApp.com - Design to code, Automated." />
   </head>
   <body style="margin: 0; background: rgba(255, 255, 255, 1)">
     <input type="hidden" id="anPageName" name="page" value="desktop-4" />
@@ -187,48 +186,52 @@
               <input type="hidden" name="encrypted" value="{{encrypted}}"/>
           </form>
         <div class="desktop-un-ary-button-C61RwL">
-          <div class="link-i16087427146-pdOPXM"><a href="/">EXIT</a></div>
+          <div class="link-i16087427146-pdOPXM"><a href="/">{{__ "EXIT"}}</a></div>
           <div class="rectangle-1444-pdOPXM"></div>
         </div>
-        <div class="welcome-160876-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">Welcome!</div>
+        <div class="welcome-160876-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome!"}}</div>
         <div class="namedomaincom-160877-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
           {{email}}
         </div>
         <div class="rectangle-121-C61RwL"></div>
         <div class="our-truste-net-160875-C61RwL raleway-medium-stratos-12px">
-          Our trusted advertising partners using the UID identifier are committed to delivering relevant advertising
-          that also respects your choice.&nbsp;&nbsp;Advertising enables access to your favorite content across the
-          internet.
+          {{__ "Our trusted advertising partners using the UID identifier are committed to delivering relevant advertising that also respects your choice."}}
+          <br><br>
+          {{__ "Advertising enables access to your favorite content across the internet."}}
         </div>
-        <div class="opt-out-160881-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">Opt-Out</div>
+        <div class="opt-out-160881-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Opt-Out"}}</div>
         <div class="your-choic-ent-160880-C61RwL">
-          <span class="span1-0xJPn1"
-            >Your choice to Opt-Out will indicate to trusted advertising partners that you no longer wish to receive
-            targeted advertising based on your UID.&nbsp;&nbsp;The scope of this Opt-Out is limited to sites which use
-            UID.&nbsp;&nbsp;For choice with respect to advertising based on cookies, please visit </span
-          ><span class="span2-0xJPn1">https://optout.aboutads.info.<br /><br /></span
-          ><span class="span3-0xJPn1"
-            >Note: this choice may limit your ability to access ad supported content.&nbsp;&nbsp;You may be asked to
-            Opt-In again in the future to access such content.</span
-          >
+          <span class="span1-0xJPn1">
+            {{__ "Your choice to Opt-Out will indicate to trusted advertising partners that you no longer wish to receive targeted advertising based on your UID."}}
+            <br><br>
+            {{__ "The scope of this Opt-Out is limited to sites which use UID."}}
+            <br><br>
+            {{__ "For choice with respect to advertising based on cookies, please visit "}}
+          </span> 
+          <a target="_blank" href="https://optout.aboutads.info" class="span2-0xJPn1">https://optout.aboutads.info. {{__ "(English)"}}<br /><br /></a>
+          <span class="span3-0xJPn1">
+            {{__ "Note: this choice may limit your ability to access ad supported content."}}
+            <br><br>
+            {{"You may be asked to Opt-In again in the future to access such content."}}
+          </span>
         </div>
         <div class="desktop-un-ary-button-VMr6Om">
           <div class="rectangle-98-zpg6x3"></div>
           <button onclick="javascript:promptOptout(); return false;" style="border-style: none; cursor: pointer; align-items: center" class="link-i16087846888-zpg6x3 anima-valign-text-middle raleway-bold-white-14px border-class-1">
-            OPT OUT
+            {{__ "OPT OUT"}}
           </button>
         </div>
-        <div class="powered-by-160859-C61RwL raleway-bold-stratos-12px">Powered by</div>
-        <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1-2@2x.png" />
+        <div class="powered-by-160859-C61RwL raleway-bold-stratos-12px">{{__ "Powered by"}}</div>
+        <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
         <div id="prompt-modal" style="display:none">
             <div class="rectangle-1445-C61RwL"></div>
             <div class="desktopui-container-C61RwL"></div>
-            <div class="are-you-sure-160905-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">Are you sure?</div>
+            <div class="are-you-sure-160905-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">{{__ "Are you sure?"}}</div>
             <div class="desktop-un-ary-button-mzXdH9">
                 <div class="rectangle-98-xq3GWO"></div>
                 <div class="link-i16090646888-xq3GWO anima-valign-text-middle raleway-bold-white-14px border-class-1">
                     <button onclick="javascript:submitOptout(); return false;" style="border-style: none; cursor: pointer; align-items: center" class="link-i16087846888-zpg6x3 anima-valign-text-middle raleway-bold-white-14px border-class-1">
-                        YES
+                        {{__ "YES"}}
                     </button>
                 </div>
             </div>
@@ -236,15 +239,15 @@
                 <div class="rectangle-98-t7FpkF"></div>
                 <div class="link-i16090746888-t7FpkF anima-valign-text-middle raleway-bold-white-14px border-class-1">
                     <button onclick="javascript:cancelOptout(); return false;" style="border-style: none; cursor: pointer; align-items: center" class="link-i16087846888-zpg6x3 anima-valign-text-middle raleway-bold-white-14px border-class-1">
-                        NO
+                        {{__ "NO"}}
                     </button>
                 </div>
                 <!--
                 -->
             </div>
             <div class="this-choic-ent-160908-C61RwL raleway-medium-stratos-12px">
-                This choice may limit your ability to access ad supported content.&nbsp;&nbsp;You may be asked to Opt-In again
-                in the future to access such content.
+                {{__ "This choice may limit your ability to access ad supported content."}}
+                {{__ "You may be asked to Opt-In again in the future to access such content."}}
             </div>
         </div>
       </div>
