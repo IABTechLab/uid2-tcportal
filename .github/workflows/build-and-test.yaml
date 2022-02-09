@@ -3,12 +3,18 @@ on: [push]
 
 jobs:
   build:
-    runs-on: node:14.17.3-alpine3.11 
+    runs-on: ubuntu-latest 
 
     steps:
       # Check out repository $GITHUB_WORKSPACE
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - name: setup yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.3'
+          cache: 'yarn'
+      - run: yarn install
       - name: build 
         run: yarn build
       - name: test
