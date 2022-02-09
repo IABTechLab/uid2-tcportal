@@ -1,0 +1,17 @@
+name: Build and Test
+on: [push]
+
+jobs:
+  build:
+    runs-on: node:14.17.3-alpine3.11 
+
+    steps:
+      # Check out repository $GITHUB_WORKSPACE
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: build 
+        run: yarn build
+      - name: test
+        #TODO Remove this when we have tests
+        run: yarn test --passWithNoTests
+
