@@ -49,29 +49,6 @@ export async function encrypt(input: string): Promise<string> {
   });  
 }
 
-export async function createCode(email: string, timestamp: number): Promise<number> {
-  return new Promise((resolve, reject) => {
-    const hash = crypto.createHash('sha256');
-    hash.on('readable', () => {
-      const data = hash.read();
-      if (!data) {
-        reject(new Error('Unable to read hash'));
-        return; 
-      }
-
-      let val = 0;
-      for (let i = 3; i >= 0; i -= 1) {
-        val = (val << 8) | data[data.length - i - 1]; // eslint-disable-line no-bitwise
-      }
-      resolve(Math.abs(val % 1000000));
-    });
-    hash.write(email);
-    hash.write(timestamp.toString());
-    hash.write(SYSTEM_CODE_SECRET);
-    hash.end();
-  });
-}
-
 export async function decrypt(input: string): Promise<string> {
   const parts = input.split(';');
 

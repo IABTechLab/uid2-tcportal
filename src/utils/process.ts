@@ -8,10 +8,6 @@ declare global {
       RECAPTCHA_SITE_KEY: string;
       RECAPTCHA_SECRET: string;
 
-      SENDGRID_API_KEY: string;
-      SENDGRID_TEMPLATE_ID: string;
-      SENDGRID_SENDER: string;
-
       OPTOUT_ENDPOINT_URL: string;
       OPTOUT_API_KEY: string;
 
@@ -45,10 +41,6 @@ export const PORT = (process.env.PORT && normalizePort(process.env.PORT)) || '30
 
 export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY || '6Lctdo4aAAAAAMVYJ8bs_7VbYskEyBq3hDX2m6eQ';
 export const { RECAPTCHA_SECRET } = process.env;
-
-export const { SENDGRID_API_KEY } = process.env;
-export const { SENDGRID_TEMPLATE_ID } = process.env;
-export const { SENDGRID_SENDER } = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
 export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://prod.uidapi.com/token/logout';
