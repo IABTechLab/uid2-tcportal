@@ -39,6 +39,12 @@ const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
+const isValidPhone = (phone: string) => {
+  // eslint-disable-next-line no-control-regex
+  const phoneRegex = /^\+[0-9]{10,15}$/;
+  return phoneRegex.test(phone);
+};
+
 const EmailPromptRequest = z.object({
   email: z.string(),
   recaptcha: z.string(),
@@ -46,8 +52,8 @@ const EmailPromptRequest = z.object({
 
 const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>, { email: string, encrypted: string, error?: string }> = async (req, res, _next) => {
   const { email, recaptcha } = EmailPromptRequest.parse(req.body);
-  if (!isValidEmail(email)) {
-    res.render('index', { email, error : i18n.__('Please enter a valid email address') });
+  if (!isValidEmail(email) && !isValidPhone(email)) {
+    res.render('index', { email, error : i18n.__('Please enter a valid email address or phone number') });
     return;
   }
 
