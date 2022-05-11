@@ -25,10 +25,10 @@ import axios from 'axios';
 
 import { OPTOUT_API_KEY, OPTOUT_ENDPOINT_URL } from '../utils/process';
 
-export async function optout(email: string): Promise<any> {
-  const url = email[0] == '+' 
-    ? `${OPTOUT_ENDPOINT_URL}?phone=${encodeURIComponent(email)}`
-    : `${OPTOUT_ENDPOINT_URL}?email=${encodeURIComponent(email)}`;
+export async function optout(identityInput: string): Promise<any> {
+  const url = identityInput[0] == '+' 
+    ? `${OPTOUT_ENDPOINT_URL}?phone=${encodeURIComponent(identityInput)}`
+    : `${OPTOUT_ENDPOINT_URL}?email=${encodeURIComponent(identityInput)}`;
 
   const response = await axios.get<any>(url,
     {
