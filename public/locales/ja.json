@@ -31,5 +31,7 @@
 	"NO": "いいえ",
 	"This choice may limit your ability to access ad supported content.": "この選択により、広告付きコンテンツへのアクセスが制限される場合があります。",
 	"You may be asked to Opt-In again in the future to access such content.": "将来、そのようなコンテンツにアクセスするために、再度オプトインを求められる可能性があります。",
-	"We have received your request to opt out and will begin processing it shortly.": "オプトアウトのリクエストを受け取りました。まもなく処理を開始します。"
+	"We have received your request to opt out and will begin processing it shortly.": "オプトアウトのリクエストを受け取りました。まもなく処理を開始します。",
+	"Enter your phone number (with + country code prefix)": "Enter your phone number (with + country code prefix)",
+	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.": "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information."
 }

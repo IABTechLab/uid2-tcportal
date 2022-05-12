@@ -1,6 +1,5 @@
 {
 	"Transparency and Control Portal": "Transparency and Control Portal",
-	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email below. You represent and warrant that this is your email.": "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email below. You represent and warrant that this is your email.",
 	"Enter your email address": "Enter your email address",
 	"NEXT": "NEXT",
 	"Please enter a valid email address": "Please enter a valid email address",
@@ -31,5 +30,7 @@
 	"NO": "NO",
 	"This choice may limit your ability to access ad supported content.": "This choice may limit your ability to access ad supported content.",
 	"You may be asked to Opt-In again in the future to access such content.": "You may be asked to Opt-In again in the future to access such content.",
-	"We have received your request to opt out and will begin processing it shortly.": "We have received your request to opt out and will begin processing it shortly."
+	"We have received your request to opt out and will begin processing it shortly.": "We have received your request to opt out and will begin processing it shortly.",
+	"Enter your phone number (with + country code prefix)": "Enter your phone number (with + country code prefix)",
+	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.": "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information."
 }
