@@ -207,9 +207,9 @@
 
             <div>
               <input type="radio" id="email_type" name="id_type" value="email" onclick="handleIdTypeClick(this)" checked>
-              <label style="border-style: none" class="raleway-medium-stratos-12px" for="email_type">Email Address</label>&nbsp;&nbsp;
+              <label style="border-style: none" class="raleway-medium-stratos-12px" for="email_type">{{__ "Email Address"}}</label>&nbsp;&nbsp;
               <input type="radio" id="phone_type" name="id_type" value="phone" onclick="handleIdTypeClick(this)">
-              <label style="border-style: none" class="raleway-medium-stratos-12px" for="phone_type">Phone Number</label>
+              <label style="border-style: none" class="raleway-medium-stratos-12px" for="phone_type">{{__ "Phone Number"}}</label>
             </div>
 
             <div class="desktopui--ry-default-C61RwL">
@@ -233,7 +233,7 @@
                 if (idType.value === "email") {
                   document.getElementById('id_input').placeholder = "{{__ "Enter your email address"}}";
                 } else if (idType.value === "phone") {
-                  document.getElementById('id_input').placeholder = "{{__ "Enter your phone number (with + country code prefix)"}}";
+                  document.getElementById('id_input').placeholder = "{{__ "Enter your phone number, e.g. +1111111111"}}";
                 }
               }
 
