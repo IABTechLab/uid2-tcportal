@@ -1,6 +1,5 @@
 {
 	"Transparency and Control Portal": "透明性と管理ポータル",
-	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email below. You represent and warrant that this is your email.": "このサイトでは、Unified ID 2.0を使ったターゲティング広告をオプトアウトすることができます。以下にあなたのメールアドレスを入力してください。確認のメールをお送りします。",
 	"Enter your email address": "メールアドレスを入力してください",
 	"NEXT": "次へ",
 	"Please enter a valid email address": "有効なEメールアドレスを入力してください。",
@@ -32,8 +31,8 @@
 	"This choice may limit your ability to access ad supported content.": "この選択により、広告付きコンテンツへのアクセスが制限される場合があります。",
 	"You may be asked to Opt-In again in the future to access such content.": "将来、そのようなコンテンツにアクセスするために、再度オプトインを求められる可能性があります。",
 	"We have received your request to opt out and will begin processing it shortly.": "オプトアウトのリクエストを受け取りました。まもなく処理を開始します。",
-	"Enter your phone number, e.g. +1111111111": "Enter your phone number, e.g. +1111111111",
-	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.": "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.",
-	"Email Address": "りします",
-	"Phone Number": "Phone Number"
+	"Enter your phone number, e.g. +1111111111": "電話番号を入力してください",
+	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.": "このサイトでは、Unified ID 2.0を使ったターゲティング広告をオプトアウトすることができます。以下にあなたのメールアドレスや電話番号を入力してください。確認のメールをお送りします。",
+	"Email Address": "メールアドレス",
+	"Phone Number": "電話番号"
 }
