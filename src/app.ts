@@ -35,8 +35,11 @@ import makeMetricsApiMiddleware from './middleware/metrics';
 import adDetailRouter from './routes/adDetail';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import { ID_TYPE } from './utils/process';
 
-enum Languages {English = 'en', Japanese = 'ja'}
+
+enum Languages_UID2 {English = 'en', Japanese = 'ja'}
+enum Languages_EUID {English = 'en'}
 
 const app = express();
 
@@ -74,7 +77,7 @@ app.use(express.static(path.join(__dirname, '/../public')));
 app.use(helmet());
 app.use(i18n.init);
 app.use((req, _res, next) => {
-  const locale = req.acceptsLanguages()[0] || Languages.English;
+  const locale = req.acceptsLanguages()[0] || Languages_UID2.English;
   i18n.setLocale(locale);
   next();
 });
@@ -110,7 +113,7 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
 });
 
 i18n.configure({
-  locales: Object.values(Languages),
+  locales: ID_TYPE === 'EUID' ? Object.values(Languages_EUID) : Object.values(Languages_UID2),
   directory: path.join(__dirname, '/../public/locales'),
   updateFiles: false,
 });

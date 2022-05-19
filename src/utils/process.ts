@@ -14,6 +14,7 @@ declare global {
       SYSTEM_SECRET: string;
       SYSTEM_SALT: string;
       SYSTEM_CODE_SECRET:string;
+      ID_TYPE:string
     }
   }
 }
@@ -49,6 +50,8 @@ export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET as string || 'dev';
 export const SYSTEM_SALT = process.env.TCP_SYSTEM_SALT as string || 'dev';
 export const SYSTEM_CODE_SECRET = process.env.TCP_SYSTEM_CODE_SECRET as string || 'dev';
 
+export const { ID_TYPE } = process.env
+
 export const environment = ((): 'production' | 'development' => {
   const env = process.env.NODE_ENV as unknown as string[] | undefined;
   return (env || []).indexOf('development') > -1 ? 'development' : 'production';
@@ -56,3 +59,5 @@ export const environment = ((): 'production' | 'development' => {
 
 export const isDevelopment = environment === 'development';
 export const isProduction = environment === 'production';
+
+

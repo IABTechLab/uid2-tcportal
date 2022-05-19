@@ -3,7 +3,8 @@ on: workflow_dispatch
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME_UID2: uid2-tcportal
+  IMAGE_NAME_EUID: euid-tcportal
 
 jobs:
   build-publish-docker:
@@ -24,18 +25,35 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
+      - name: Extract metadata (tags, labels) for Docker (UID2)
+        id: meta-uid2
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_UID2 }}
           tags: |
             type=sha,prefix=${{ steps.version.outputs.package_version }}-,format=short
-      - name: Build and push Docker image
+      - name: Build and push Docker image (UID2)
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
+          file: Dockerfile_uid2
           push: true
             #tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta-uid2.outputs.tags }}
+          labels: ${{ steps.meta-uid2.outputs.labels }}
+      - name: Extract metadata (tags, labels) for Docker (EUID)
+        id: meta-euid
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_EUID }}
+          tags: |
+            type=sha,prefix=${{ steps.version.outputs.package_version }}-,format=short
+      - name: Build and push Docker image (EUID)
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          file: Dockerfile_euid
+          push: true
+            #tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:
+          tags: ${{ steps.meta-euid.outputs.tags }}
+          labels: ${{ steps.meta-euid.outputs.labels }}          

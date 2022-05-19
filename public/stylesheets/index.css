@@ -86,7 +86,7 @@
   height: auto;
   letter-spacing: 0.24px;
   line-height: 16px;
-  margin-top: auto;
+  margin-top: 10vh;
   min-height: 16px;
   position: relative;
   text-align: center;
@@ -130,7 +130,7 @@
   height: 30px;
   margin-top: 9px;
   position: relative;
-  width: 200px;
+  width: auto;
 }
 .desktop-1 .welcome-to-160766-C61RwL {
   align-self: flex-start;
