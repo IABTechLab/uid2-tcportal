@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/stylesheets/adDetail.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body style="margin: 0px; padding: 0px">
+      <div class="page-header">
+        <img class="page-header__background" src="/images/Header_Desktop.png" />
+        <p class="page-header__text">AdChoices Information</p>
+        <div class="page-header__break"></div>
+        <img class="page-header__uid2-logo" src="/images/UID2-Logo-PowererdBy-White.svg" />
+      </div>
+
+      <h1 class="ad-info-header border-black">Why am I seeing this ad?</h1>
+      <div class="ad-info">
+        <div class="ad-info__left">
+          {{#if adDetail.targetingCategories.history}}
+          <div class="classification">
+            <img
+              class="classification__icon"
+              src="/images/icon-type-contextual.svg"
+              alt="A clock with an arrow wrapped around it pointing counter-clockwise"
+            />
+            <p class="classification__description">
+              <span class="classification__advertiser">{{adDetail.advertiserName}}</span> targeted you
+              and any related devices based on your previous interactions.
+              {{#if adDetail.privacyPolicy}}
+              <a href={{adDetail.privacyPolicy}}
+                >See Privacy Policy</a
+              >
+              {{/if}}
+            </p>
+          </div>
+          {{/if}}
+          {{#if adDetail.targetingCategories.interest}}
+          <div class="classification">
+            <img
+              class="classification__icon"
+              src="/images/icon-type-interest.svg"
+              alt="A hand with the thumb pointed upwards"
+            />
+            <p class="classification__description">
+              Based on your interests,
+              <span class="classification__advertiser">{{adDetail.advertiserName}}</span> thought
+              you'd be interested in this ad.
+            </p>
+          </div>
+          {{/if}}
+          {{#if adDetail.targetingCategories.geography}}
+          <div class="classification">
+            <img
+              class="classification__icon"
+              src="/images/icon-type-geography.svg"
+              alt="An inverted teardrop with a circle in the middle"
+            />
+            <p class="classification__description">
+              Your location was used to serve you this ad.
+            </p>
+          </div>
+          {{/if}}
+          {{#if adDetail.targetingCategories.contextual}}
+          <div class="classification">
+            <img
+              class="classification__icon"
+              src="/images/icon-type-modeling.svg"
+              alt="A series of circles in an upside-down triangle pattern connected by solid lines"
+            />
+            <p class="classification__description">
+              <span class="classification__advertiser">{{adDetail.advertiserName}}</span> thinks you
+              may be a potential customer based on behaviors of other customers
+              like you.
+            </p>
+          </div>
+          {{/if}}
+          {{#if adDetail.targetingCategories.model}}
+          <div class="classification">
+            <img
+              class="classification__icon"
+              src="/images/icon-type-history-advertiser.svg"
+              alt="A piece of paper with two straight lines and a pie chart printed on it"
+            />
+            <p class="classification__description">
+              Your browsing history suggests you may be interested in this ad.
+            </p>
+          </div>
+          {{/if}}
+          {{#if adDetail.interests}}
+          <div class="segments">
+            <h2>These are the interest segments in which you are included:</h2>
+            <ul class="segments__list">
+              {{#each adDetail.interests}}
+                <li class="segments__pill">{{this}}</li>
+              {{/each}}
+            </ul>
+          </div>
+          {{/if}}
+          {{#if adDetail.companies}}
+          <h2 class="companies">
+            This ad was served by 
+            <div class="companies__tooltip"> 
+              <ul class="companies__list">
+                {{#each adDetail.companies}}
+                <li>{{this}}</li>
+                {{/each}}
+              </ul>
+              {{adDetail.companies.length}} companies
+            </div>.
+          </h2>
+          {{/if}}
+          </div>
+          <div class="ad-info__right">
+            <div class="settings">
+              <h1 class="settings__header">What can you do?</h1>
+              <p class="settings__description">
+                You can learn more about the companies involved in showing you ads
+                and opt out of relevant advertising.
+              </p>
+              <div class="settings__buttons">
+                <a class="button" href="https://transparentadvertising.org"
+                  >Opt Out Settings</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

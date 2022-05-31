@@ -30,6 +30,7 @@ import { RECAPTCHA_SITE_KEY } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
 import { validate } from './recaptcha';
+import { ID_TYPE } from '../utils/process';
 
 const router = express.Router();
 
@@ -39,6 +40,12 @@ const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
+const isValidPhone = (phone: string) => {
+  // eslint-disable-next-line no-control-regex
+  const phoneRegex = /^\+[0-9]{10,15}$/;
+  return phoneRegex.test(phone);
+};
+
 const EmailPromptRequest = z.object({
   email: z.string(),
   recaptcha: z.string(),
@@ -46,9 +53,16 @@ const EmailPromptRequest = z.object({
 
 const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>, { email: string, encrypted: string, error?: string }> = async (req, res, _next) => {
   const { email, recaptcha } = EmailPromptRequest.parse(req.body);
-  if (!isValidEmail(email)) {
-    res.render('index', { email, error : i18n.__('Please enter a valid email address') });
-    return;
+  if (ID_TYPE === 'EUID') {
+    if (!isValidEmail(email)) {
+      res.render('index', { email, error : i18n.__('Please enter a valid email address') });
+      return;    
+    }
+  } else {
+    if (!isValidEmail(email) && (!isValidPhone(email))) {
+      res.render('index', { email, error : i18n.__('Please enter a valid email address or phone number') });
+      return;
+    }
   }
 
   const success = await validate(recaptcha);
@@ -89,7 +103,7 @@ const steps: Record<string, RequestHandler> = {
 /* GET home page. */
 router.get('/', (_req, res, _next) => {
   res.render('index', {
-    title: 'Transparent Advertising',
+    title: 'Transparent Advertising'
   });
 });
 

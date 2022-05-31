@@ -78,12 +78,11 @@
   flex-shrink: 0;
   height: 40px;
   letter-spacing: 0.24px;
-  line-height: 30px;
-  margin-right: 117.0px;
+  line-height: 30px;  
   margin-top: 0px;
   min-height: 40px;
   position: relative;
-  text-align: left;
+  text-align: center;
   width: auto;
 }
 .desktop-4 .opt-out-160881-C61RwL {
@@ -119,7 +118,7 @@
   letter-spacing: 0.24px;
   line-height: 16px;
   margin-left: 2.0px;
-  margin-top: auto;
+  margin-top: 10vh;
   min-height: 16px;
   position: relative;
   text-align: center;
@@ -176,7 +175,7 @@
   height: 30px;
   margin-top: 9px;
   position: relative;
-  width: 200px;
+  width: auto;
 }
 .desktop-4 .welcome-160876-C61RwL {
   background-color: transparent;

@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=1440, maximum-scale=1.0" />
     <link rel="shortcut icon" href="/images/favicon.png" />
     <meta name="og:type" content="website" />
-    {{{recaptchaScript}}}
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
+    <meta name="twitter:card" content="photo" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/email_verified.css" />
     <style>
       @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
 
@@ -14,6 +14,7 @@
       .anima-screen a {
         text-decoration: none;
         display: contents;
+        color: inherit;
       }
 
       .anima-full-width-a {
@@ -177,64 +178,47 @@
     </style>
   </head>
   <body style="margin: 0; background: rgba(255, 255, 255, 1)">
-    <input type="hidden" id="anPageName" name="page" value="desktop-1" />
+    <input type="hidden" id="anPageName" name="page" value="desktop-4" />
     <div class="anima-container-center-horizontal">
-      <div class="desktop-1 anima-screen">
-        <div class="welcome-to-160766-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome to"}}</div>
-        <div class="ad-transpa-com-160769-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
-            {{__ "Transparency and Control Portal"}}
+      <div class="desktop-4 anima-screen">
+          <form id="optout-form" action="/" method="post">
+              <input type="hidden" name="step" value="optout_submit"/>
+              <input type="hidden" name="encrypted" value="{{encrypted}}"/>
+          </form>
+        <div class="desktop-un-ary-button-C61RwL">
+          <div class="link-i16087427146-pdOPXM"><a href="/">{{__ "EXIT"}}</a></div>
+          <div class="rectangle-1444-pdOPXM"></div>
+        </div>
+        <div class="welcome-160876-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome!"}}</div>
+        <div class="namedomaincom-160877-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
+          {{email}}
         </div>
         <div class="rectangle-121-C61RwL"></div>
-        <div class="this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-            {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email below. You represent and warrant that this is your email."}}
+        <div class="our-truste-net-160875-C61RwL raleway-medium-stratos-12px">
+          <span class="span1-0xJPn1">
+          {{__ "Your choice to withdraw consent and/or object to targeted advertising based on EUID will mean that sites or apps you interact with, and advertising companies working with them, will no longer process your EUID to serve targeted advertising. This is limited to sites which use EUID."}}
+          <br><br>
+          {{__ "For choice with respect to advertising based on cookies, please visit"}}
+          </span>
+          <a target="_blank" href="https://youronlinechoices.eu" class="span2-0xJPn1">https://youronlinechoices.eu. {{__ "(English)"}}<br /><br /></a>
+          <span class="span3-0xJPn1">
+            {{__ "Note: this choice may limit your ability to access ad supported content."}}
+          </span>
         </div>
-        {{#if error}}
-            <div class="error this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-                {{error}}
-            </div>
-        {{/if}}
-        {{#if message}}
-           <div class="message this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-                {{message}}
-            </div>
-        {{/if}}
-          <form id="email_prompt" action="/" method="post">
-            {{{siteKeyInput}}}
-            <input type="hidden" name="step" value="email_prompt">
-            <input type="hidden" id="recaptcha" name="recaptcha" />
-            <div class="desktopui--ry-default-C61RwL">
-              <input type="text" style="border-style: none" class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" name="email" placeholder="{{__ "Enter your email address"}}" value="{{email}}">
-              </input>
-              <!--
-              <div class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1">
-                Enter your email address
-              </div>
-              -->
-            </div>
-            <div class="desktop-un-ary-button-C61RwL">
-              <div class="rectangle-98-pdOPXM"></div>
-                  <button style="border-style: none; cursor: pointer; align-items: center" class="link-i16077046888-pdOPXM anima-valign-text-middle raleway-bold-white-14px border-class-1">
-                      {{__ "NEXT"}}
-                  </button>
-            </div>
-          </form>
-          <script>
-              const form = document.getElementById("email_prompt");
-              form.addEventListener("submit", onSubmit);
-              function onSubmit(e) {
-                  e.preventDefault();
-                  grecaptcha.ready(function () {
-                        const key = document.getElementById('recpatchaSiteKey').value;
-                        grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {                      
-                        document.getElementById('recaptcha').value = token;
-                        form.submit();
-                      });
-                  });
-              }
-          </script>
-        <div class="powered-by-160767-C61RwL raleway-bold-stratos-12px">Powered by</div>
-        <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
+        <div class="desktop-un-ary-button-VMr6Om">
+          <div class="rectangle-98-zpg6x3"></div>
+          <button onclick="javascript:submitOptout(); return false;" style="border-style: none; cursor: pointer; align-items: center" class="link-i16087846888-zpg6x3 anima-valign-text-middle raleway-bold-white-14px border-class-1">
+            {{__ "OPT OUT"}}
+          </button>
+        </div>
+        <div class="powered-by-160859-C61RwL raleway-bold-stratos-12px">{{__ "Powered by"}}</div>
+        <img class="unified-id-r-with20-1-C61RwL" src="/images/EUID.png" />
       </div>
     </div>
   </body>
+  <script>
+      function submitOptout() {
+          document.getElementById("optout-form").submit();
+      }
+  </script>
 </html>
