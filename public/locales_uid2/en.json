@@ -31,8 +31,9 @@
 	"This choice may limit your ability to access ad supported content.": "This choice may limit your ability to access ad supported content.",
 	"You may be asked to Opt-In again in the future to access such content.": "You may be asked to Opt-In again in the future to access such content.",
 	"We have received your request to opt out and will begin processing it shortly.": "We have received your request to opt out and will begin processing it shortly.",
-	"Enter your phone number, e.g. +1111111111": "Enter your phone number, e.g. +1111111111",
+	"Enter your phone number, e.g. 1111111111": "Enter your phone number, e.g. 1111111111",
 	"This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.": "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information.",
 	"Email Address": "Email Address",
-	"Phone Number": "Phone Number"
+	"Phone Number": "Phone Number",
+	"For example: ": "For example: "
 }

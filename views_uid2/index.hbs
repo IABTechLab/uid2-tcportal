@@ -1,258 +1,424 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/images/favicon.png" />
-    <meta name="og:type" content="website" />
-    {{{recaptchaScript}}}
-    <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
-    <style>
-      @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
 
-      .anima-component-wrapper a,
-      .anima-screen a {
-        text-decoration: none;
-        display: contents;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script>
+    $(function () {
+      $.widget("custom.iconselectmenu", $.ui.selectmenu, {
+        _renderItem: function (ul, item) {
+          var li = $("<li>"),
+            wrapper = $("<div>", { text: item.label });
 
-      .anima-full-width-a {
-        width: 100%;
-      }
+          if (item.disabled) {
+            li.addClass("ui-state-disabled");
+          }
 
-      .anima-full-height-a {
-        height: 100%;
-      }
+          $("<span>", {
+            style: item.element.attr("data-style"),
+            "class": "ui-icon " + item.element.attr("data-class")
+          })
+            .appendTo(wrapper);
 
-      .anima-screen textarea:focus,
-      .anima-screen input:focus {
-        outline: none;
-      }
+          return li.append(wrapper).appendTo(ul);
+        },
+        _renderButtonItem: function( item ) {
+          var buttonItem = $( "<span>", {
+            "class": "ui-selectmenu-text"
+          })
+          if (item.value !== "") {
+            let callingCode = item.label.substring(item.label.indexOf("+"))
+            this._setText( buttonItem, callingCode );
+          }
+          return buttonItem;
+        }
+      });
 
-      .anima-screen *,
-      .anima-component-wrapper * {
-        box-sizing: border-box;
-      }
+      $("#input_country_code")
+        .iconselectmenu({
+          create: function (event, ui) {
+            var widget = $(this).iconselectmenu("widget");
+            $span = $('<span id="' + this.id + 'selected" class="avatar-selected"> ').html("&nbsp;").appendTo(widget);
+            $span.attr("style", $(this).children(":first").data("style"));
+          },
+          change: function (event, ui) {
+            $("#" + this.id + 'selected').attr("style", ui.item.element.data("style"))
+          }
+        })
+        .iconselectmenu("menuWidget")
+        .addClass("ui-menu-icons avatar");
+    });
+  </script>
+  <meta name="og:type" content="website" />
+  {{{recaptchaScript}}}
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
 
-      .anima-screen div {
-        -webkit-text-size-adjust: none;
-      }
+    .anima-component-wrapper a,
+    .anima-screen a {
+      text-decoration: none;
+      display: contents;
+    }
 
-      .anima-container-center-vertical,
-      .anima-container-center-horizontal {
-        pointer-events: none;
-        display: flex;
-        flex-direction: row;
-        padding: 0;
-        margin: 0;
-      }
+    .anima-full-width-a {
+      width: 100%;
+    }
 
-      .anima-container-center-vertical {
-        align-items: center;
-        height: 100%;
-      }
+    .anima-full-height-a {
+      height: 100%;
+    }
 
-      .anima-container-center-horizontal {
-        justify-content: center;
-        width: 100%;
-      }
+    .anima-screen textarea:focus,
+    .anima-screen input:focus {
+      outline: none;
+    }
 
-      .anima-container-center-vertical > *,
-      .anima-container-center-horizontal > * {
-        pointer-events: auto;
-        flex-shrink: 0;
-      }
+    .anima-screen *,
+    .anima-component-wrapper * {
+      box-sizing: border-box;
+    }
 
-      .anima-component-wrapper,
-      .anima-screen {
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: break-all;
-        word-break: break-word;
-      }
+    .anima-screen div {
+      -webkit-text-size-adjust: none;
+    }
 
-      .anima-auto-animated div {
+    .anima-container-center-vertical,
+    .anima-container-center-horizontal {
+      pointer-events: none;
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      margin: 0;
+    }
+
+    .anima-container-center-vertical {
+      align-items: center;
+      height: 100%;
+    }
+
+    .anima-container-center-horizontal {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .anima-container-center-vertical>*,
+    .anima-container-center-horizontal>* {
+      pointer-events: auto;
+      flex-shrink: 0;
+    }
+
+    .anima-component-wrapper,
+    .anima-screen {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-all;
+      word-break: break-word;
+    }
+
+    .anima-auto-animated div {
+      opacity: 0;
+      position: absolute;
+      --anima-z-index: -1;
+    }
+
+    .anima-auto-animated .anima-container-center-vertical,
+    .anima-auto-animated .anima-container-center-horizontal {
+      opacity: 1;
+    }
+
+    .anima-overlay {
+      position: absolute;
+      opacity: 0;
+      display: none;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+    }
+
+    .anima-animate-appear {
+      opacity: 0;
+      display: block;
+      animation: anima-reveal 0.3s ease-in-out 1 normal forwards;
+    }
+
+    .anima-animate-disappear {
+      opacity: 1;
+      display: block;
+      animation: anima-reveal 0.3s ease-in-out 1 reverse forwards;
+    }
+
+    .anima-animate-nodelay {
+      animation-delay: 0s;
+    }
+
+    @keyframes anima-reveal {
+      from {
         opacity: 0;
-        position: absolute;
-        --anima-z-index: -1;
       }
 
-      .anima-auto-animated .anima-container-center-vertical,
-      .anima-auto-animated .anima-container-center-horizontal {
+      to {
         opacity: 1;
       }
+    }
 
-      .anima-overlay {
-        position: absolute;
-        opacity: 0;
-        display: none;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-      }
+    .align-self-flex-start {
+      align-self: flex-start;
+    }
 
-      .anima-animate-appear {
-        opacity: 0;
-        display: block;
-        animation: anima-reveal 0.3s ease-in-out 1 normal forwards;
-      }
+    .align-self-flex-end {
+      align-self: flex-end;
+    }
 
-      .anima-animate-disappear {
-        opacity: 1;
-        display: block;
-        animation: anima-reveal 0.3s ease-in-out 1 reverse forwards;
-      }
+    .align-self-flex-center {
+      align-self: center;
+    }
 
-      .anima-animate-nodelay {
-        animation-delay: 0s;
-      }
+    .anima-valign-text-middle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-      @keyframes anima-reveal {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      .align-self-flex-start {
-        align-self: flex-start;
-      }
-      .align-self-flex-end {
-        align-self: flex-end;
-      }
-      .align-self-flex-center {
-        align-self: center;
-      }
-      .anima-valign-text-middle {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .anima-valign-text-bottom {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-      }
-      .anima- input:focus {
-        outline: none;
-      }
-      .anima-component-wrapper,
-      .anima-component-wrapper * {
-        pointer-events: none;
-      }
+    .anima-valign-text-bottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
 
-      .anima-component-wrapper a *,
-      .anima-component-wrapper a,
-      .anima-component-wrapper input,
-      .anima-component-wrapper video,
-      .anima-component-wrapper iframe,
-      .anima-listeners-active,
-      .anima-listeners-active * {
-        pointer-events: auto;
-      }
+    .anima- input:focus {
+      outline: none;
+    }
 
-      .anima-hidden,
-      .anima-hidden * {
-        visibility: hidden;
-        pointer-events: none;
-      }
+    .anima-component-wrapper,
+    .anima-component-wrapper * {
+      pointer-events: none;
+    }
 
-      .anima-smart-layers-pointers,
-      .anima-smart-layers-pointers * {
-        pointer-events: auto;
-        visibility: visible;
-      }
+    .anima-component-wrapper a *,
+    .anima-component-wrapper a,
+    .anima-component-wrapper input,
+    .anima-component-wrapper video,
+    .anima-component-wrapper iframe,
+    .anima-listeners-active,
+    .anima-listeners-active * {
+      pointer-events: auto;
+    }
 
-      .anima-component-wrapper.anima-not-ready,
-      .anima-component-wrapper.anima-not-ready * {
-        visibility: hidden !important;
-      }
+    .anima-hidden,
+    .anima-hidden * {
+      visibility: hidden;
+      pointer-events: none;
+    }
 
-      .anima-listeners-active-click,
-      .anima-listeners-active-click * {
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body style="margin: 0; background: rgba(255, 255, 255, 1)">
-    <input type="hidden" id="anPageName" name="page" value="desktop-1" />
-    <div class="anima-container-center-horizontal">
-      <div class="desktop-1 anima-screen">
-        <div class="welcome-to-160766-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome to"}}</div>
-        <div class="ad-transpa-com-160769-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
-            {{__ "Transparency and Control Portal"}}
-        </div>
-        <div class="rectangle-121-C61RwL"></div>
-        <div class="this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-            {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information."}}
-        </div>
-        {{#if error}}
-            <div class="error this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-                {{error}}
-            </div>
-        {{/if}}
-        {{#if message}}
-           <div class="message this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-                {{message}}
-            </div>
-        {{/if}}
-          <form id="email_prompt" action="/" method="post">
-            {{{siteKeyInput}}}
-            <input type="hidden" name="step" value="email_prompt">
-            <input type="hidden" id="recaptcha" name="recaptcha" />
+    .anima-smart-layers-pointers,
+    .anima-smart-layers-pointers * {
+      pointer-events: auto;
+      visibility: visible;
+    }
 
-            <br>
+    .anima-component-wrapper.anima-not-ready,
+    .anima-component-wrapper.anima-not-ready * {
+      visibility: hidden !important;
+    }
 
-            <div>
-              <input type="radio" id="email_type" name="id_type" value="email" onclick="handleIdTypeClick(this)" checked>
-              <label style="border-style: none" class="raleway-medium-stratos-12px" for="email_type">{{__ "Email Address"}}</label>&nbsp;&nbsp;
-              <input type="radio" id="phone_type" name="id_type" value="phone" onclick="handleIdTypeClick(this)">
-              <label style="border-style: none" class="raleway-medium-stratos-12px" for="phone_type">{{__ "Phone Number"}}</label>
-            </div>
+    .anima-listeners-active-click,
+    .anima-listeners-active-click * {
+      cursor: pointer;
+    }
 
-            <div class="desktopui--ry-default-C61RwL">
-              <input type="text" id="id_input" style="border-style: none" class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" name="email" placeholder="{{__ "Enter your email address"}}" value="{{email}}">
-              </input>
-              <!--
-              <div class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1">
-                Enter your email address
-              </div>
-              -->
-            </div>
-            <div class="desktop-un-ary-button-C61RwL">
-              <div class="rectangle-98-pdOPXM"></div>
-                  <button style="border-style: none; cursor: pointer; align-items: center" class="link-i16077046888-pdOPXM anima-valign-text-middle raleway-bold-white-14px border-class-1">
-                      {{__ "NEXT"}}
-                  </button>
-            </div>
-          </form>
-          <script>
-              function handleIdTypeClick(idType) {
-                if (idType.value === "email") {
-                  document.getElementById('id_input').placeholder = "{{__ "Enter your email address"}}";
-                } else if (idType.value === "phone") {
-                  document.getElementById('id_input').placeholder = "{{__ "Enter your phone number, e.g. +1111111111"}}";
-                }
-              }
+    /* select with CSS avatar icons */
+    option.avatar {
+      background-repeat: no-repeat !important;
+      padding-left: 20px;
+    }
 
-              const form = document.getElementById("email_prompt");
-              form.addEventListener("submit", onSubmit);
-              function onSubmit(e) {
-                  e.preventDefault();
-                  grecaptcha.ready(function () {
-                        const key = document.getElementById('recpatchaSiteKey').value;
-                        grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {                      
-                        document.getElementById('recaptcha').value = token;
-                        form.submit();
-                      });
-                  });
-              }
-          </script>
-        <div class="powered-by-160767-C61RwL raleway-bold-stratos-12px">Powered by</div>
-        <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
+    .avatar .ui-icon {
+      background-position: left top;
+    }
+
+    .ui-selectmenu-button.ui-button {
+      flex: 1;
+      width: 2em !important;
+      background: none;
+      border: 1px solid black;
+      padding: 7px;
+      margin-right: 2px;
+    }
+
+    .ui-selectmenu-menu .ui-menu.avatar .ui-menu-item-wrapper {
+      padding: 2px 10px 0 30px;
+      color: var(--stratos);
+      font-family: 'Raleway', Helvetica, Arial, serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .ui-selectmenu-menu .ui-menu.avatar .ui-menu-item .ui-icon {
+      height: 24px;
+      width: 24px;
+      top: 0.1em;
+    }
+
+    .ui-selectmenu-text {
+      padding-left: 3em;
+      margin-right: 0px;
+      color: var(--stratos);
+      font-family: 'Raleway', Helvetica, Arial, serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .avatar-selected {
+      position: absolute;
+      height: 24px;
+      width: 24px;
+      right: auto;
+      margin-top: -8px;
+      top: 50%;
+      background-repeat: no-repeat;
+    }
+
+    .ui-button .ui-icon {
+      width: 0px;
+      background-image: none;
+    }
+
+    .desktop-1 .link-i16077146939-wxkpqU {
+      flex: 4;
+      border: 1px solid black !important;
+      border-radius: 4px;
+      padding: 8px;
+    }
+
+    .desktop-1 .desktopui--ry-default-C61RwL {
+      border: none;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body style="margin: 0; background: rgba(255, 255, 255, 1)">
+  <input type="hidden" id="anPageName" name="page" value="desktop-1" />
+  <div class="anima-container-center-horizontal">
+    <div class="desktop-1 anima-screen">
+      <div class="welcome-to-160766-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome to"}}</div>
+      <div class="ad-transpa-com-160769-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
+        {{__ "Transparency and Control Portal"}}
       </div>
+      <div class="rectangle-121-C61RwL"></div>
+      <div class="this-site--net-160765-C61RwL raleway-medium-stratos-12px">
+        {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information."}}
+      </div>
+      {{#if error}}
+      <div class="error this-site--net-160765-C61RwL raleway-medium-stratos-12px">
+        {{error}}
+        {{#if phoneExample}}
+        .&nbsp;{{__ "For example: "}} {{phoneExample}}
+        {{/if}}
+      </div>
+      {{/if}}
+      {{#if message}}
+      <div class="message this-site--net-160765-C61RwL raleway-medium-stratos-12px">
+        {{message}}
+      </div>
+      {{/if}}
+      <form id="email_prompt" action="/" method="post">
+        {{{siteKeyInput}}}
+        <input type="hidden" name="step" value="email_prompt">
+        <input type="hidden" id="recaptcha" name="recaptcha" />
+        <input type="hidden" id="email" name="email" />
+        <input type="hidden" id="country_code" name="country_code" />
+        <input type="hidden" id="phone" name="phone" />
+        <br>
+        <input type="radio" id="email_type" name="id_type" value="email" onclick="handleIdTypeClick(this)" {{#unless countryCode}}checked{{/unless}}>
+        <label style="border-style: none" class="raleway-medium-stratos-12px" for="email_type">{{__ "Email
+          Address"}}</label>&nbsp;&nbsp;
+        <input type="radio" id="phone_type" name="id_type" value="phone" onclick="handleIdTypeClick(this)" {{#if countryCode}}checked{{/if}}>
+        <label style="border-style: none" class="raleway-medium-stratos-12px" for="phone_type">{{__ "Phone
+          Number"}}</label>
+
+        <div class="desktopui--ry-default-C61RwL" id="email_div" {{#if countryCode}} style="display: none" {{else}} style="display: inline-flex" {{/if}}>
+          <input type="text" id="id_input_email" style="border-style: none"
+            class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" placeholder="{{__ "Enter your email address"}}" value="{{email}}">
+          </input>
+        </div>
+        <div class="desktopui--ry-default-C61RwL" id="phone_div" {{#if countryCode}} style="display: inline-flex" {{else}} style="display: none" {{/if}}>
+          <select id="input_country_code">
+            <option hidden disabled selected value></option>
+            {{#each countryList}}
+            <option value="{{this.CountryCode}}" data-class="avatar"
+              data-style="background-image: url(&apos;/images/flags/{{this.CountryCode}}.svg&apos;);">
+              {{this.CountryName}} +{{this.CallingCode}}</option>
+            {{/each}}
+          </select>
+          <input type="text" id="input_phone" style="border-style: none"
+            class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" placeholder="{{__ "Enter your phone number, e.g. 1111111111"}}" value="{{phone}}">
+          </input>
+        </div>
+        <div class="desktop-un-ary-button-C61RwL">
+          <div class="rectangle-98-pdOPXM"></div>
+          <button style="border-style: none; cursor: pointer; align-items: center"
+            class="link-i16077046888-pdOPXM anima-valign-text-middle raleway-bold-white-14px border-class-1">
+            {{__ "NEXT"}}
+          </button>
+        </div>
+      </form>
+      <script>
+        function handleIdTypeClick(idType) {
+          if (idType.value === "email") {
+            document.getElementById('phone_div').style.display = "none"
+            document.getElementById('email_div').style.display = "inline-flex"
+          } else if (idType.value === "phone") {
+            document.getElementById('phone_div').style.display = "inline-flex"
+            document.getElementById('email_div').style.display = "none"
+          }
+        }
+
+        const form = document.getElementById("email_prompt");
+        form.addEventListener("submit", onSubmit);
+        function onSubmit(e) {
+          e.preventDefault();
+
+          if (form.querySelector('input[name=id_type]:checked').value === 'email') {
+            $('#email').val($('#id_input_email').val())
+            $('#country_code').val("")
+            $('#phone').val("")
+          } else {
+            $('#email').val("")
+            $('#country_code').val($('#input_country_code').val())
+            $('#phone').val($('#input_phone').val())
+          }
+
+          grecaptcha.ready(function () {
+            const key = $('#recpatchaSiteKey').val();
+            grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {
+              $('#recaptcha').val(token);
+              form.submit();
+            });
+          });
+        }
+
+        {{#if countryCode}}
+          $('#input_country_code').val('{{countryCode}}')
+
+          $(document).ready(function() {
+            $('#input_country_codeselected').attr('style', "background-image: url('images/flags/{{countryCode}}.svg');")
+            $('#input_country_codeselected').trigger('refresh')
+          })
+        {{/if}}
+      </script>
+      <div class="powered-by-160767-C61RwL raleway-bold-stratos-12px">Powered by</div>
+      <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
     </div>
-  </body>
+  </div>
+</body>
 </html>
