@@ -44,7 +44,7 @@
   background-color: transparent;
   color: var(--stratos);
   flex-shrink: 0;
-  font-family: 'Roboto', Helvetica, Arial, serif;
+  font-family: 'Roboto', Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -78,7 +78,7 @@
   flex-shrink: 0;
   height: 40px;
   letter-spacing: 0.24px;
-  line-height: 30px;  
+  line-height: 30px;
   margin-top: 0px;
   min-height: 40px;
   position: relative;
@@ -153,19 +153,19 @@
 }
 .desktop-4 .span1-0xJPn1 {
   color: rgba(2,10,64,1.0);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-style: normal;
   font-weight: 500;
 }
 .desktop-4 .span2-0xJPn1 {
   color: rgba(78,132,0,1.0);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-style: normal;
   font-weight: 700;
 }
 .desktop-4 .span3-0xJPn1 {
   color: rgba(2,10,64,1.0);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-style: normal;
   font-weight: 500;
 }
@@ -194,7 +194,7 @@
   background-color: transparent;
   color: transparent;
   flex-shrink: 0;
-  font-family: "Raleway", Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   height: auto;
   letter-spacing: 0.12px;
@@ -208,35 +208,35 @@
 }
 .raleway-bold-stratos-12px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-stratos-14px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-stratos-24px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-white-14px {
   color: var(--white);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-medium-stratos-12px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;

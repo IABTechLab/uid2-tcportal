@@ -147,35 +147,35 @@
 }
 .raleway-bold-stratos-12px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-stratos-14px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-stratos-24px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-white-14px {
   color: var(--white);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-medium-stratos-12px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
