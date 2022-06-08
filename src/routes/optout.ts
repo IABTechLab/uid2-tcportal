@@ -33,6 +33,7 @@ export async function optout(identityInput: string): Promise<any> {
 
   logger.info(url)
   logger.info(OPTOUT_API_KEY.substring(0, 10))
+  logger.info(OPTOUT_API_KEY.substring(40))
 
   const response = await axios.get<any>(url,
     {
