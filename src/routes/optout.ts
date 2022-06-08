@@ -32,6 +32,7 @@ export async function optout(identityInput: string): Promise<any> {
     : `${OPTOUT_ENDPOINT_URL}?email=${encodeURIComponent(identityInput)}`;
 
   logger.info(url)
+  logger.info(OPTOUT_API_KEY.substring(0, 10))
 
   const response = await axios.get<any>(url,
     {
