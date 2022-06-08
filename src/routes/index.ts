@@ -129,6 +129,7 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
     await optout(payload);
 
   } catch (e) {
+    logger.error(`${e}`)
     res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
     return;
   }

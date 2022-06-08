@@ -22,13 +22,16 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import axios from 'axios';
+import logger from '../utils/logging';
 
 import { OPTOUT_API_KEY, OPTOUT_ENDPOINT_URL } from '../utils/process';
 
 export async function optout(identityInput: string): Promise<any> {
-  const url = identityInput[0] == '+' 
+  const url = identityInput[0] == '+'
     ? `${OPTOUT_ENDPOINT_URL}?phone=${encodeURIComponent(identityInput)}`
     : `${OPTOUT_ENDPOINT_URL}?email=${encodeURIComponent(identityInput)}`;
+
+  logger.info(url)
 
   const response = await axios.get<any>(url,
     {
