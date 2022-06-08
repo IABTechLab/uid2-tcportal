@@ -86,7 +86,8 @@ app.use(
     useDefaults: true,
     directives: {
       defaultSrc: ["'self'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/'],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/'],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/', 'https://code.jquery.com/'],
+      imgSrc: ["'self'", "data:", 'https://code.jquery.com/'],
       scriptSrcAttr: ["'self'", "'unsafe-inline'"],
     },
   }),

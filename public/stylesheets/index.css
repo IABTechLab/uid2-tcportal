@@ -78,7 +78,7 @@
   position: relative;
   text-align: left;
   white-space: nowrap;
-  width: 351px;
+  width: 200px;
 }
 .desktop-1 .powered-by-160767-C61RwL {
   background-color: transparent;
@@ -147,35 +147,35 @@
 }
 .raleway-bold-stratos-12px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-stratos-14px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-stratos-24px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-bold-white-14px {
   color: var(--white);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
 }
 .raleway-medium-stratos-12px {
   color: var(--stratos);
-  font-family: 'Raleway', Helvetica, Arial, serif;
+  font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;

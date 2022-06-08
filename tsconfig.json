@@ -8,6 +8,11 @@
       "strict": true,
       "sourceMap": true,
       "composite": true,
-      "incremental": true
-    }
+      "incremental": true,
+      "allowJs": true,
+    },
+    "exclude": [
+      "public",
+      "build",
+    ]
   }

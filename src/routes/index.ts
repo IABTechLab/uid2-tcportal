@@ -30,7 +30,12 @@ import { RECAPTCHA_SITE_KEY } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
 import { validate } from './recaptcha';
-import { ID_TYPE } from '../utils/process';
+import { ID_TYPE, isDevelopment } from '../utils/process';
+
+import { countryList, countryDict, phoneLibSupportedCountries, phoneExampleDict } from '../utils/countries'
+import logger from '../utils/logging';
+
+import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber'
 
 const router = express.Router();
 
@@ -40,39 +45,77 @@ const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
-const isValidPhone = (phone: string) => {
-  // eslint-disable-next-line no-control-regex
+const validateAndNormalizePhone = (countryCode: string, phone: string) => {
+  if (phoneLibSupportedCountries.has(countryCode)) {
+    try {
+      let phoneUtil = PhoneNumberUtil.getInstance()
+      let p = phoneUtil.parse(phone, countryCode)
+      if (!phoneUtil.isValidNumberForRegion(p, countryCode))
+        return ""
+      return phoneUtil.format(p, PhoneNumberFormat.E164)
+    }
+    catch(err) {
+      if (isDevelopment && err instanceof Error)
+        logger.error(`Phone lib error: ${err.message}`)
+      return ""
+    }
+  }
+
+  let country = countryDict.get(countryCode)
+  if (country === undefined) {
+    return ""
+  }
+
+  let e164Phone = `+${country.CallingCode}${phone}`
   const phoneRegex = /^\+[0-9]{10,15}$/;
-  return phoneRegex.test(phone);
+  if (phoneRegex.test(e164Phone))
+    return e164Phone
+  else
+    return ""
 };
 
 const EmailPromptRequest = z.object({
   email: z.string(),
+  country_code: z.string().optional(),
+  phone: z.string().optional(),
   recaptcha: z.string(),
 });
 
-const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>, { email: string, encrypted: string, error?: string }> = async (req, res, _next) => {
-  const { email, recaptcha } = EmailPromptRequest.parse(req.body);
+const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>> = async (req, res, _next) => {
+  const { email, country_code: countryCode, phone, recaptcha } = EmailPromptRequest.parse(req.body);
+
+  let idInput = ""
   if (ID_TYPE === 'EUID') {
     if (!isValidEmail(email)) {
-      res.render('index', { email, error : i18n.__('Please enter a valid email address') });
-      return;    
-    }
-  } else {
-    if (!isValidEmail(email) && (!isValidPhone(email))) {
-      res.render('index', { email, error : i18n.__('Please enter a valid email address or phone number') });
+      res.render('index', { email, countryList, error : i18n.__('Please enter a valid email address') });
       return;
+    }
+    idInput = email
+  } else {
+    if (email !== "") {
+      if (!isValidEmail(email)) {
+        res.render('index', { email, countryList, error : i18n.__('Please enter a valid email address or phone number') });
+        return;
+      }
+      idInput = email
+    } else {
+      idInput = validateAndNormalizePhone(countryCode!, phone!)
+      if (idInput === "") {
+        let phoneExample = phoneExampleDict.get(countryCode!)
+        res.render('index', { countryCode, phone, countryList, phoneExample, error : i18n.__('Please enter a valid email address or phone number') });
+        return;
+      }
     }
   }
 
   const success = await validate(recaptcha);
   if (!success) {
-    res.render('index', { email, error : i18n.__('Blocked a potentially automated request. Please try again later.') });
+    res.render('index', { email,countryCode, phone, countryList, error : i18n.__('Blocked a potentially automated request. Please try again later.') });
     return;
   }
 
-  const encrypted = await encrypt(email);
-  res.render('email_verified', { email, encrypted });
+  const encrypted = await encrypt(idInput);
+  res.render('email_verified', { email: idInput, encrypted });
 };
 
 const OptoutSubmitRequest = z.object({
@@ -86,7 +129,7 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
     await optout(payload);
 
   } catch (e) {
-    res.render('index', { error : i18n.__('Sorry, we could not process your request.') });
+    res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
     return;
   }
 
@@ -103,6 +146,7 @@ const steps: Record<string, RequestHandler> = {
 /* GET home page. */
 router.get('/', (_req, res, _next) => {
   res.render('index', {
+    countryList,
     title: 'Transparent Advertising'
   });
 });
@@ -138,5 +182,5 @@ Handlebars.registerHelper('siteKeyInput', () => {
 Handlebars.registerHelper('recaptchaScript', () => {
   return `<script src="https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}"></script>`;
 });
-            
+
 export default router;
