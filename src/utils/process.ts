@@ -10,6 +10,7 @@ declare global {
 
       OPTOUT_ENDPOINT_URL: string;
       OPTOUT_API_KEY: string;
+      OPTOUT_API_SECRET: string;
 
       SYSTEM_SECRET: string;
       SYSTEM_SALT: string;
@@ -24,17 +25,17 @@ declare global {
  */
 export function normalizePort(val: any): string | number | boolean {
   const port = parseInt(val, 10);
-  
+
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-  
+
   if (port >= 0) {
     // port number
     return port;
   }
-  
+
   return false;
 }
 
@@ -44,6 +45,7 @@ export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY || '6Lctdo4aAAA
 export const { RECAPTCHA_SECRET } = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
+export const OPTOUT_API_SECRET  = Buffer.from(process.env.OPTOUT_API_SECRET, 'base64');
 export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://prod.uidapi.com/token/logout';
 
 export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET as string || 'dev';
@@ -59,5 +61,3 @@ export const environment = ((): 'production' | 'development' => {
 
 export const isDevelopment = environment === 'development';
 export const isProduction = environment === 'production';
-
-
