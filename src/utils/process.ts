@@ -46,7 +46,7 @@ export const { RECAPTCHA_SECRET } = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
 export const OPTOUT_API_SECRET  = Buffer.from(process.env.OPTOUT_API_SECRET, 'base64');
-export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://prod.uidapi.com/token/logout';
+export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://prod.uidapi.com/v2/token/logout';
 
 export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET as string || 'dev';
 export const SYSTEM_SALT = process.env.TCP_SYSTEM_SALT as string || 'dev';
