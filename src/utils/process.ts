@@ -51,6 +51,8 @@ export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://p
 export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET as string || 'dev';
 export const SYSTEM_SALT = process.env.TCP_SYSTEM_SALT as string || 'dev';
 export const SYSTEM_CODE_SECRET = process.env.TCP_SYSTEM_CODE_SECRET as string || 'dev';
+export const VIEW_FOLDER = process.env.VIEW_FOLDER as string || '/../views';
+export const LOCALE_FOLDER = process.env.LOCALE_FOLDER as string || '/../public/locales';
 
 export const { ID_TYPE } = process.env
 

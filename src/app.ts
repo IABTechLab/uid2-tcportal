@@ -35,16 +35,20 @@ import makeMetricsApiMiddleware from './middleware/metrics';
 import adDetailRouter from './routes/adDetail';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
-import { ID_TYPE } from './utils/process';
+import { ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, environment } from './utils/process';
 
 
-enum Languages_UID2 {English = 'en', Japanese = 'ja'}
-enum Languages_EUID {English = 'en'}
+enum Languages_UID2 {English = 'en', Japanese = 'ja'};
+enum Languages_EUID {English = 'en'};
+const locales = ID_TYPE === 'EUID' ? Object.values(Languages_EUID) : Object.values(Languages_UID2);
 
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, '/../views'));
+console.log(`Using views at ${VIEW_FOLDER}`);
+const viewPath = path.join(__dirname, VIEW_FOLDER);
+const layoutPath = path.join(viewPath, 'layouts');
+app.set('views', viewPath);
 app.set('view engine', 'hbs');
 
 app.use(
@@ -113,10 +117,17 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   res.render('error');
 });
 
+console.log(`Using locales from ${LOCALE_FOLDER}`);
 i18n.configure({
-  locales: ID_TYPE === 'EUID' ? Object.values(Languages_EUID) : Object.values(Languages_UID2),
-  directory: path.join(__dirname, '/../public/locales'),
+  locales,
+  directory: path.join(__dirname, LOCALE_FOLDER),
   updateFiles: false,
+  missingKeyFn: function (_, value) {
+    if (environment === 'development' && locales.length > 1) {
+      console.warn(`There are multiple locales, but there's no current locale value for ${value}`);
+    }
+    return value;
+  },
 });
 
 Handlebars.registerHelper('__', (s) => {
@@ -125,6 +136,10 @@ Handlebars.registerHelper('__', (s) => {
 
 Handlebars.registerHelper('__n', (s, count) => {
   return i18n.__n(s, count);
+});
+
+Handlebars.registerPartials(layoutPath, () => {
+  console.log(`Error registering layouts.`);
 });
 
 export default app;

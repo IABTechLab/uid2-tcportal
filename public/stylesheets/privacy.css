@@ -1,0 +1,103 @@
+body {
+    color: var(--stratos);
+    font-family: Arial;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+    align-content: center;
+}
+@media (min-width: 992px) {
+    .content {
+        width: 960px;
+    }
+}
+.content {
+    margin: auto;
+}
+
+div.title {
+    font-size: 40px;
+}
+img.title {
+    height: 40px;
+    margin: 40px 0 60px 5px;
+}
+
+.heading-1 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 120%;
+    margin: 0 0 14px 0;
+}
+.large+.heading-1 {
+    margin-top: 40px;
+}
+
+.heading-2 {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 120%;
+    margin: 4px 0 4px 0;
+}
+
+.paragraph {
+    margin: 0 0 18px 0;
+}
+.paragraph.large {
+    font-size: 16px;
+}
+
+ul {
+    padding-left: 24px;
+}
+ul.spaced li {
+    margin-bottom: 18px;
+}
+
+.blue-box {
+    border: 3px solid #008EF8;
+    padding: 30px 12px 12px 30px;
+    margin: 0 0 24px 0;
+}
+.narrow {
+    width: 405px;
+    padding-right: 30px;
+}
+.row {
+    display: grid;
+    grid-template-columns: [left] 220px [right] 1fr;
+    grid-template-rows: 1fr;
+}
+.row div {
+    grid-column-start: right;
+}
+.row div:first-child {
+    grid-column-start: left;
+    grid-row: 1 / span 9;
+    align-self: center;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 120%;
+    padding: 0 24px 0 0;
+}
+.row-separator {
+    align-self: center;
+    background-color: #E7EBF2;
+    height: 1px;
+    margin: 24px 0;
+    width: 100%;
+}
+
+.todo {
+    background-color: red;
+}
+
+.separator {
+    align-self: center;
+    background-color: var(--stratos);
+    height: 3px;
+    margin: 24px 0;
+    width: 100%;
+}
