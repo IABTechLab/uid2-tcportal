@@ -4,17 +4,19 @@ body {
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
-    line-height: 18px;
     letter-spacing: 0.01em;
     align-content: center;
 }
-@media (min-width: 992px) {
-    .content {
-        width: 960px;
-    }
-}
 .content {
     margin: auto;
+    max-width: 960px;
+    padding: 0 48px;
+    margin-bottom: 110px;
+}
+@media (max-width: 768px) {
+    .content {
+        padding: 0 20px;
+    }
 }
 
 div.title {
@@ -22,7 +24,7 @@ div.title {
 }
 img.title {
     height: 40px;
-    margin: 40px 0 60px 5px;
+    margin: 40px 0 60px 2px;
 }
 
 .heading-1 {
@@ -44,6 +46,7 @@ img.title {
 
 .paragraph {
     margin: 0 0 18px 0;
+    line-height: 18px;
 }
 .paragraph.large {
     font-size: 16px;
@@ -51,6 +54,7 @@ img.title {
 
 ul {
     padding-left: 24px;
+    line-height: 120%;
 }
 ul.spaced li {
     margin-bottom: 18px;
@@ -58,11 +62,11 @@ ul.spaced li {
 
 .blue-box {
     border: 3px solid #008EF8;
-    padding: 30px 12px 12px 30px;
+    padding: 30px 30px 12px 30px;
     margin: 0 0 24px 0;
 }
 .narrow {
-    width: 405px;
+    max-width: 405px;
     padding-right: 30px;
 }
 .row {
@@ -89,6 +93,11 @@ ul.spaced li {
     margin: 24px 0;
     width: 100%;
 }
+@media (max-width: 992px) {
+    .row {
+        display: block;
+    }
+}
 
 .todo {
     background-color: red;
@@ -100,4 +109,21 @@ ul.spaced li {
     height: 3px;
     margin: 24px 0;
     width: 100%;
+}
+
+.footer {
+    margin: auto;
+    margin-top: 40px;
+}
+div.footer {
+    font-size: 12px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-family: Helvetica;
+    text-align: center;
+}
+.footer img {
+    height: 26px;
+    margin-left: 5px;
 }
