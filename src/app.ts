@@ -35,6 +35,7 @@ import makeMetricsApiMiddleware from './middleware/metrics';
 import adDetailRouter from './routes/adDetail';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import logger from './utils/logging';
 import { ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, environment } from './utils/process';
 
 
@@ -45,7 +46,7 @@ const locales = ID_TYPE === 'EUID' ? Object.values(Languages_EUID) : Object.valu
 const app = express();
 
 // view engine setup
-console.log(`Using views at ${VIEW_FOLDER}`);
+logger.log('info', `Using views at ${VIEW_FOLDER}`);
 const viewPath = path.join(__dirname, VIEW_FOLDER);
 const layoutPath = path.join(viewPath, 'layouts');
 app.set('views', viewPath);
@@ -117,14 +118,15 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   res.render('error');
 });
 
-console.log(`Using locales from ${LOCALE_FOLDER}`);
+logger.log('info', `Using locales from ${LOCALE_FOLDER}`);
 i18n.configure({
   locales,
   directory: path.join(__dirname, LOCALE_FOLDER),
   updateFiles: false,
   missingKeyFn: function (_, value) {
     if (environment === 'development' && locales.length > 1) {
-      console.warn(`There are multiple locales, but there's no current locale value for ${value}`);
+      // Warn the developer about this - but it's not actually a problem worth reporting in production
+      logger.log('warning', `There are multiple locales, but there's no current locale value for ${value}`);
     }
     return value;
   },
@@ -138,8 +140,6 @@ Handlebars.registerHelper('__n', (s, count) => {
   return i18n.__n(s, count);
 });
 
-Handlebars.registerPartials(layoutPath, () => {
-  console.log(`Error registering layouts.`);
-});
+Handlebars.registerPartials(layoutPath);
 
 export default app;
