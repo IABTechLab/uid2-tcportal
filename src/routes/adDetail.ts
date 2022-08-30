@@ -46,7 +46,7 @@ const AdDetailResponse = z.object({
   advertiserName: z.string(),
   privacyPolicy: z.string().url(),
   interests: z.array(z.string()),
-  targetingCatergories: z.object({
+  targetingCategories: z.object({
     history: z.boolean(),
     interest: z.boolean(),
     geography: z.boolean(),
