@@ -171,9 +171,11 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
 
 router.post('/', defaultRouteHandler);
 
-router.get('/privacy', (req, res, next) => {
-  res.render('privacy');
-});
+if (ID_TYPE === 'EUID') {
+  router.get('/privacy', (req, res, next) => {
+    res.render('privacy');
+  });
+}
 
 router.get('/ops/healthcheck', (req, res, _next) => {
   res.send('OK');
