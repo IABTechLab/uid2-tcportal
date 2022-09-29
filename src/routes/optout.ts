@@ -22,50 +22,49 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import axios from 'axios';
-
-import { Buffer } from 'buffer'
-import crypto from 'crypto'
+import { Buffer } from 'buffer';
+import crypto from 'crypto';
 
 import { OPTOUT_API_KEY, OPTOUT_API_SECRET, OPTOUT_ENDPOINT_URL } from '../utils/process';
 
 interface Optout {
   phone?: string;
   email?: string;
-};
+}
 
 export async function optout(identityInput: string): Promise<any> {
-  let optout: Optout = {}
-  if (identityInput[0] == '+') {
-    optout.phone = identityInput
+  const optoutInfo: Optout = {};
+  if (identityInput[0] === '+') {
+    optoutInfo.phone = identityInput;
   } else {
-    optout.email = identityInput
+    optoutInfo.email = identityInput;
   }
 
-  let dataBuf = Buffer.from(JSON.stringify(optout), "utf8")
+  const dataBuf = Buffer.from(JSON.stringify(optoutInfo), 'utf8');
 
-  let tmBuf = Buffer.alloc(8)
-  let now = new Date()
-  tmBuf.writeBigUInt64BE(BigInt(now.getTime()), 0)
+  const tmBuf = Buffer.alloc(8);
+  const now = new Date();
+  tmBuf.writeBigUInt64BE(BigInt(now.getTime()), 0);
 
-  let nonceBuf = crypto.randomBytes(8)
+  const nonceBuf = crypto.randomBytes(8);
 
-  let envelopBuf = Buffer.concat([tmBuf, nonceBuf, dataBuf])
+  const envelopBuf = Buffer.concat([tmBuf, nonceBuf, dataBuf]);
 
   const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv("aes-256-gcm", OPTOUT_API_SECRET, iv);
+  const cipher = crypto.createCipheriv('aes-256-gcm', OPTOUT_API_SECRET, iv);
 
-  let versionBuf = Buffer.alloc(1)
-  versionBuf[0] = 1
+  const versionBuf = Buffer.alloc(1);
+  versionBuf[0] = 1;
 
-  let body = Buffer.concat([versionBuf, iv, cipher.update(envelopBuf), cipher.final(), cipher.getAuthTag()]).toString("base64")
+  const body = Buffer.concat([versionBuf, iv, cipher.update(envelopBuf), cipher.final(), cipher.getAuthTag()]).toString('base64');
 
   return axios.post(OPTOUT_ENDPOINT_URL, body,
     {
       headers: {
         Authorization: `Bearer ${OPTOUT_API_KEY}`,
-        'Content-Type': 'text/plain'
+        'Content-Type': 'text/plain',
       },
-    })
+    });
 }
 
 export default optout;

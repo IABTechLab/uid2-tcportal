@@ -23,7 +23,7 @@
 
 import crypto from 'crypto';
 
-import { SYSTEM_CODE_SECRET, SYSTEM_SALT, SYSTEM_SECRET } from '../utils/process';
+import { SYSTEM_SALT, SYSTEM_SECRET } from '../utils/process';
 
 const algo = 'aes-128-cbc';
 

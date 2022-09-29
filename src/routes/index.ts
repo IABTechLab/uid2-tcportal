@@ -22,20 +22,19 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 import express, { RequestHandler } from 'express';
+import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import Handlebars from 'hbs';
 import i18n from 'i18n';
 import { z } from 'zod';
 
-import { RECAPTCHA_SITE_KEY } from '../utils/process';
+import {
+  countryDict, countryList, phoneExampleDict, phoneLibSupportedCountries, 
+} from '../utils/countries';
+import logger from '../utils/logging';
+import { ID_TYPE, isDevelopment, RECAPTCHA_SITE_KEY } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
 import { validate } from './recaptcha';
-import { ID_TYPE, isDevelopment } from '../utils/process';
-
-import { countryList, countryDict, phoneLibSupportedCountries, phoneExampleDict } from '../utils/countries'
-import logger from '../utils/logging';
-
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber'
 
 const router = express.Router();
 
@@ -48,69 +47,75 @@ const isValidEmail = (email: string) => {
 const validateAndNormalizePhone = (countryCode: string, phone: string) => {
   if (phoneLibSupportedCountries.has(countryCode)) {
     try {
-      let phoneUtil = PhoneNumberUtil.getInstance()
-      let p = phoneUtil.parse(phone, countryCode)
-      if (!phoneUtil.isValidNumberForRegion(p, countryCode))
-        return ""
-      return phoneUtil.format(p, PhoneNumberFormat.E164)
-    }
-    catch(err) {
-      if (isDevelopment && err instanceof Error)
-        logger.error(`Phone lib error: ${err.message}`)
-      return ""
+      const phoneUtil = PhoneNumberUtil.getInstance();
+      const p = phoneUtil.parse(phone, countryCode);
+      if (!phoneUtil.isValidNumberForRegion(p, countryCode)) return '';
+      return phoneUtil.format(p, PhoneNumberFormat.E164);
+    } catch (err) {
+      if (isDevelopment && err instanceof Error) logger.error(`Phone lib error: ${err.message}`);
+      return '';
     }
   }
 
-  let country = countryDict.get(countryCode)
+  const country = countryDict.get(countryCode);
   if (country === undefined) {
-    return ""
+    return '';
   }
 
-  let e164Phone = `+${country.CallingCode}${phone}`
+  const e164Phone = `+${country.callingCode}${phone}`;
   const phoneRegex = /^\+[0-9]{10,15}$/;
-  if (phoneRegex.test(e164Phone))
-    return e164Phone
-  else
-    return ""
+  if (phoneRegex.test(e164Phone)) return e164Phone;
+  return '';
 };
 
 const EmailPromptRequest = z.object({
   email: z.string(),
-  country_code: z.string().optional(),
+  countryCode: z.string().optional(),
   phone: z.string().optional(),
   recaptcha: z.string(),
+  idType: z.string().optional(),
 });
 
 const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>> = async (req, res, _next) => {
-  const { email, country_code: countryCode, phone, recaptcha } = EmailPromptRequest.parse(req.body);
+  const {
+    email, countryCode, phone, recaptcha, idType,
+  } = EmailPromptRequest.parse(req.body);
 
-  let idInput = ""
+  let idInput = '';
   if (ID_TYPE === 'EUID') {
     if (!isValidEmail(email)) {
-      res.render('index', { email, countryList, error : i18n.__('Please enter a valid email address') });
+      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address.') });
       return;
     }
-    idInput = email
+    idInput = email;
+  } else if (idType === 'email') {
+    if (!isValidEmail(email)) {
+      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address.') });
+      return;
+    }
+    idInput = email;
   } else {
-    if (email !== "") {
-      if (!isValidEmail(email)) {
-        res.render('index', { email, countryList, error : i18n.__('Please enter a valid email address or phone number') });
-        return;
-      }
-      idInput = email
-    } else {
-      idInput = validateAndNormalizePhone(countryCode!, phone!)
-      if (idInput === "") {
-        let phoneExample = phoneExampleDict.get(countryCode!)
-        res.render('index', { countryCode, phone, countryList, phoneExample, error : i18n.__('Please enter a valid email address or phone number') });
-        return;
-      }
+    if (!countryCode || !phone) {
+      res.render('index', {
+        countryList, error: i18n.__('Please enter a phone number.'),
+      });
+      return;
+    }
+    idInput = validateAndNormalizePhone(countryCode, phone);
+    if (idInput === '') {
+      const phoneExample = phoneExampleDict.get(countryCode);
+      res.render('index', {
+        countryCode, phone, countryList, phoneExample, error: i18n.__('Please enter a valid phone number.'), 
+      });
+      return;
     }
   }
 
   const success = await validate(recaptcha);
   if (!success) {
-    res.render('index', { email,countryCode, phone, countryList, error : i18n.__('Blocked a potentially automated request. Please try again later.') });
+    res.render('index', {
+      email, countryCode, phone, countryList, error : i18n.__('Blocked a potentially automated request. Please try again later.'), 
+    });
     return;
   }
 
@@ -147,7 +152,7 @@ const steps: Record<string, RequestHandler> = {
 router.get('/', (_req, res, _next) => {
   res.render('index', {
     countryList,
-    title: 'Transparent Advertising'
+    title: 'Transparent Advertising',
   });
 });
 
@@ -172,7 +177,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
 router.post('/', defaultRouteHandler);
 
 if (ID_TYPE === 'EUID') {
-  router.get('/privacy', (req, res, next) => {
+  router.get('/privacy', (req, res, _next) => {
     res.render('privacy');
   });
 }

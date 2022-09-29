@@ -2,7 +2,7 @@
 	"Transparency and Control Portal": "透明性と管理ポータル",
 	"Enter your email address": "メールアドレスを入力してください",
 	"NEXT": "次へ",
-	"Please enter a valid email address": "有効なEメールアドレスを入力してください。",
+	"Please enter a valid email address.": "有効なEメールアドレスを入力してください。",
 	"Sorry, we could not process your request.": "申し訳ありませんが、あなたのリクエストを処理できませんでした。",
 	"Blocked a potentially automated request. Please try again later.": "自動化された可能性のあるリクエストをブロックしました。後でもう一度お試しください。",
 	"Code does not match": "コードが一致しません。",

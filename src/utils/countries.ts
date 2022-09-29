@@ -1,30 +1,23 @@
-import { filter, all } from 'country-codes-list';
-import { PhoneNumberUtil } from 'google-libphonenumber'
-import logger from './logging'
+import { all } from 'country-codes-list';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
-class Country {
-    CountryCode: string;
-    CountryName: string;
-    CallingCode: number;
-
-    constructor(countryCode:any, name: any, callingCode: any) {
-        this.CountryCode = countryCode
-        this.CountryName = name,
-        this.CallingCode = parseInt(callingCode)
-    }
+interface Country {
+  countryCode: string;
+  countryName: string;
+  callingCode: number;
 }
 
-// @ts-ignore
-export const countryList: Country[] = all().map((val: any, _: any) => new Country(val.countryCode, val.countryNameEn, val.countryCallingCode)).sort((a, b) => a.CountryName < b.CountryName ? -1 : 1)
+export const countryList: Country[] = all().map((val: any, _: any): Country => ({ countryCode: val.countryCode, countryName: val.countryNameEn, callingCode: val.countryCallingCode }))
+  .sort((a: Country, b: Country) => (a.countryName < b.countryName ? -1 : 1));
 
-export const countryDict = new Map<string, Country>()
-for (var i = 0; i < countryList.length; i++) {
-    countryDict.set(countryList[i].CountryCode, countryList[i])
-}
+export const countryDict: Map<string, Country> = new Map<string, Country>();
+countryList.forEach((country) => {
+  countryDict.set(country.countryCode, country);
+});
 
-let phoneUtil = PhoneNumberUtil.getInstance()
+const phoneUtil = PhoneNumberUtil.getInstance();
 
-export const phoneLibSupportedCountries : Set<string> = new Set<string>(phoneUtil.getSupportedRegions())
+export const phoneLibSupportedCountries : Set<string> = new Set<string>(phoneUtil.getSupportedRegions());
 
-export const phoneExampleDict : Map<string,number> = new Map<string, number>()
-phoneLibSupportedCountries.forEach(c => phoneExampleDict.set(c,  phoneUtil.getExampleNumber(c).getNationalNumber()!));
+export const phoneExampleDict : Map<string, number> = new Map<string, number>();
+phoneLibSupportedCountries.forEach((c) => phoneExampleDict.set(c, phoneUtil.getExampleNumber(c).getNationalNumber()!));

@@ -1,200 +1,138 @@
-/* screen - desktop-1 */
-
-.border-class-1 {
-
-}
-.desktop-1 {
-  align-items: flex-end;
-  background-color: var(--white);
-  box-sizing: border-box;
+.form__radio-group {
   display: flex;
-  flex-direction: column;
-  height: 1024px;
-  justify-content: flex-start;
-  overflow: hidden;
-  padding: 300px 518px;
-  position: relative;
-  width: 1440px;
 }
-.desktop-1 .ad-transpa-com-160769-C61RwL {
-  align-self: flex-start;
-  background-color: transparent;
-  flex-shrink: 0;
-  height: 40px;
-  letter-spacing: 0.24px;
-  line-height: 30px;
-  margin-left: 2px;
-  margin-top: 0px;
-  min-height: 40px;
-  position: relative;
-  text-align: left;
-  width: auto;
+
+.form__radio-button {
+  display: flex;
+  margin-right: 16px;
 }
-.desktop-1 .desktop-un-ary-button-C61RwL {
-  background-color: transparent;
-  flex-shrink: 0;
-  height: 40px;
-  margin-top: 20px;
-  position: relative;
-  width: 402px;
+
+.form__radio-label {
+  color: var(--stratos);
+  font-family: Helvetica, Arial, serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  margin-left: 4px;
 }
-.desktop-1 .desktopui--ry-default-C61RwL {
-  align-items: center;
-  align-self: center;
-  background-color: var(--white-2);
-  border: 1px solid var(--stratos);
-  border-radius: 2px;
-  box-sizing: border-box;
-  display: inline-flex;
+
+.form__inputs {
+  display: flex;
   flex-direction: row;
-  flex-shrink: 0;
-  height: 40px;
-  justify-content: flex-start;
-  margin-right: 1.0px;
-  margin-top: 20px;
-  min-width: 399px;
-  padding: 0 16.0px;
-  position: relative;
-  width: auto;
+  margin-bottom: 20px;
+  width: 100%;
 }
-.desktop-1 .link-i16077046888-pdOPXM {
-  background-color: transparent;
-  height: 40px;
-  left: 0px;
-  letter-spacing: 0.28px;
-  line-height: 16px;
-  position: absolute;
-  text-align: center;
-  top: 0px;
-  width: 401px;
+
+.form__input-container {
+  display: inline-flex;
+  width: 100%;
+  padding: 16px 0;
 }
-.desktop-1 .link-i16077146939-wxkpqU {
-  background-color: transparent;
-  flex-shrink: 0;
-  height: auto;
-  letter-spacing: 0.12px;
-  line-height: 16px;
-  min-height: 16px;
-  position: relative;
-  text-align: left;
-  white-space: nowrap;
-  width: 200px;
+
+.form__input {
+  width: 100%;
+  padding: 0.85em 1.25em;
+  letter-spacing: 0.01em;
+  border-radius: 4px;
 }
-.desktop-1 .powered-by-160767-C61RwL {
-  background-color: transparent;
-  flex-shrink: 0;
-  height: auto;
-  letter-spacing: 0.24px;
-  line-height: 16px;
-  margin-top: 10vh;
-  min-height: 16px;
-  position: relative;
-  text-align: center;
-  white-space: nowrap;
-  width: 402px;
-}
-.desktop-1 .rectangle-121-C61RwL {
-  align-self: center;
-  background-color: var(--sushi);
-  flex-shrink: 0;
-  height: 3px;
-  margin-top: 10px;
-  position: relative;
-  width: 400px;
-}
-.desktop-1 .rectangle-98-pdOPXM {
-  background-color: var(--stratos);
-  border-radius: 2px;
-  height: 40px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 399px;
-}
-.desktop-1 .this-site--net-160765-C61RwL {
-  background-color: transparent;
-  flex-shrink: 0;
-  height: auto;
-  letter-spacing: 0.12px;
-  line-height: 16px;
-  margin-top: 17px;
-  min-height: 32px;
-  position: relative;
-  text-align: left;
-  width: 402px;
-}
-.desktop-1 .unified-id-r-with20-1-C61RwL {
-  align-self: center;
-  background-color: transparent;
-  flex-shrink: 0;
-  height: 30px;
-  margin-top: 9px;
-  position: relative;
-  width: auto;
-}
-.desktop-1 .welcome-to-160766-C61RwL {
-  align-self: flex-start;
-  background-color: transparent;
-  flex-shrink: 0;
-  height: 20px;
-  letter-spacing: 0.14px;
-  line-height: 0.1px;
-  margin-left: 2px;
-  min-height: 20px;
-  position: relative;
-  text-align: left;
-  width: 89px;
-}
-.raleway-bold-stratos-12px {
-  color: var(--stratos);
-  font-family: Helvetica;
+
+.form__input-country-code {
+  flex: 1;
   font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
 }
-.raleway-bold-stratos-14px {
-  color: var(--stratos);
-  font-family: Helvetica;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
+
+.form__input-phone {
+  display: flex;
+  flex: 2.5;
 }
-.raleway-bold-stratos-24px {
-  color: var(--stratos);
-  font-family: Helvetica;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
+
+.error {
+  color: red;
+  margin: 0;
+  min-height: 0;
 }
-.raleway-bold-white-14px {
-  color: var(--white);
-  font-family: Helvetica;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
+
+.message {
+  color: green;
+  margin-top: 5px;
+  min-height: 0;
 }
-.raleway-medium-stratos-12px {
+
+/* Targeting imported component here */
+/* select with CSS avatar icons */
+option.avatar {
+  background-repeat: no-repeat !important;
+  padding-left: 20px;
+}
+
+.avatar .ui-icon {
+  background-position: left top;
+}
+
+.ui-selectmenu-icon.ui-icon {
+  position: absolute;
+  float: unset;
+  right: 0.25em;
+}
+
+.ui-selectmenu-menu .ui-menu {
+  max-height: 40vh;
+}
+
+.ui-selectmenu-button.ui-button {
+  display: flex;
+  background: none;
+  border: 1px solid var(--stratos);
+  padding: 0.85em 1.25em;
+  width: unset;
+  height: calc(1em + 2px);
+  margin-right: 8px;
+}
+
+.ui-selectmenu-menu .ui-menu.avatar .ui-menu-item-wrapper {
+  padding: 2px 10px 0 30px;
   color: var(--stratos);
   font-family: Helvetica;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
 }
-:root {
-  --stratos: rgba(2,10,64,1.0);
-  --sushi: rgba(117,186,67,1.0);
-  --white: rgba(255,255,255,1.0);
-  --white-2: rgba(255,255,255,0.08);
+
+.ui-selectmenu-menu .ui-menu.avatar .ui-menu-item .ui-icon {
+  height: 24px;
+  width: 24px;
+  top: 0.1em;
 }
 
-.error {
-  color: red;
-  margin-top: 5px !important;
-  min-height: 0px !important;
+.ui-selectmenu-text {
+  padding-left: 4px;
+  margin-right: 0px;
+  color: var(--stratos);
+  font-family: Helvetica;
+  font-style: normal;
+  font-weight: 500;
 }
 
-.message {
-  color: green;
-  margin-top: 5px !important;
-  min-height: 0px !important;
+.avatar-selected {
+  width: 24px;
+  background: no-repeat;
+}
+
+.avatar-selected--empty {
+  width: 0;
+}
+
+@media screen and (max-width: 991.98px),
+screen and (max-height: 767.98px) {
+  .form__input-phone {
+    flex: 1.5;
+  }
+
+  .form__radio-label {
+    font-size: 16px;
+  }
+
+  .form__input-country-code {
+    font-size: 16px;
+  }
 }
