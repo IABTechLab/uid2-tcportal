@@ -1,1 +1,8 @@
-**/.eslintrc.js
+.eslintrc.js
+node_modules
+.idea
+.idea/*
+.DS_Store
+build
+*.tsbuildinfo
+yarn-error.log

@@ -1,57 +1,71 @@
-<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/images/favicon.png" />
-    <meta name="og:type" content="website" />
-    <meta name="twitter:card" content="photo" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/email_verified.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='shortcut icon' href='/images/favicon.png' />
+    <meta name='og:type' content='website' />
+    <meta name='twitter:card' content='photo' />
+    <link
+      rel='stylesheet'
+      type='text/css'
+      href='/stylesheets/email_verified.css'
+    />
+    <link rel='stylesheet' type='text/css' href='/stylesheets/style.css' />
 
   </head>
-  <body style="margin: 0; background: rgba(255, 255, 255, 1)">
-    <input type="hidden" id="anPageName" name="page" value="desktop-4" />
-    <div class="main">
-      <div class="main-content">
-        <form id="optout-form" action="/" method="post">
-            <input type="hidden" name="step" value="optout_submit"/>
-            <input type="hidden" name="encrypted" value="{{encrypted}}"/>
+
+  <body style='margin: 0; background: rgba(255, 255, 255, 1)'>
+    <input type='hidden' id='anPageName' name='page' value='desktop-4' />
+    <div class='main'>
+      <div class='main-content'>
+        <form id='optout-form' action='/' method='post'>
+          <input type='hidden' name='step' value='optout_submit' />
+          <input type='hidden' name='encrypted' value='{{encrypted}}' />
         </form>
-        <h2 class="main-content__pre-header">{{__ "Welcome!"}}</h2>
-        <h1 class="main-content__header">
+        <h2 class='main-content__pre-header'>{{__ 'Welcome!'}}</h2>
+        <h1 class='main-content__header'>
           {{email}}
         </h1>
-        <div class="main-content__divider"></div>
-        <p class="main-content__description">
+        <div class='main-content__divider'></div>
+        <p class='main-content__description'>
           <span>
-          {{__ "Your choice to withdraw consent and/or object to targeted advertising based on EUID will mean that sites or apps you interact with, and advertising companies working with them, will no longer process your EUID to serve targeted advertising. This is limited to sites which use EUID."}}
+            {{__
+              'Your choice to withdraw consent and/or object to targeted advertising based on EUID will mean that sites or apps you interact with, and advertising companies working with them, will no longer process your EUID to serve targeted advertising. This is limited to sites which use EUID.'
+            }}
           </span>
-          <br><br>
+          <br /><br />
           <span>
-          {{__ "For choice with respect to advertising based on cookies, please visit"}}
-          <a target="_blank" href="https://youronlinechoices.eu" class="span2-0xJPn1">https://youronlinechoices.eu. {{__
-            "(English)"}}
-          </a>
+            {{__
+              'For choice with respect to advertising based on cookies, please visit'
+            }}
+            <a
+              target='_blank'
+              href='https://youronlinechoices.eu'
+              class='span2-0xJPn1'
+            >https://youronlinechoices.eu.
+              {{__ '(English)'}}
+            </a>
           </span>
-          <br><br>
+          <br /><br />
           <span>
-            {{__ "Note: this choice may limit your ability to access ad supported content."}}
+            {{__
+              'Note: this choice may limit your ability to access ad supported content.'
+            }}
           </span>
         </p>
-        <button onclick="javascript:submitOptout(); return false;">
-          {{__ "OPT OUT"}}
+        <button onclick='javascript:submitOptout(); return false;'>
+          {{__ 'OPT OUT'}}
         </button>
-        <div class="main__footer">
-          <h3 class="main__logo-label">Powered by</h3>
-          <img class="main__logo" src="/images/EUID.png" />
-        </div>
+      </div>
+      <div class='main__footer'>
+        <h3 class='main__logo-label'>Powered by</h3>
+        <img class='main__logo' src='/images/EUID.png' />
       </div>
     </div>
   </body>
   <script>
-      function submitOptout() {
-          document.getElementById("optout-form").submit();
-      }
+    function submitOptout() { document.getElementById("optout-form").submit(); }
   </script>
+
 </html>

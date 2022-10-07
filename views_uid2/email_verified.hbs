@@ -1,71 +1,100 @@
-<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/images/favicon.png" />
-    <meta name="og:type" content="website" />
-    <meta name="twitter:card" content="photo" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/email_verified.css" />
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='shortcut icon' href='/images/favicon.png' />
+    <meta name='og:type' content='website' />
+    <meta name='twitter:card' content='photo' />
+    <link
+      rel='stylesheet'
+      type='text/css'
+      href='/stylesheets/email_verified.css'
+    />
+    <link rel='stylesheet' type='text/css' href='/stylesheets/style.css' />
   </head>
-  <body style="margin: 0; background: rgba(255, 255, 255, 1)">
-    <input type="hidden" id="anPageName" name="page" value="desktop-4" />
-    <div class="main">
-      <div class="main-content">
-          <form id="optout-form" action="/" method="post">
-              <input type="hidden" name="step" value="optout_submit"/>
-              <input type="hidden" name="encrypted" value="{{encrypted}}"/>
-          </form>
-        <h2 class="main-content__pre-header">{{__ "Welcome!"}}</h2>
-        <h1 class="main-content__header">
+
+  <body style='margin: 0; background: rgba(255, 255, 255, 1)'>
+    <input type='hidden' id='anPageName' name='page' value='desktop-4' />
+    <div class='main'>
+      <div class='main-content'>
+        <form id='optout-form' action='/' method='post'>
+          <input type='hidden' name='step' value='optout_submit' />
+          <input type='hidden' name='encrypted' value='{{encrypted}}' />
+        </form>
+        <h2 class='main-content__pre-header'>{{__ 'Welcome!'}}</h2>
+        <h1 class='main-content__header'>
           {{email}}
         </h1>
-        <div class="main-content__divider"></div>
-        <p class="main-content__description">
-          {{__ "Our trusted advertising partners using the UID identifier are committed to delivering relevant advertising that also respects your choice."}}
-          <br>
-          {{__ "Advertising enables access to your favorite content across the internet."}}
+        <div class='main-content__divider'></div>
+        <p class='main-content__description'>
+          {{__
+            'Our trusted advertising partners using the UID identifier are committed to delivering relevant advertising
+        that also respects your choice.'
+          }}
+          <br />
+          {{__
+            'Advertising enables access to your favorite content across the internet.'
+          }}
         </p>
-        <h2>{{__ "Opt-Out"}}</h2>
-        <p class="main-content__description">
+        <h2>{{__ 'Opt-Out'}}</h2>
+        <p class='main-content__description'>
           <span>
-            {{__ "Your choice to Opt-Out will indicate to trusted advertising partners that you no longer wish to receive targeted advertising based on your UID."}}
-            <br><br>
-            {{__ "The scope of this Opt-Out is limited to sites which use UID."}}
-            <br><br>
-            {{__ "For choice with respect to advertising based on cookies, please visit "}}
-            <a target="_blank" href="https://optout.aboutads.info">https://optout.aboutads.info. {{__ "(English)"}}</a>
-          </span> 
-          <br><br>
+            {{__
+              'Your choice to Opt-Out will indicate to trusted advertising partners that you no longer wish to receive
+          targeted advertising based on your UID.'
+            }}
+            <br /><br />
+            {{__
+              'The scope of this Opt-Out is limited to sites which use UID.'
+            }}
+            <br /><br />
+            {{__
+              'For choice with respect to advertising based on cookies, please visit '
+            }}
+            <a
+              target='_blank'
+              href='https://optout.aboutads.info'
+            >https://optout.aboutads.info. {{__ '(English)'}}</a>
+          </span>
+          <br /><br />
           <span>
-            {{__ "Note: this choice may limit your ability to access ad supported content."}}
-            <br>
-            {{"You may be asked to Opt-In again in the future to access such content."}}
+            {{__
+              'Note: this choice may limit your ability to access ad supported content.'
+            }}
+            <br />
+            {{'You may be asked to Opt-In again in the future to access such content.'}}
           </span>
         </p>
-        <button onclick="javascript:promptOptout(); return false;">
-          {{__ "OPT OUT"}}
+        <button onclick='javascript:promptOptout(); return false;'>
+          {{__ 'OPT OUT'}}
         </button>
-        <div class="main__footer">
-          <h3 class="main__logo-label">Powered by</h3>
-          <img class="main__logo" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
-        </div>
       </div>
-      <div class="opt-out-modal" id="prompt-modal" style="display:none">
-        <div class="opt-out-modal__background"></div>
-        <div class="opt-out-modal__content">
-          <h1 class="">{{__ "Are you sure?"}}</h1>
+      <div class='main__footer'>
+        <h3 class='main__logo-label'>Powered by</h3>
+        <img
+          class='main__logo'
+          src='/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png'
+        />
+      </div>
+      <div class='opt-out-modal' id='prompt-modal' style='display:none'>
+        <div class='opt-out-modal__background'></div>
+        <div class='opt-out-modal__content'>
+          <h1 class=''>{{__ 'Are you sure?'}}</h1>
           <p>
-            {{__ "This choice may limit your ability to access ad supported content."}}
-            {{__ "You may be asked to Opt-In again in the future to access such content."}}
+            {{__
+              'This choice may limit your ability to access ad supported content.'
+            }}
+            {{__
+              'You may be asked to Opt-In again in the future to access such content.'
+            }}
           </p>
-          <div class="opt-out-modal__buttons">
-            <button onclick="javascript:submitOptout(); return false;">
-              {{__ "YES"}}
+          <div class='opt-out-modal__buttons'>
+            <button onclick='javascript:submitOptout(); return false;'>
+              {{__ 'YES'}}
             </button>
-            <button onclick="javascript:cancelOptout(); return false;">
-              {{__ "NO"}}
+            <button onclick='javascript:cancelOptout(); return false;'>
+              {{__ 'NO'}}
             </button>
           </div>
         </div>
@@ -73,14 +102,11 @@
     </div>
   </body>
   <script>
-      function submitOptout() {
-          document.getElementById("optout-form").submit();
-      }
-      function cancelOptout() {
-          document.getElementById("prompt-modal").style.display = "none";
-      }
-      function promptOptout() {
-          document.getElementById("prompt-modal").style.display = "flex";
-      }
+    function submitOptout() { document.getElementById("optout-form").submit(); }
+    function cancelOptout() {
+    document.getElementById("prompt-modal").style.display = "none"; } function
+    promptOptout() { document.getElementById("prompt-modal").style.display =
+    "flex"; }
   </script>
+
 </html>

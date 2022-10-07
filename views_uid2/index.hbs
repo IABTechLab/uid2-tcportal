@@ -13,7 +13,7 @@
       $.widget("custom.iconselectmenu", $.ui.selectmenu, {
         _renderItem: function (ul, item) {
           var li = $("<li>"),
-            wrapper = $("<div>", { text: item.label });
+            wrapper = $("<div>", {text: item.label});
 
           if (item.disabled) {
             li.addClass("ui-state-disabled");
@@ -27,15 +27,15 @@
 
           return li.append(wrapper).appendTo(ul);
         },
-        _renderButtonItem: function( item ) {
-          var buttonItem = $( "<span>", {
+        _renderButtonItem: function (item) {
+          var buttonItem = $("<span>", {
             "class": "ui-selectmenu-text"
           });
           if (item.value !== "") {
             let callingCode = item.label.substring(item.label.indexOf("+"))
-            this._setText( buttonItem, callingCode );
+            this._setText(buttonItem, callingCode);
           } else {
-            this._setText( buttonItem, "——");
+            this._setText(buttonItem, "Country");
           }
           return buttonItem;
         }
@@ -47,9 +47,14 @@
             var widget = $(this).iconselectmenu("widget");
             $span = $('<span id="' + this.id + 'selected" class="avatar-selected"> ').prependTo(widget);
             $span.attr("style", $(this).children(":first").data("style"));
+            if (widget.text() === "Country") {
+              $span.attr("class", "avatar-selected--hidden");
+            }
           },
           change: function (event, ui) {
-            $("#" + this.id + 'selected').attr("style", ui.item.element.data("style"))
+            $span = $("#" + this.id + 'selected');
+            $span.attr("style", ui.item.element.data("style"));
+            $span.attr("class", "avatar-selected");
           }
         })
         .iconselectmenu("menuWidget")
@@ -66,13 +71,13 @@
   <input type="hidden" id="anPageName" name="page" value="desktop-1" />
   <div class="main">
     <div class="main-content">
-      <h2 class="main-content__pre-header">{{__ "Welcome to"}}</h2>
       <h1 class="main-content__header">
         {{__ "Transparency and Control Portal"}}
       </h1>
       <div class="main-content__divider"></div>
       <p class="main-content__description">
-        {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information."}}
+        {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email
+        or phone number below. You represent and warrant that this is your information."}}
       </p>
       {{#if error}}
       <p class="error">
@@ -95,7 +100,6 @@
         <input type="hidden" id="email" name="email" />
         <input type="hidden" id="countryCode" name="countryCode" />
         <input type="hidden" id="phone" name="phone" />
-        <br>
         <div class="form__radio-group">
           <div class="form__radio-button">
             <input type="radio" id="email_type" name="idType" value="email" onclick="handleIdTypeClick(this)" {{#unless countryCode}}checked{{/unless}}>
@@ -114,14 +118,14 @@
             <select id="input_country_code">
               <option hidden disabled selected value></option>
               {{#each countryList}}
-              <option value="{{this.countryCode}}" data-class="avatar"
-                data-style="background-image: url(&apos;/images/flags/{{this.countryCode}}.svg&apos;);">
-                {{this.countryName}} +{{this.callingCode}}</option>
+              <option value="{{this.countryCode}}" data-class="avatar" data-style="background-image: url(&apos;/images/flags/{{this.countryCode}}.svg&apos;);">
+                {{this.countryName}} +{{this.callingCode}}
+              </option>
               {{/each}}
             </select>
           </div>
           <div class="form__input-phone">
-            <input type="text" id="input_phone" class="form__input" placeholder="{{__ "Enter your phone number, e.g. 1111111111"}}" value="{{phone}}" />
+            <input type="text" id="input_phone" class="form__input" placeholder="{{__ " Enter phone number"}}" value="{{phone}}" />
           </div>
         </div>
         <button class="form__next-button">
@@ -131,11 +135,11 @@
       <script>
         function handleIdTypeClick(idType) {
           if (idType.value === "email") {
-            document.getElementById('phone-input-container').style.display = "none"
-            document.getElementById('email-input-container').style.display = "inline-flex"
+            document.getElementById('phone-input-container').style.display = "none";
+            document.getElementById('email-input-container').style.display = "inline-flex";
           } else if (idType.value === "phone") {
-            document.getElementById('phone-input-container').style.display = "inline-flex"
-            document.getElementById('email-input-container').style.display = "none"
+            document.getElementById('phone-input-container').style.display = "inline-flex";
+            document.getElementById('email-input-container').style.display = "none";
           }
         }
 
@@ -145,18 +149,18 @@
           e.preventDefault();
 
           if (form.querySelector('input[name=idType]:checked').value === 'email') {
-            $('#email').val($('#id_input_email').val())
-            $('#countryCode').val("")
-            $('#phone').val("")
+            $('#email').val($('#id_input_email').val());
+            $('#countryCode').val("");
+            $('#phone').val("");
           } else {
-            $('#email').val("")
-            $('#countryCode').val($('#input_country_code').val())
-            $('#phone').val($('#input_phone').val())
+            $('#email').val("");
+            $('#countryCode').val($('#input_country_code').val());
+            $('#phone').val($('#input_phone').val());
           }
 
           grecaptcha.ready(function () {
             const key = $('#recpatchaSiteKey').val();
-            grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {
+            grecaptcha.execute(key, {action: 'email_prompt'}).then(function (token) {
               $('#recaptcha').val(token);
               form.submit();
             });
@@ -172,11 +176,12 @@
           })
         {{/if}}
       </script>
-      <div class="main__footer">
-        <h3 class="main__logo-label">Powered by</h3>
-        <img class="main__logo" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
-      </div>
+    </div>
+    <div class="main__footer">
+      <h3 class="main__logo-label">Powered by</h3>
+      <img class="main__logo" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
     </div>
   </div>
 </body>
+
 </html>

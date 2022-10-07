@@ -18,13 +18,15 @@
 
 .opt-out-modal__content {
   background: var(--white);
-  width: 300px;
-  height: 150px;
+  box-sizing: border-box;
+  max-width: calc(100vw - 48px);
+  width: 400px;
+  height: fit-content;
   padding: 25px 50px;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--stratos);
-  border-radius: 2px;
+  border: 1px solid var(--lightgray);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.16);
   z-index: 1;
 }
 
@@ -35,14 +37,4 @@
 
 .opt-out-modal__buttons button {
   width: 45%;
-}
-
-/* Media queries */
-@media only screen and (max-width: 991.98px) {
-  .opt-out-modal__content {
-    width: 90%;
-    height: 95%;
-    padding: 5%;
-    border: none;
-  }
 }
