@@ -1,92 +1,86 @@
 <html>
 
-  <head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <link rel='shortcut icon' href='/images/favicon.png' />
-    <meta name='og:type' content='website' />
-    {{{recaptchaScript}}}
-    <link rel='stylesheet' type='text/css' href='/stylesheets/index.css' />
-    <link rel='stylesheet' type='text/css' href='/stylesheets/style.css' />
-  </head>
+<head>
+  <meta charset='UTF-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <link rel='shortcut icon' href='/images/favicon.png' />
+  <meta name='og:type' content='website' />
+  {{{recaptchaScript}}}
+  <link rel='stylesheet' type='text/css' href='/stylesheets/index.css' />
+  <link rel='stylesheet' type='text/css' href='/stylesheets/style.css' />
+</head>
 
-  <body style='margin: 0; background: rgba(255, 255, 255, 1)'>
-    <input type='hidden' id='anPageName' name='page' value='desktop-1' />
-    <div class='main'>
-      <div class='main-content'>
-        <h1 class='main-content__header'>
-          {{__ 'European Unified ID (EUID) Portal'}}
-        </h1>
-        <div class='main-content__divider'></div>
-        <p class='main-content__description'>
-          {{__
-            'This site allows you to withdraw consent and object to targeted advertising based on EUID.'
-          }}
-        </p>
-        <p class='main-content__description'>
-          {{__
-            'EUID transforms your email address into an advertising identifier, which allows websites, apps,
-          advertisers, and advertising companies to show you relevant advertising.'
-          }}
-        </p>
-        <p class='main-content__description'>
-          {{__
-            'By entering your email below, you confirm that this is your information.'
-          }}
-        </p>
-        {{#if error}}
-          <p class='error'>
-            {{error}}
-          </p>
-        {{/if}}
-        {{#if message}}
-          <p class='message'>
-            {{message}}
-          </p>
-        {{/if}}
-        <form
-          class='main-content__form'
-          id='email_prompt'
-          action='/'
-          method='post'
-        >
-          {{{siteKeyInput}}}
-          <input type='hidden' name='step' value='email_prompt' />
-          <input type='hidden' id='recaptcha' name='recaptcha' />
-          <div class='form__input-container'>
-            <input
-              type='text'
-              class='form__input'
-              name='email'
-              placeholder='{{__ "Enter your email address"}}'
-              value='{{email}}'
-            />
-          </div>
-          <button>
-            {{__ 'NEXT'}}
-          </button>
-        </form>
-        <p class='main-content__description'>
-          {{__
-            'For more information on how the Trade Desk manages EUID and your rights with respect to EUID, please read the '
-          }}
-          <a href='/privacy'>{{__ 'EUID Privacy Notice'}}</a>.
-        </p>
-        <script>
-          const form = document.getElementById("email_prompt");
-          form.addEventListener("submit", onSubmit); function onSubmit(e) {
-          e.preventDefault(); grecaptcha.ready(function () { const key =
-          document.getElementById('recpatchaSiteKey').value;
-          grecaptcha.execute(key, { action: 'email_prompt' }).then(function
-          (token) { document.getElementById('recaptcha').value = token;
-          form.submit(); }); }); }
-        </script>
-      </div>
-      <div class='main__footer'>
-        <h3 class='main__logo-label'>Powered by</h3>
-        <img class='main__logo' src='/images/EUID.png' />
-      </div>
+<body style='margin: 0; background: rgba(255, 255, 255, 1)'>
+  <input type='hidden' id='anPageName' name='page' value='desktop-1' />
+  <div class='main'>
+    <div class='main-content'>
+      <h1 class='main-content__header'>
+        {{__ 'European Unified ID (EUID) Portal'}}
+      </h1>
+      <div class='main-content__divider'></div>
+      <p class='main-content__description'>
+        {{__
+        'This site allows you to withdraw consent and object to targeted advertising based on EUID.'
+        }}
+      </p>
+      <p class='main-content__description'>
+        {{__
+        'EUID transforms your email address into an advertising identifier, which allows websites, apps,
+        advertisers, and advertising companies to show you relevant advertising.'
+        }}
+      </p>
+      <p class='main-content__description'>
+        {{__
+        'By entering your email below, you confirm that this is your information.'
+        }}
+      </p>
+      {{#if error}}
+      <p class='error'>
+        {{error}}
+      </p>
+      {{/if}}
+      {{#if message}}
+      <p class='message'>
+        {{message}}
+      </p>
+      {{/if}}
+      <form class='main-content__form' id='email_prompt' action='/' method='post'>
+        {{{siteKeyInput}}}
+        <input type='hidden' name='step' value='email_prompt' />
+        <input type='hidden' id='recaptcha' name='recaptcha' />
+        <div class='form__input-container'>
+          <input type='text' class='form__input' name='email' placeholder='{{__ "Enter your email address"}}' value='{{email}}' />
+        </div>
+        <button>
+          {{__ 'NEXT'}}
+        </button>
+      </form>
+      <p class='main-content__description'>
+        {{__
+        'For more information on how the Trade Desk manages EUID and your rights with respect to EUID, please read the '
+        }}
+        <a href='/privacy'>{{__ 'EUID Privacy Notice'}}</a>.
+      </p>
+      <script>
+        const form = document.getElementById("email_prompt");
+        form.addEventListener("submit", onSubmit); function onSubmit(e) {
+          e.preventDefault(); grecaptcha.ready(function () {
+            const key =
+              document.getElementById('recpatchaSiteKey').value;
+            grecaptcha.execute(key, { action: 'email_prompt' }).then(function
+              (token) {
+                document.getElementById('recaptcha').value = token;
+              form.submit();
+            });
+          });
+        }
+      </script>
     </div>
-  </body>
+    <div class='main__footer'>
+      <h3 class='main__logo-label'>Powered by</h3>
+      <img class='main__logo' src='/images/EUID.png' />
+    </div>
+  </div>
+</body>
 
 </html>

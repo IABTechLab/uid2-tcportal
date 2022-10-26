@@ -13,7 +13,7 @@
       $.widget("custom.iconselectmenu", $.ui.selectmenu, {
         _renderItem: function (ul, item) {
           var li = $("<li>"),
-            wrapper = $("<div>", {text: item.label});
+            wrapper = $("<div>", { text: item.label });
 
           if (item.disabled) {
             li.addClass("ui-state-disabled");
@@ -125,7 +125,7 @@
             </select>
           </div>
           <div class="form__input-phone">
-            <input type="text" id="input_phone" class="form__input" placeholder="{{__ " Enter phone number"}}" value="{{phone}}" />
+            <input type="text" id="input_phone" class="form__input" placeholder="{{__ "Enter phone number"}}" value="{{phone}}" />
           </div>
         </div>
         <button class="form__next-button">
@@ -160,7 +160,7 @@
 
           grecaptcha.ready(function () {
             const key = $('#recpatchaSiteKey').val();
-            grecaptcha.execute(key, {action: 'email_prompt'}).then(function (token) {
+            grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {
               $('#recaptcha').val(token);
               form.submit();
             });
@@ -170,7 +170,7 @@
         {{#if countryCode}}
           $('#input_country_code').val('{{countryCode}}')
 
-          $(document).ready(function() {
+          $(document).ready(function () {
             $('#input_country_codeselected').attr('style', "background-image: url('images/flags/{{countryCode}}.svg');")
             $('#input_country_codeselected').trigger('refresh')
           })
