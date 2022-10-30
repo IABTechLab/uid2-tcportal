@@ -14,6 +14,7 @@ RUN mv ./public/locales_euid ./public/locales
 RUN rm ./public/images/UID2* ./public/images/unifiedid2*
 
 RUN yarn build
+RUN yarn lint
 
 ENV ID_TYPE EUID
 

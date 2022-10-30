@@ -36,12 +36,14 @@ import adDetailRouter from './routes/adDetail';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import logger from './utils/logging';
-import { ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, environment } from './utils/process';
+import {
+  environment, ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, 
+} from './utils/process';
 
 
-enum Languages_UID2 {English = 'en', Japanese = 'ja'};
-enum Languages_EUID {English = 'en'};
-const locales = ID_TYPE === 'EUID' ? Object.values(Languages_EUID) : Object.values(Languages_UID2);
+enum LanguagesUID2 {English = 'en', Japanese = 'ja'}
+enum LanguagesEUID {English = 'en'}
+const locales = ID_TYPE === 'EUID' ? Object.values(LanguagesEUID) : Object.values(LanguagesUID2);
 
 const app = express();
 
@@ -82,7 +84,7 @@ app.use(express.static(path.join(__dirname, '/../public')));
 app.use(helmet());
 app.use(i18n.init);
 app.use((req, _res, next) => {
-  const locale = req.acceptsLanguages()[0] || Languages_UID2.English;
+  const locale = req.acceptsLanguages()[0] || LanguagesUID2.English;
   i18n.setLocale(locale);
   next();
 });
@@ -92,7 +94,7 @@ app.use(
     directives: {
       defaultSrc: ["'self'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/', 'https://code.jquery.com/'],
-      imgSrc: ["'self'", "data:", 'https://code.jquery.com/'],
+      imgSrc: ["'self'", 'data:', 'https://code.jquery.com/'],
       scriptSrcAttr: ["'self'", "'unsafe-inline'"],
     },
   }),
@@ -123,7 +125,7 @@ i18n.configure({
   locales,
   directory: path.join(__dirname, LOCALE_FOLDER),
   updateFiles: false,
-  missingKeyFn: function (_, value) {
+  missingKeyFn(_, value) {
     if (environment === 'development' && locales.length > 1) {
       // Warn the developer about this - but it's not actually a problem worth reporting in production
       logger.log('warning', `There are multiple locales, but there's no current locale value for ${value}`);
