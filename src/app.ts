@@ -1,26 +1,3 @@
-// Copyright (c) 2021 The Trade Desk, Inc
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions are met:
-//
-// 1. Redistributions of source code must retain the above copyright notice,
-//    this list of conditions and the following disclaimer.
-// 2. Redistributions in binary form must reproduce the above copyright notice,
-//    this list of conditions and the following disclaimer in the documentation
-//    and/or other materials provided with the distribution.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-// POSSIBILITY OF SUCH DAMAGE.
-
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
 import winstonExpress from 'express-winston';
@@ -36,12 +13,14 @@ import adDetailRouter from './routes/adDetail';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import logger from './utils/logging';
-import { ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, environment } from './utils/process';
+import {
+  environment, ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, 
+} from './utils/process';
 
 
-enum Languages_UID2 {English = 'en', Japanese = 'ja'};
-enum Languages_EUID {English = 'en'};
-const locales = ID_TYPE === 'EUID' ? Object.values(Languages_EUID) : Object.values(Languages_UID2);
+enum LanguagesUID2 {English = 'en', Japanese = 'ja'}
+enum LanguagesEUID {English = 'en'}
+const locales = ID_TYPE === 'EUID' ? Object.values(LanguagesEUID) : Object.values(LanguagesUID2);
 
 const app = express();
 
@@ -82,7 +61,7 @@ app.use(express.static(path.join(__dirname, '/../public')));
 app.use(helmet());
 app.use(i18n.init);
 app.use((req, _res, next) => {
-  const locale = req.acceptsLanguages()[0] || Languages_UID2.English;
+  const locale = req.acceptsLanguages()[0] || LanguagesUID2.English;
   i18n.setLocale(locale);
   next();
 });
@@ -92,7 +71,7 @@ app.use(
     directives: {
       defaultSrc: ["'self'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/', 'https://code.jquery.com/'],
-      imgSrc: ["'self'", "data:", 'https://code.jquery.com/'],
+      imgSrc: ["'self'", 'data:', 'https://code.jquery.com/'],
       scriptSrcAttr: ["'self'", "'unsafe-inline'"],
     },
   }),
@@ -123,7 +102,7 @@ i18n.configure({
   locales,
   directory: path.join(__dirname, LOCALE_FOLDER),
   updateFiles: false,
-  missingKeyFn: function (_, value) {
+  missingKeyFn(_, value) {
     if (environment === 'development' && locales.length > 1) {
       // Warn the developer about this - but it's not actually a problem worth reporting in production
       logger.log('warning', `There are multiple locales, but there's no current locale value for ${value}`);

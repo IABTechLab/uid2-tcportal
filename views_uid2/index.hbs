@@ -27,13 +27,15 @@
 
           return li.append(wrapper).appendTo(ul);
         },
-        _renderButtonItem: function( item ) {
-          var buttonItem = $( "<span>", {
+        _renderButtonItem: function (item) {
+          var buttonItem = $("<span>", {
             "class": "ui-selectmenu-text"
-          })
+          });
           if (item.value !== "") {
             let callingCode = item.label.substring(item.label.indexOf("+"))
-            this._setText( buttonItem, callingCode );
+            this._setText(buttonItem, callingCode);
+          } else {
+            this._setText(buttonItem, "Country");
           }
           return buttonItem;
         }
@@ -43,11 +45,16 @@
         .iconselectmenu({
           create: function (event, ui) {
             var widget = $(this).iconselectmenu("widget");
-            $span = $('<span id="' + this.id + 'selected" class="avatar-selected"> ').html("&nbsp;").appendTo(widget);
+            $span = $('<span id="' + this.id + 'selected" class="avatar-selected"> ').prependTo(widget);
             $span.attr("style", $(this).children(":first").data("style"));
+            if (widget.text() === "Country") {
+              $span.attr("class", "avatar-selected--hidden");
+            }
           },
           change: function (event, ui) {
-            $("#" + this.id + 'selected').attr("style", ui.item.element.data("style"))
+            $span = $("#" + this.id + 'selected');
+            $span.attr("style", ui.item.element.data("style"));
+            $span.attr("class", "avatar-selected");
           }
         })
         .iconselectmenu("menuWidget")
@@ -57,328 +64,82 @@
   <meta name="og:type" content="website" />
   {{{recaptchaScript}}}
   <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
-  <style>
-    @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
-
-    .anima-component-wrapper a,
-    .anima-screen a {
-      text-decoration: none;
-      display: contents;
-    }
-
-    .anima-full-width-a {
-      width: 100%;
-    }
-
-    .anima-full-height-a {
-      height: 100%;
-    }
-
-    .anima-screen textarea:focus,
-    .anima-screen input:focus {
-      outline: none;
-    }
-
-    .anima-screen *,
-    .anima-component-wrapper * {
-      box-sizing: border-box;
-    }
-
-    .anima-screen div {
-      -webkit-text-size-adjust: none;
-    }
-
-    .anima-container-center-vertical,
-    .anima-container-center-horizontal {
-      pointer-events: none;
-      display: flex;
-      flex-direction: row;
-      padding: 0;
-      margin: 0;
-    }
-
-    .anima-container-center-vertical {
-      align-items: center;
-      height: 100%;
-    }
-
-    .anima-container-center-horizontal {
-      justify-content: center;
-      width: 100%;
-    }
-
-    .anima-container-center-vertical>*,
-    .anima-container-center-horizontal>* {
-      pointer-events: auto;
-      flex-shrink: 0;
-    }
-
-    .anima-component-wrapper,
-    .anima-screen {
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      word-break: break-all;
-      word-break: break-word;
-    }
-
-    .anima-auto-animated div {
-      opacity: 0;
-      position: absolute;
-      --anima-z-index: -1;
-    }
-
-    .anima-auto-animated .anima-container-center-vertical,
-    .anima-auto-animated .anima-container-center-horizontal {
-      opacity: 1;
-    }
-
-    .anima-overlay {
-      position: absolute;
-      opacity: 0;
-      display: none;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      position: fixed;
-    }
-
-    .anima-animate-appear {
-      opacity: 0;
-      display: block;
-      animation: anima-reveal 0.3s ease-in-out 1 normal forwards;
-    }
-
-    .anima-animate-disappear {
-      opacity: 1;
-      display: block;
-      animation: anima-reveal 0.3s ease-in-out 1 reverse forwards;
-    }
-
-    .anima-animate-nodelay {
-      animation-delay: 0s;
-    }
-
-    @keyframes anima-reveal {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    .align-self-flex-start {
-      align-self: flex-start;
-    }
-
-    .align-self-flex-end {
-      align-self: flex-end;
-    }
-
-    .align-self-flex-center {
-      align-self: center;
-    }
-
-    .anima-valign-text-middle {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .anima-valign-text-bottom {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .anima- input:focus {
-      outline: none;
-    }
-
-    .anima-component-wrapper,
-    .anima-component-wrapper * {
-      pointer-events: none;
-    }
-
-    .anima-component-wrapper a *,
-    .anima-component-wrapper a,
-    .anima-component-wrapper input,
-    .anima-component-wrapper video,
-    .anima-component-wrapper iframe,
-    .anima-listeners-active,
-    .anima-listeners-active * {
-      pointer-events: auto;
-    }
-
-    .anima-hidden,
-    .anima-hidden * {
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .anima-smart-layers-pointers,
-    .anima-smart-layers-pointers * {
-      pointer-events: auto;
-      visibility: visible;
-    }
-
-    .anima-component-wrapper.anima-not-ready,
-    .anima-component-wrapper.anima-not-ready * {
-      visibility: hidden !important;
-    }
-
-    .anima-listeners-active-click,
-    .anima-listeners-active-click * {
-      cursor: pointer;
-    }
-
-    /* select with CSS avatar icons */
-    option.avatar {
-      background-repeat: no-repeat !important;
-      padding-left: 20px;
-    }
-
-    .avatar .ui-icon {
-      background-position: left top;
-    }
-    .ui-selectmenu-menu .ui-menu {
-      max-height: 40vh;
-    }
-
-    .ui-selectmenu-button.ui-button {
-      flex: 1;
-      width: 2em !important;
-      height: 34px;
-      background: none;
-      border: 1px solid var(--stratos);
-      padding: 7px;
-      margin-right: 8px;
-    }
-
-    .ui-selectmenu-menu .ui-menu.avatar .ui-menu-item-wrapper {
-      padding: 2px 10px 0 30px;
-      color: var(--stratos);
-      font-family: Helvetica;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 500;
-    }
-
-    .ui-selectmenu-menu .ui-menu.avatar .ui-menu-item .ui-icon {
-      height: 24px;
-      width: 24px;
-      top: 0.1em;
-    }
-
-    .ui-selectmenu-text {
-      padding-left: 3em;
-      margin-right: 0px;
-      color: var(--stratos);
-      font-family: Helvetica;
-      font-size: 12px;
-      font-style: normal;
-      font-weight: 500;
-    }
-
-    .avatar-selected {
-      position: absolute;
-      height: 24px;
-      width: 24px;
-      right: auto;
-      margin-top: -8px;
-      top: 50%;
-      background-repeat: no-repeat;
-    }
-
-    .desktop-1 .link-i16077146939-wxkpqU {
-      flex: 3;
-      border: 1px solid var(--stratos) !important;
-      border-radius: 4px;
-      padding: 8px;
-    }
-
-    .desktop-1 .desktopui--ry-default-C61RwL {
-      border: none;
-      padding: 0;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 </head>
 
 <body style="margin: 0; background: rgba(255, 255, 255, 1)">
   <input type="hidden" id="anPageName" name="page" value="desktop-1" />
-  <div class="anima-container-center-horizontal">
-    <div class="desktop-1 anima-screen">
-      <div class="welcome-to-160766-C61RwL anima-valign-text-middle raleway-bold-stratos-14px">{{__ "Welcome to"}}</div>
-      <div class="ad-transpa-com-160769-C61RwL anima-valign-text-middle raleway-bold-stratos-24px">
+  <div class="main">
+    <div class="main-content">
+      <h1 class="main-content__header">
         {{__ "Transparency and Control Portal"}}
-      </div>
-      <div class="rectangle-121-C61RwL"></div>
-      <div class="this-site--net-160765-C61RwL raleway-medium-stratos-12px">
-        {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email or phone number below. You represent and warrant that this is your information."}}
-      </div>
+      </h1>
+      <div class="main-content__divider"></div>
+      <p class="main-content__description">
+        {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email
+        or phone number below. You represent and warrant that this is your information."}}
+      </p>
       {{#if error}}
-      <div class="error this-site--net-160765-C61RwL raleway-medium-stratos-12px">
+      <p class="error">
         {{error}}
         {{#if phoneExample}}
-        .&nbsp;{{__ "For example: "}} {{phoneExample}}
+        <br>
+        {{__ "For example: "}} {{phoneExample}}
         {{/if}}
-      </div>
+      </p>
       {{/if}}
       {{#if message}}
-      <div class="message this-site--net-160765-C61RwL raleway-medium-stratos-12px">
+      <p class="message">
         {{message}}
-      </div>
+      </p>
       {{/if}}
-      <form id="email_prompt" action="/" method="post">
+      <form class="main-content__form" id="email_prompt" action="/" method="post">
         {{{siteKeyInput}}}
         <input type="hidden" name="step" value="email_prompt">
         <input type="hidden" id="recaptcha" name="recaptcha" />
         <input type="hidden" id="email" name="email" />
-        <input type="hidden" id="country_code" name="country_code" />
+        <input type="hidden" id="countryCode" name="countryCode" />
         <input type="hidden" id="phone" name="phone" />
-        <br>
-        <input type="radio" id="email_type" name="id_type" value="email" onclick="handleIdTypeClick(this)" {{#unless countryCode}}checked{{/unless}}>
-        <label style="border-style: none" class="raleway-medium-stratos-12px" for="email_type">{{__ "Email
-          Address"}}</label>&nbsp;&nbsp;
-        <input type="radio" id="phone_type" name="id_type" value="phone" onclick="handleIdTypeClick(this)" {{#if countryCode}}checked{{/if}}>
-        <label style="border-style: none" class="raleway-medium-stratos-12px" for="phone_type">{{__ "Phone
-          Number"}}</label>
-
-        <div class="desktopui--ry-default-C61RwL" id="email_div" {{#if countryCode}} style="display: none" {{else}} style="display: inline-flex" {{/if}}>
-          <input type="text" id="id_input_email" style="border-style: none"
-            class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" placeholder="{{__ "Enter your email address"}}" value="{{email}}">
-          </input>
+        <div class="form__radio-group">
+          <div class="form__radio-button">
+            <input type="radio" id="email_type" name="idType" value="email" onclick="handleIdTypeClick(this)" {{#unless countryCode}}checked{{/unless}}>
+            <label style="border-style: none" class="form__radio-label" for="email_type">{{__ "Email Address"}}</label>
+          </div>
+          <div class="form__radio-button">
+            <input type="radio" id="phone_type" name="idType" value="phone" onclick="handleIdTypeClick(this)" {{#if countryCode}}checked{{/if}}>
+            <label style="border-style: none" class="form__radio-label" for="phone_type">{{__ "Phone Number"}}</label>
+          </div>
         </div>
-        <div class="desktopui--ry-default-C61RwL" id="phone_div" {{#if countryCode}} style="display: inline-flex" {{else}} style="display: none" {{/if}}>
-          <select id="input_country_code">
-            <option hidden disabled selected value></option>
-            {{#each countryList}}
-            <option value="{{this.CountryCode}}" data-class="avatar"
-              data-style="background-image: url(&apos;/images/flags/{{this.CountryCode}}.svg&apos;);">
-              {{this.CountryName}} +{{this.CallingCode}}</option>
-            {{/each}}
-          </select>
-          <input type="text" id="input_phone" style="border-style: none"
-            class="link-i16077146939-wxkpqU raleway-medium-stratos-12px border-class-1" placeholder="{{__ "Enter your phone number, e.g. 1111111111"}}" value="{{phone}}">
-          </input>
+        <div class="form__input-container" id="email-input-container" {{#if countryCode}} style="display: none" {{/if}}>
+          <input type="text" id="id_input_email" class="form__input" placeholder="{{__ "Enter your email address"}}" value="{{email}}" />
         </div>
-        <div class="desktop-un-ary-button-C61RwL">
-          <div class="rectangle-98-pdOPXM"></div>
-          <button style="border-style: none; cursor: pointer; align-items: center"
-            class="link-i16077046888-pdOPXM anima-valign-text-middle raleway-bold-white-14px border-class-1">
-            {{__ "NEXT"}}
-          </button>
+        <div class="form__input-container" id="phone-input-container" {{#unless countryCode}} style="display:none" {{/unless}}>
+          <div class="form__input-country-code">
+            <select id="input_country_code">
+              <option hidden disabled selected value></option>
+              {{#each countryList}}
+              <option value="{{this.countryCode}}" data-class="avatar" data-style="background-image: url(&apos;/images/flags/{{this.countryCode}}.svg&apos;);">
+                {{this.countryName}} +{{this.callingCode}}
+              </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="form__input-phone">
+            <input type="text" id="input_phone" class="form__input" placeholder="{{__ "Enter phone number"}}" value="{{phone}}" />
+          </div>
         </div>
+        <button class="form__next-button">
+          {{__ "NEXT"}}
+        </button>
       </form>
       <script>
         function handleIdTypeClick(idType) {
           if (idType.value === "email") {
-            document.getElementById('phone_div').style.display = "none"
-            document.getElementById('email_div').style.display = "inline-flex"
+            document.getElementById('phone-input-container').style.display = "none";
+            document.getElementById('email-input-container').style.display = "inline-flex";
           } else if (idType.value === "phone") {
-            document.getElementById('phone_div').style.display = "inline-flex"
-            document.getElementById('email_div').style.display = "none"
+            document.getElementById('phone-input-container').style.display = "inline-flex";
+            document.getElementById('email-input-container').style.display = "none";
           }
         }
 
@@ -387,14 +148,14 @@
         function onSubmit(e) {
           e.preventDefault();
 
-          if (form.querySelector('input[name=id_type]:checked').value === 'email') {
-            $('#email').val($('#id_input_email').val())
-            $('#country_code').val("")
-            $('#phone').val("")
+          if (form.querySelector('input[name=idType]:checked').value === 'email') {
+            $('#email').val($('#id_input_email').val());
+            $('#countryCode').val("");
+            $('#phone').val("");
           } else {
-            $('#email').val("")
-            $('#country_code').val($('#input_country_code').val())
-            $('#phone').val($('#input_phone').val())
+            $('#email').val("");
+            $('#countryCode').val($('#input_country_code').val());
+            $('#phone').val($('#input_phone').val());
           }
 
           grecaptcha.ready(function () {
@@ -409,15 +170,18 @@
         {{#if countryCode}}
           $('#input_country_code').val('{{countryCode}}')
 
-          $(document).ready(function() {
+          $(document).ready(function () {
             $('#input_country_codeselected').attr('style', "background-image: url('images/flags/{{countryCode}}.svg');")
             $('#input_country_codeselected').trigger('refresh')
           })
         {{/if}}
       </script>
-      <div class="powered-by-160767-C61RwL raleway-bold-stratos-12px">Powered by</div>
-      <img class="unified-id-r-with20-1-C61RwL" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
+    </div>
+    <div class="main__footer">
+      <h3 class="main__logo-label">Powered by</h3>
+      <img class="main__logo" src="/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png" />
     </div>
   </div>
 </body>
+
 </html>

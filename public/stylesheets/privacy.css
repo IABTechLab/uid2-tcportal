@@ -1,54 +1,9 @@
-body {
-    color: var(--stratos);
-    font-family: Arial;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    letter-spacing: 0.01em;
-    align-content: center;
-}
-.content {
-    margin: auto;
-    max-width: 960px;
-    padding: 0 48px;
-    margin-bottom: 110px;
-}
-@media (max-width: 768px) {
-    .content {
-        padding: 0 20px;
-    }
-}
-
-div.title {
-    font-size: 40px;
-}
 img.title {
     height: 40px;
-    margin: 40px 0 60px 2px;
+    margin: 0 0 60px;
 }
 
-.heading-1 {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 120%;
-    margin: 0 0 14px 0;
-}
-.large+.heading-1 {
-    margin-top: 40px;
-}
-
-.heading-2 {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 120%;
-    margin: 4px 0 4px 0;
-}
-
-.paragraph {
-    margin: 0 0 18px 0;
-    line-height: 18px;
-}
-.paragraph.large {
+.large {
     font-size: 16px;
 }
 
@@ -65,18 +20,22 @@ ul.spaced li {
     padding: 30px 30px 12px 30px;
     margin: 0 0 24px 0;
 }
+
 .narrow {
     max-width: 405px;
     padding-right: 30px;
 }
+
 .row {
     display: grid;
     grid-template-columns: [left] 220px [right] 1fr;
     grid-template-rows: 1fr;
 }
+
 .row div {
     grid-column-start: right;
 }
+
 .row div:first-child {
     grid-column-start: left;
     grid-row: 1 / span 9;
@@ -86,6 +45,7 @@ ul.spaced li {
     line-height: 120%;
     padding: 0 24px 0 0;
 }
+
 .row-separator {
     align-self: center;
     background-color: #E7EBF2;
@@ -93,37 +53,17 @@ ul.spaced li {
     margin: 24px 0;
     width: 100%;
 }
-@media (max-width: 992px) {
+
+@media (max-width: 991.98px) {
     .row {
         display: block;
+    }
+
+    .main {
+        justify-content: flex-start;
     }
 }
 
 .todo {
     background-color: red;
-}
-
-.separator {
-    align-self: center;
-    background-color: var(--stratos);
-    height: 3px;
-    margin: 24px 0;
-    width: 100%;
-}
-
-.footer {
-    margin: auto;
-    margin-top: 40px;
-}
-div.footer {
-    font-size: 12px;
-    line-height: 24px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    font-family: Helvetica;
-    text-align: center;
-}
-.footer img {
-    height: 26px;
-    margin-left: 5px;
 }

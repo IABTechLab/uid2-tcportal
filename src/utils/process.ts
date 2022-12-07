@@ -45,7 +45,7 @@ export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY || '6Lctdo4aAAA
 export const { RECAPTCHA_SECRET } = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
-export const OPTOUT_API_SECRET  = Buffer.from(process.env.OPTOUT_API_SECRET, 'base64');
+export const OPTOUT_API_SECRET = Buffer.from(process.env.OPTOUT_API_SECRET || 'trasb', 'base64') || 'trasb';
 export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://prod.uidapi.com/v2/token/logout';
 
 export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET as string || 'dev';
@@ -54,7 +54,7 @@ export const SYSTEM_CODE_SECRET = process.env.TCP_SYSTEM_CODE_SECRET as string |
 export const VIEW_FOLDER = process.env.VIEW_FOLDER as string || '/../views';
 export const LOCALE_FOLDER = process.env.LOCALE_FOLDER as string || '/../public/locales';
 
-export const { ID_TYPE } = process.env
+export const { ID_TYPE } = process.env;
 
 export const environment = ((): 'production' | 'development' => {
   const env = process.env.NODE_ENV as unknown as string[] | undefined;
