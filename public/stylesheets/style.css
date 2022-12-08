@@ -99,6 +99,10 @@ button {
   max-width: 400px;
 }
 
+.main-content__identity_header {
+  margin-bottom: 16px;
+}
+
 .main-content__divider {
   border-top: 3px solid var(--stratos);
   margin: 16px 0;

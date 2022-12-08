@@ -88,13 +88,13 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     }
   }
 
-  const success = await validate(recaptcha);
-  if (!success) {
-    res.render('index', {
-      email, countryCode, phone, countryList, error : i18n.__('Blocked a potentially automated request. Please try again later.'), 
-    });
-    return;
-  }
+  // const success = await validate(recaptcha);
+  // if (!success) {
+  //   res.render('index', {
+  //     email, countryCode, phone, countryList, error : i18n.__('Blocked a potentially automated request. Please try again later.'), 
+  //   });
+  //   return;
+  // }
 
   const encrypted = await encrypt(idInput);
   res.render('email_verified', { email: idInput, encrypted });
@@ -106,14 +106,14 @@ const OptoutSubmitRequest = z.object({
 
 const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, _next) => {
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
-  try {
-    const payload = await decrypt(encrypted);
-    await optout(payload);
+  // try {
+  //   const payload = await decrypt(encrypted);
+  //   await optout(payload);
 
-  } catch (e) {
-    res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
-    return;
-  }
+  // } catch (e) {
+  //   res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
+  //   return;
+  // }
 
   res.render('confirmation', { message : '' });
 };

@@ -66,7 +66,6 @@
   <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 </head>
-
 <body style="margin: 0; background: rgba(255, 255, 255, 1)">
   <input type="hidden" id="anPageName" name="page" value="desktop-1" />
   <div class="main">
@@ -76,8 +75,11 @@
       </h1>
       <div class="main-content__divider"></div>
       <p class="main-content__description">
-        {{__ "This site allows you to opt out of targeted advertising based on Unified ID 2.0. Please enter your email
-        or phone number below. You represent and warrant that this is your information."}}
+        {{__ "If you visited the site of a publisher that participates in Unified ID 2.0 (UID2), the publisher might have converted your email address or phone number into a unique identifier known as UID2."}}
+        <br /><br />
+        {{__ "This site enables you to opt out of targeted advertising based on UID2. Opting out of UID2 means that you will no longer receive personalized advertising based on your UID2 identifier."}}
+        <br /><br />
+        {{__ "To opt out your email address or phone number, enter it below. Be sure to enter an email address or phone number that belongs to you."}}
       </p>
       {{#if error}}
       <p class="error">
@@ -132,6 +134,9 @@
           {{__ "NEXT"}}
         </button>
       </form>
+      <p class="link__privacy-policy">
+        <a href='/privacy' class="link__privacy-policy">{{__ 'Privacy Notice'}}</a>
+      </p>
       <script>
         function handleIdTypeClick(idType) {
           if (idType.value === "email") {
