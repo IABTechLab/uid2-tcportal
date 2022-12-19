@@ -7,6 +7,15 @@ img.title {
     font-size: 16px;
 }
 
+.privacy-header-title {
+    font-size: 32px;
+}
+
+.privacy-main-content {
+    display: flex;
+    flex-direction: column;
+}
+
 ul {
     padding-left: 24px;
     line-height: 120%;
@@ -15,10 +24,17 @@ ul.spaced li {
     margin-bottom: 18px;
 }
 
-.blue-box {
-    border: 3px solid #008EF8;
+.example-box {
     padding: 30px 30px 12px 30px;
     margin: 0 0 24px 0;
+}
+
+.blue-border {
+    border: 3px solid #008EF8;
+}
+
+.green-border {
+    border: 3px solid #75BA43;
 }
 
 .narrow {
@@ -32,11 +48,11 @@ ul.spaced li {
     grid-template-rows: 1fr;
 }
 
-.row div {
+.row p {
     grid-column-start: right;
 }
 
-.row div:first-child {
+.row p:first-child {
     grid-column-start: left;
     grid-row: 1 / span 9;
     align-self: center;

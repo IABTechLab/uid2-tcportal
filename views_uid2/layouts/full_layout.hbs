@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  <meta name="og:type" content="website" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+  {{#if css_file}}
+    <link rel="stylesheet" type="text/css" href="/stylesheets/{{css_file}}" />
+  {{/if}}
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Raleway:700,500|Roboto:700");
+
+    body {
+      margin: 0;
+      background: rgba(255, 255, 255, 1);
+    }
+  </style>
+</head>
+
+<body>
+  {{> @partial-block }}
+</body>
+
+</html>
