@@ -14,10 +14,6 @@
   <input type='hidden' id='anPageName' name='page' value='desktop-4' />
   <div class='main'>
     <div class='main-content'>
-      <form id='optout-form' action='/' method='post'>
-        <input type='hidden' name='step' value='optout_submit' />
-        <input type='hidden' name='encrypted' value='{{encrypted}}' />
-      </form>
       <h2 class='main-content__pre-header'>{{__ 'Welcome!'}}</h2>
       <h1 class='main-content__header'>
         {{email}}
@@ -59,46 +55,30 @@
           {{'You may be asked to Opt-In again in the future to access such content.'}}
         </span>
       </p>
-      <button onclick='javascript:promptOptout(); return false;'>
-        {{__ 'OPT OUT'}}
-      </button>
+      <form id='optout-form' action='/' method='post' onsubmit='return onSubmitOptout(this);'>
+        <input type='hidden' name='step' value='optout_submit' />
+        <input type='hidden' name='encrypted' value='{{encrypted}}' />
+        <button type='submit' name='submitButton' class='submit-button'>
+          <span>{{__ 'OPT OUT'}}</span>
+          <!-- MIT licensed, sourced from https://tabler-icons.io/ - icon is loader-2 -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-loader-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 3a9 9 0 1 0 9 9"></path>
+          </svg>
+        </button>
+      </form>
     </div>
     <div class='main__footer'>
       <h3 class='main__logo-label'>Powered by</h3>
       <img class='main__logo' src='/images/unifiedid2-logo-rgb-fullcolor-with20-1@2x.png' />
     </div>
-    <div class='opt-out-modal' id='prompt-modal' style='display:none'>
-      <div class='opt-out-modal__background'></div>
-      <div class='opt-out-modal__content'>
-        <h1 class=''>{{__ 'Are you sure?'}}</h1>
-        <p>
-          {{__
-          'This choice may limit your ability to access ad supported content.'
-          }}
-          {{__
-          'You may be asked to Opt-In again in the future to access such content.'
-          }}
-        </p>
-        <div class='opt-out-modal__buttons'>
-          <button onclick='javascript:submitOptout(); return false;'>
-            {{__ 'YES'}}
-          </button>
-          <button onclick='javascript:cancelOptout(); return false;'>
-            {{__ 'NO'}}
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
 </body>
 <script>
-  function submitOptout() { document.getElementById("optout-form").submit(); }
-  function cancelOptout() {
-    document.getElementById("prompt-modal").style.display = "none";
-  }
-  function promptOptout() {
-    document.getElementById("prompt-modal").style.display = "flex";
+  function onSubmitOptout(form) { 
+    form.submitButton.disabled = true;
+    form.submitButton.className += ' submitting';
+    return true;
   }
 </script>
-
 </html>
