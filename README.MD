@@ -13,6 +13,10 @@ The UID 2 Project is subject to Tech Lab IPR’s Policy and is managed by the IA
 - You will need to have [UID2 Operator](https://github.com/IABTechLab/uid2-operator) running somewhere in order to submit opt-outs.
 -- Operator runs on port 8080 by default. If you provide the `port_offset` environment variable, it will add that value to the port it uses (e.g. with `port_offset=1200` it will run on port 9280).
 
+## IDE
+
+For translation support, use VS Code with the `i18n Ally` extension by Lokalise (it should be recommended when you open the project).
+
 ## Configuration
 
 Create a file called `.env` in this folder. Variables defined in this file will be passed to the web server at startup as environment variables. At a minimum, it should contain the following:
