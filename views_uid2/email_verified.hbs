@@ -20,39 +20,25 @@
       </h1>
       <div class='main-content__divider'></div>
       <p class='main-content__description'>
-        {{__
-        'Our trusted advertising partners using the UID identifier are committed to delivering relevant advertising
-        that also respects your choice.'
-        }}
+        {{__ 'trusted-partners-committed' }}
         <br />
-        {{__
-        'Advertising enables access to your favorite content across the internet.'
-        }}
+        {{__ 'Advertising-enables-access' }}
       </p>
       <h2>{{__ 'Opt-Out'}}</h2>
       <p class='main-content__description'>
         <span>
-          {{__
-          'Your choice to Opt-Out will indicate to trusted advertising partners that you no longer wish to receive
-          targeted advertising based on your UID.'
-          }}
+          {{__ 'Your-choice-to-opt-out' }}
           <br /><br />
-          {{__
-          'The scope of this Opt-Out is limited to sites which use UID.'
-          }}
+          {{__ 'Scope-is-limited' }}
           <br /><br />
-          {{__
-          'For choice with respect to advertising based on cookies, please visit '
-          }}
+          {{__ 'For-choice-with-respect' }}
           <a target='_blank' href='https://optout.aboutads.info'>https://optout.aboutads.info. {{__ '(English)'}}</a>
         </span>
         <br /><br />
         <span>
-          {{__
-          'Note: this choice may limit your ability to access ad supported content.'
-          }}
+          {{__ 'Note-choice-may-limit' }}
           <br />
-          {{'You may be asked to Opt-In again in the future to access such content.'}}
+          {{'You-may-be-asked'}}
         </span>
       </p>
       <form id='optout-form' action='/' method='post' onsubmit='return onSubmitOptout(this);'>
@@ -60,7 +46,7 @@
         <input type='hidden' name='encrypted' value='{{encrypted}}' />
         <button type='submit' name='submitButton' class='submit-button'>
           <span>{{__ 'OPT OUT'}}</span>
-          <!-- MIT licensed, sourced from https://tabler-icons.io/ - icon is loader-2 -->
+          <!-- The following SVG icon is MIT licensed, sourced from https://tabler-icons.io/ - loader-2 -->
           <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-loader-2" width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <path d="M12 3a9 9 0 1 0 9 9"></path>
