@@ -32,6 +32,8 @@
   "You-may-be-asked": "将来、そのようなコンテンツにアクセスするために、再度オプトインを求められる可能性があります。",
   "We-have-received-your-request": "オプトアウトのリクエストを受け取りました。まもなく処理を開始します。",
   "Enter phone number": "電話番号を入力してください",
+  "Please enter a phone number": "電話番号を入力してください",
+  "Please enter a valid phone number": "電話番号を入力してください",
   "This-site-allows-you-to-opt-out": "このサイトでは、Unified ID 2.0を使ったターゲティング広告をオプトアウトすることができます。以下にあなたのメールアドレスや電話番号を入力してください。確認のメールをお送りします。",
   "Email Address": "メールアドレス",
   "Phone Number": "電話番号",
