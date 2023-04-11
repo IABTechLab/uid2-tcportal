@@ -15,24 +15,17 @@
   <div class='main'>
     <div class='main-content'>
       <h1 class='main-content__header'>
-        {{__ 'European Unified ID (EUID) Portal'}}
+        {{__ 'euid-portal-title'}}
       </h1>
       <div class='main-content__divider'></div>
       <p class='main-content__description'>
-        {{__
-        'This site allows you to withdraw consent and object to targeted advertising based on EUID.'
-        }}
+        {{__ 'euid-this-site-allows-you' }}
       </p>
       <p class='main-content__description'>
-        {{__
-        'EUID transforms your email address into an advertising identifier, which allows websites, apps,
-        advertisers, and advertising companies to show you relevant advertising.'
-        }}
+        {{__ 'euid-transforms-your-email-address' }}
       </p>
       <p class='main-content__description'>
-        {{__
-        'By entering your email below, you confirm that this is your information.'
-        }}
+        {{__ 'euid-by-entering-your-email-below' }}
       </p>
       {{#if error}}
       <p class='error'>
@@ -56,10 +49,8 @@
         </button>
       </form>
       <p class='main-content__description'>
-        {{__
-        'For more information on how the Trade Desk manages EUID and your rights with respect to EUID, please read the '
-        }}
-        <a href='/privacy'>{{__ 'EUID Privacy Notice'}}</a>.
+        {{__ "euid-for-more-information" }}
+        <a href='/privacy'>{{__ 'euid-privacy-notice'}}</a>.
       </p>
       <script>
         const form = document.getElementById("email_prompt");
