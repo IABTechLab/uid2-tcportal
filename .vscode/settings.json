@@ -1,0 +1,10 @@
+{
+    "i18n-ally.localesPaths": [
+        "./public/locales_euid",
+        "./public/locales_uid2",
+    ],
+    "i18n-ally.extract.targetPickingStrategy": "most-similar",
+    "i18n-ally.translate.fallbackToKey": false,
+    "i18n-ally.sourceLanguage": "en",
+    "i18n-ally.keystyle": "nested"
+}

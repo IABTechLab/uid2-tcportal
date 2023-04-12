@@ -61,20 +61,20 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
   let idInput = '';
   if (ID_TYPE === 'EUID') {
     if (!isValidEmail(email)) {
-      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address.') });
+      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address') });
       return;
     }
     idInput = email;
   } else if (idType === 'email') {
     if (!isValidEmail(email)) {
-      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address.') });
+      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address') });
       return;
     }
     idInput = email;
   } else {
     if (!countryCode || !phone) {
       res.render('index', {
-        countryList, error: i18n.__('Please enter a phone number.'),
+        countryList, error: i18n.__('Please enter a phone number'),
       });
       return;
     }
@@ -82,7 +82,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     if (idInput === '') {
       const phoneExample = phoneExampleDict.get(countryCode);
       res.render('index', {
-        countryCode, phone, countryList, phoneExample, error: i18n.__('Please enter a valid phone number.'), 
+        countryCode, phone, countryList, phoneExample, error: i18n.__('Please enter a valid phone number'), 
       });
       return;
     }
@@ -91,7 +91,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
   const success = await validate(recaptcha);
   if (!success) {
     res.render('index', {
-      email, countryCode, phone, countryList, error : i18n.__('Blocked a potentially automated request. Please try again later.'), 
+      email, countryCode, phone, countryList, error : i18n.__('Blocked-a-potentially-automated-request'), 
     });
     return;
   }
