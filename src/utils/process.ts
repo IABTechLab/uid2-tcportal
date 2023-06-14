@@ -41,7 +41,7 @@ export function normalizePort(val: any): string | number | boolean {
 
 export const PORT = (process.env.PORT && normalizePort(process.env.PORT)) || '3000';
 
-export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY || '6Lctdo4aAAAAAMVYJ8bs_7VbYskEyBq3hDX2m6eQ';
+export const RECAPTCHA_SITE_KEY = process.env.RECAPTCHA_SITE_KEY;
 export const { RECAPTCHA_SECRET } = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
