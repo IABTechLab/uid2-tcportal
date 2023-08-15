@@ -76,7 +76,11 @@
       </h1>
       <div class="main-content__divider"></div>
       <p class="main-content__description">
+        {{__ "If-you-visited"}}
+        <br /><br />
         {{__ "This-site-allows-you-to-opt-out"}}
+        <br /><br />
+        {{__ "To-opt-out"}}
       </p>
       {{#if error}}
       <p class="error">
@@ -130,6 +134,7 @@
         <button class="form__next-button">
           {{__ "NEXT"}}
         </button>
+        <a target="_blank" href="https://www.thetradedesk.com/us/website-privacy-policy" class="form__privacy-link">{{__ 'Privacy-policy'}}</a>
       </form>
       <script>
         function handleIdTypeClick(idType) {
