@@ -14,15 +14,15 @@
   <input type='hidden' id='anPageName' name='page' value='desktop-4' />
   <div class='main'>
     <div class='main-content'>
+      <h1 class='main-content__header'>
+        {{__ "Transparency and Control Portal"}}
+      </h1>
+      <div class='main-content__divider'></div>
       <h2 class='main-content__pre-header'>{{__ 'Welcome!'}}</h2>
       <h1 class='main-content__header'>
         {{email}}
       </h1>
-      <div class='main-content__divider'></div>
       <p class='main-content__description'>
-        {{__ 'trusted-partners-committed' }}
-        <br />
-        {{__ 'Advertising-enables-access' }}
       </p>
       <h2>{{__ 'Opt-Out'}}</h2>
       <p class='main-content__description'>
@@ -31,15 +31,12 @@
           <br /><br />
           {{__ 'Scope-is-limited' }}
           <br /><br />
+          {{__ 'Note-choice-may-limit' }}
+          <br /><br />
           {{__ 'For-choice-with-respect' }}
           <a target='_blank' href='https://optout.aboutads.info'>https://optout.aboutads.info. {{__ '(English)'}}</a>
         </span>
         <br /><br />
-        <span>
-          {{__ 'Note-choice-may-limit' }}
-          <br />
-          {{'You-may-be-asked'}}
-        </span>
       </p>
       <form id='optout-form' action='/' method='post' onsubmit='return onSubmitOptout(this);'>
         <input type='hidden' name='step' value='optout_submit' />
