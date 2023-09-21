@@ -116,6 +116,10 @@ option.avatar {
   top: 0.1em;
 }
 
+.ui-state-disabled.ui-menu-item  {
+  display: none;
+}
+
 .ui-selectmenu-text {
   padding-left: 4px;
   margin-right: 0px;
