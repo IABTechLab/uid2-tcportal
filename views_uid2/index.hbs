@@ -9,6 +9,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script>
+    var showCountryPlaceholder = true;
     $(function () {
       $.widget("custom.iconselectmenu", $.ui.selectmenu, {
         _renderItem: function (ul, item) {
@@ -31,8 +32,13 @@
           var buttonItem = $("<span>", {
             "class": "ui-selectmenu-text"
           });
-          let callingCode = item.label.substring(item.label.indexOf("+"))
-          this._setText(buttonItem, callingCode);
+          if (showCountryPlaceholder) {
+            this._setText(buttonItem, "Country");
+          } else {
+            let callingCode = item.label.substring(item.label.indexOf("+"));
+            this._setText(buttonItem, callingCode);
+          }
+          showCountryPlaceholder = false;
           return buttonItem;
         }
       });
