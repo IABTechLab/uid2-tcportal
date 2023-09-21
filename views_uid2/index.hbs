@@ -119,7 +119,7 @@
         <div class="form__input-container" id="phone-input-container" {{#unless countryCode}} style="display:none" {{/unless}}>
           <div class="form__input-country-code">
             <select id="input_country_code">
-              <option hidden disabled selected value></option>
+              <option disabled selected value></option>
               {{#each countryList}}
               <option value="{{this.countryCode}}" data-class="avatar" data-style="background-image: url(&apos;/images/flags/{{this.countryCode}}.svg&apos;);">
                 {{this.countryName}} +{{this.callingCode}}
