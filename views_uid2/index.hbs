@@ -32,13 +32,12 @@
           var buttonItem = $("<span>", {
             "class": "ui-selectmenu-text"
           });
-          if (showCountryPlaceholder) {
-            this._setText(buttonItem, "Country");
-          } else {
-            let callingCode = item.label.substring(item.label.indexOf("+"));
+          if (item.value !== "") {
+            let callingCode = item.label.substring(item.label.indexOf("+"))
             this._setText(buttonItem, callingCode);
+          } else {
+            this._setText(buttonItem, "Country");
           }
-          showCountryPlaceholder = false;
           return buttonItem;
         }
       });
@@ -49,6 +48,9 @@
             var widget = $(this).iconselectmenu("widget");
             $span = $('<span id="' + this.id + 'selected" class="avatar-selected"> ').prependTo(widget);
             $span.attr("style", $(this).children(":first").data("style"));
+            if (widget.text() === "Country") {
+              $span.attr("class", "avatar-selected--hidden");
+            }
           },
           change: function (event, ui) {
             $span = $("#" + this.id + 'selected');
@@ -118,7 +120,7 @@
         <div class="form__input-container" id="phone-input-container" {{#unless countryCode}} style="display:none" {{/unless}}>
           <div class="form__input-country-code">
             <select id="input_country_code">
-              <option disabled selected value></option>
+              <option hidden disabled selected value></option>
               {{#each countryList}}
               <option value="{{this.countryCode}}" data-class="avatar" data-style="background-image: url(&apos;/images/flags/{{this.countryCode}}.svg&apos;);">
                 {{this.countryName}} +{{this.callingCode}}
