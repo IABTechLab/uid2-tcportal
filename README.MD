@@ -53,7 +53,7 @@ docker build --pull --rm -f "Dockerfile_euid" -t euid-tcportal "."
 docker run -dp 3000:3000 euid-tcportal
 ```
 
-You should then be able to visit [localhost:3000](http://localhost:3000/) to see the container running. Replace `Dockerfile_euid` with `Dockerfile_uid` and `euid-tcportal` with `uid2-tcportal` (both commands) to run UID2 instead.
+You should then be able to visit [localhost:3000](http://localhost:3000/) to see the container running. Replace `Dockerfile_euid` with `Dockerfile_uid2` and `euid-tcportal` with `uid2-tcportal` (both commands) to run UID2 instead.
 
 If port 3000 is in use and you need to run it on a different port, replace the *first* 3000 in the `docker run` command with the port you want to use (ensure the second one is still `3000`).
 

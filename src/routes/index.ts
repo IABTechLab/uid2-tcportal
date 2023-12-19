@@ -157,6 +157,9 @@ if (ID_TYPE === 'EUID') {
   router.get('/privacy', (req, res, _next) => {
     res.render('privacy');
   });
+  router.get('/privacynotice', (req, res, _next) => {
+    res.render('privacy');
+  });
 }
 
 router.get('/ops/healthcheck', (req, res, _next) => {
