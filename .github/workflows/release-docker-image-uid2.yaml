@@ -13,6 +13,10 @@ on:
         - Snapshot
   pull_request:
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_UID2: iabtechlab/uid2-tcportal
+
 jobs:
   getPackageVersion:
     runs-on: ubuntu-latest
@@ -26,6 +30,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Get Package Version
         id: version
+        shell: bash
         run: |
           package_version=$(cat package.json | jq -r '.version')
           echo "package_version=$package_version" >> $GITHUB_OUTPUT
