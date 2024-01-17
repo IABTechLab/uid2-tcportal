@@ -1,0 +1,40 @@
+name: Release UID2 TCPORTAL Image
+run-name: ${{ inputs.release_type == 'Snapshot' && 'Publish Pre-release' || format('Release {0}', inputs.release_type)}} Docker Image by @${{ github.actor }}  
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        description: 'The type of release'
+        options:
+        - Major
+        - Minor
+        - Patch
+        - Snapshot
+  pull_request:
+
+jobs:
+  getPackageVersion:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      package_version: ${{ steps.version.outputs.package_version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Get Package Version
+        id: version
+        run: |
+          package_version=$(cat package.json | jq -r '.version')
+          echo "package_version=$package_version" >> $GITHUB_OUTPUT
+
+  Image:
+    name: Publish to docker
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    needs: getPackageVersion
+    with: 
+      release_type: ${{ inputs.release_type }}
+      version_number_input: ${{ needs.getPackageVersion.outputs.image_tag }}
+    secrets: inherit
