@@ -1,5 +1,5 @@
 name: Release UID2 TCPORTAL Image
-run-name: ${{ inputs.release_type == 'Snapshot' && 'Publish Pre-release' || format('Release {0}', inputs.release_type)}} Docker Image by @${{ github.actor }}  
+run-name: ${{ inputs.release_type == 'Snapshot' && 'Publish Pre-release' || format('Release {0}', inputs.release_type)}} UID2 Docker Image by @${{ github.actor }}  
 on:
   workflow_dispatch:
     inputs:
@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_UID2: iabtechlab/uid2-tcportal
+  IMAGE_NAME: iabtechlab/uid2-tcportal
 
 jobs:
   Image:
