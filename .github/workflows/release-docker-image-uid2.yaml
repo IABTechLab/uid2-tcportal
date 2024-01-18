@@ -41,5 +41,5 @@ jobs:
     needs: getPackageVersion
     with: 
       release_type: ${{ inputs.release_type }}
-      version_number_input: ${{ needs.getPackageVersion.outputs.image_tag }}
+      version_number_input: ${{ needs.getPackageVersion.outputs.package_version }}
     secrets: inherit
