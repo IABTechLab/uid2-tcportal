@@ -1,0 +1,26 @@
+name: Release EUID TCPORTAL Image
+run-name: ${{ inputs.release_type == 'Snapshot' && 'Publish Pre-release' || format('Release {0}', inputs.release_type)}} Docker Image by @${{ github.actor }}  
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        description: 'The type of release'
+        options:
+        - Major
+        - Minor
+        - Patch
+        - Snapshot
+  pull_request:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_EUID: iabtechlab/euid-tcportal
+
+jobs:
+  Image:
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    with: 
+      release_type: ${{ inputs.release_type }}
+      docker_file: Dockerfile_euid
+    secrets: inherit
