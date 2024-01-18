@@ -13,14 +13,13 @@ on:
         - Snapshot
   pull_request:
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: iabtechlab/euid-tcportal
-
 jobs:
   Image:
     uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
     with: 
       release_type: ${{ inputs.release_type }}
       docker_file: Dockerfile_euid
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: iabtechlab/euid-tcportal
     secrets: inherit
