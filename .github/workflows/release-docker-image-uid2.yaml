@@ -42,4 +42,5 @@ jobs:
     with: 
       release_type: ${{ inputs.release_type }}
       version_number_input: ${{ needs.getPackageVersion.outputs.package_version }}
+      docker_file: Dockerfile_uid2
     secrets: inherit
