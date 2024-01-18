@@ -11,7 +11,6 @@ on:
         - Minor
         - Patch
         - Snapshot
-  pull_request:
 
 jobs:
   Image:
@@ -19,7 +18,6 @@ jobs:
     with: 
       release_type: ${{ inputs.release_type }}
       docker_file: Dockerfile_euid
-    env:
-      REGISTRY: ghcr.io
-      IMAGE_NAME: iabtechlab/euid-tcportal
+      docker_image_name: iabtechlab/euid-tcportal
+      docker_registry: ghcr.io
     secrets: inherit
