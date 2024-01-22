@@ -15,13 +15,13 @@ on:
 
 jobs:
   incrementVersionNumber:
-    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-increase-version-number.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-increase-version-number.yaml@v2
     with:
       release_type: ${{ inputs.release_type }}
     secrets: inherit
     
   publishToUID2:
-    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@v2
     needs: incrementVersionNumber
     with: 
       new_version: ${{ needs.incrementVersionNumber.outputs.new_version }}
@@ -33,7 +33,7 @@ jobs:
     secrets: inherit
 
   publishToEUID:
-    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@v2
     needs: incrementVersionNumber
     with: 
       new_version: ${{ needs.incrementVersionNumber.outputs.new_version }}
