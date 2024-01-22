@@ -1,0 +1,86 @@
+name: Release TCPORTAL Image
+run-name: ${{ inputs.release_type == 'Snapshot' && 'Publish Pre-release' || format('Release {0}', inputs.release_type)}} Docker Image by @${{ github.actor }}  
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        description: 'The type of release'
+        options:
+        - Major
+        - Minor
+        - Patch
+        - Snapshot
+  pull_request:
+
+jobs:
+  bumpVersion:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      new_version: ${{ steps.version.outputs.new_version }}
+      image_tag: ${{ steps.updatePackageJson.outputs.image_tag }}
+    steps:
+      - name: Setup
+        id: setup
+        uses: IABTechLab/uid2-shared-actions/actions/shared_publish_setup@v2
+        with:
+          release_type: ${{ inputs.release_type }}
+
+      - name: Set version number
+        id: version
+        uses: IABTechLab/uid2-shared-actions/actions/version_number@v2
+        with:
+          type: ${{ inputs.release_type }}
+          version_number: ${{ inputs.version_number_input }}
+          branch_name: ${{ github.ref }}
+
+      - name: Update package.json
+        id: updatePackageJson
+        run: |
+          current_version=$(jq -r '.version')
+          new_version=${{ steps.version.outputs.new_version }}
+          jq --arg v "$new_version" ".version = \$v" "package.json" > tmp.json && mv tmp.json "package.json"
+          echo "Version number updated from $current_version to $new_version"
+          echo "image_tag=${{ steps.version.outputs.new_version }}" >> $GITHUB_OUTPUT
+
+      - name: Commit package.json
+        if: ${{ inputs.version_number_input == '' && steps.checkRelease.outputs.IS_RELEASE != 'true' }} 
+        uses: IABTechLab/uid2-shared-actions/actions/commit_pr_and_merge@main
+        with:
+          add: 'package.json'
+          message: 'Released ${{ inputs.release_type }} version: ${{ steps.version.outputs.new_version }}'
+
+      - name: Commit package.json and set tag
+        if: ${{ inputs.version_number_input == '' && steps.checkRelease.outputs.IS_RELEASE == 'true' }} 
+        uses: IABTechLab/uid2-shared-actions/actions/commit_pr_and_merge@main
+        with:
+          add: 'package.json'
+          message: 'Released ${{ inputs.release_type }} version: ${{ steps.version.outputs.new_version }}'
+          tag: v${{ steps.version.outputs.new_version }}
+    
+  publishToUID2:
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    needs: bumpVersion
+    with: 
+      new_version: ${{ needs.bumpVersion.outputs.new_version }}
+      image_tag: ${{ needs.bumpVersion.outputs.image_tag }}
+      release_type: ${{ inputs.release_type }}
+      docker_file: Dockerfile_uid2
+      docker_image_name: iabtechlab/uid2-tcportal
+      docker_registry: ghcr.io
+    secrets: inherit
+
+  publishToEUID:
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@kcc-UID2-2674-implement-shared-publish-to-docker-versioned
+    needs: bumpVersion
+    with: 
+      new_version: ${{ needs.bumpVersion.outputs.new_version }}
+      image_tag: ${{ needs.bumpVersion.outputs.image_tag }}
+      release_type: ${{ inputs.release_type }}
+      docker_file: Dockerfile_euid
+      docker_image_name: iabtechlab/euid-tcportal
+      docker_registry: ghcr.io
+    secrets: inherit
