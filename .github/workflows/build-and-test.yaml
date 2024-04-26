@@ -1,5 +1,5 @@
 name: Build and Test
-on: [push]
+on: [pull_request, push, workflow_dispatch]
 
 jobs:
   build:
@@ -20,4 +20,5 @@ jobs:
       - name: test
         #TODO Remove this when we have tests
         run: yarn test --passWithNoTests
-
+      - name: Vulnerability Scan
+        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan_filesystem@v2
