@@ -8,7 +8,7 @@ The UID 2 Project is subject to Tech Lab IPR’s Policy and is managed by the IA
 
 ## Prerequisites
 
-- Node 14.x
+- Node >=20.11
 - Yarn 1.x: `npm install --global yarn`
 - You will need to have [UID2 Operator](https://github.com/IABTechLab/uid2-operator) running somewhere in order to submit opt-outs.
 -- Operator runs on port 8080 by default. If you provide the `port_offset` environment variable, it will add that value to the port it uses (e.g. with `port_offset=1200` it will run on port 9280).
@@ -37,7 +37,11 @@ To get values for the `RECAPTCHA_` settings, you will need to create your own ke
 
 ## Running in developer mode
 
-Run the Yarn task `euid` or `uid2` to launch the relevant site, and then visit [localhost:3000](http://localhost:3000/). There's no hot reload, but content should be served straight from the repo and so changes should be reflected as soon as you refresh your browser.
+1. Run `yarn` to install dependencies
+2. Run either `yarn uid2` or `yarn euid` to launch the relevant site
+3. Visit [localhost:3000](http://localhost:3000/). 
+
+There's no hot reload, but content should be served straight from the repo and so changes should be reflected as soon as you refresh your browser.
 
 If port 3000 is in use and you need to use a different port, and a line to your `.env` file (where `nnnn` is the port you want to run on):
 ```
