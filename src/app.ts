@@ -9,9 +9,7 @@ import path from 'path';
 import winston from 'winston';
 
 import makeMetricsApiMiddleware from './middleware/metrics';
-import adDetailRouter from './routes/adDetail';
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 import logger from './utils/logging';
 import {
   environment, ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, 
@@ -78,8 +76,6 @@ app.use(
 );
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/ad-detail', adDetailRouter);
 
 // catch 404 and forward to error handler
 app.use((_req, _res, next) => {
