@@ -151,10 +151,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
     await handler(req, res, next);
   }
   catch (e) {
-    if (e instanceof Error) {
       logger.log('error', `error while parsing the request`);
-    }
-   
   }
 
 
