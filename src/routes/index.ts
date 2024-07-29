@@ -138,17 +138,28 @@ const DefaultRouteRequest = z.object({
 });
 
 const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteRequest>> = async (req, res, next) => {
-  const { step } = DefaultRouteRequest.parse(req.body);
-  if (!step) {
-    throw new Error('no step');
+  try {
+    const { step } = DefaultRouteRequest.parse(req.body);
+    if (!step) {
+      throw new Error('no step');
+    }
+    const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
+    if (!handler) {
+      throw new Error(`invalid step ${step}`);
+    }
+  
+    await handler(req, res, next);
+  }
+  catch (e) {
+    if (e instanceof Error) {
+      logger.log('error', `error while parsing the request`);
+    }
+   
   }
 
-  const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
-  if (!handler) {
-    throw new Error(`invalid step ${step}`);
-  }
 
-  await handler(req, res, next);
+
+
 };
 
 router.post('/', defaultRouteHandler);
