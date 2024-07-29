@@ -138,21 +138,25 @@ const DefaultRouteRequest = z.object({
 });
 
 const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteRequest>> = async (req, res, next) => {
+  let step;
+
   try {
-    const { step } = DefaultRouteRequest.parse(req.body);
-    if (!step) {
-      throw new Error('no step');
-    }
-    const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
-    if (!handler) {
-      throw new Error(`invalid step ${step}`);
-    }
-  
-    await handler(req, res, next);
+    step = DefaultRouteRequest.parse(req.body).step; 
   }
   catch (e) {
       logger.log('error', `error while parsing the request`);
+      return;
   }
+
+  if (!step) {
+    throw new Error('no step');
+  }
+  const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
+  if (!handler) {
+    throw new Error(`invalid step ${step}`);
+  }
+
+  await handler(req, res, next);
 
 
 
