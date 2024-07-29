@@ -157,10 +157,6 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
   }
 
   await handler(req, res, next);
-
-
-
-
 };
 
 router.post('/', defaultRouteHandler);
