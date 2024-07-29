@@ -151,6 +151,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
   if (!step) {
     throw new Error('no step');
   }
+  
   const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
   if (!handler) {
     throw new Error(`invalid step ${step}`);
