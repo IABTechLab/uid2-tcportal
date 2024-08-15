@@ -142,15 +142,14 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
 
   try {
     step = DefaultRouteRequest.parse(req.body).step; 
-  }
-  catch (e) {
-      logger.log('error', `error while parsing the request`);
-      return;
+  } catch (e) {
+    logger.log('error', 'error while parsing the request');
+    return;
   }
 
   if (!step) {
-      logger.log('error', `no step`);
-      return;
+    logger.log('error', 'no step');
+    return;
   }
   
   const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
