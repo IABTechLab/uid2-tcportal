@@ -8,7 +8,8 @@
     "start:debug": "yarn build -- --build && cross-env NODE_ENV=development node -r dotenv/config ./build/bin/www",
     "uid2": "cross-env NODE_ENV=development VIEW_FOLDER=../views_uid2/ ID_TYPE=UID2 LOCALE_FOLDER=../public/locales_uid2 nodemon -r dotenv/config --watch ./src ./src/bin/www.ts",
     "euid": "cross-env NODE_ENV=development VIEW_FOLDER=../views_euid/ ID_TYPE=EUID LOCALE_FOLDER=../public/locales_euid nodemon -r dotenv/config --watch ./src ./src/bin/www.ts",
-    "lint": "eslint '**/*.ts'",
+    "lint": "eslint .",
+    "lint-fix": "eslint --fix .",
     "build": "tsc",
     "test": "jest"
   },
