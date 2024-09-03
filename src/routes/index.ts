@@ -143,8 +143,8 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
   try {
     step = DefaultRouteRequest.parse(req.body).step; 
   } catch (e) {
-    logger.log('error', 'error while parsing the request');
-    return;
+      logger.log('error', 'error while parsing the request');
+      return;
   }
 
   if (!step) {
