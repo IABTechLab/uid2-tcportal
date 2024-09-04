@@ -17,6 +17,8 @@ jobs:
       - run: yarn install
       - name: build 
         run: yarn build
+      - name: lint 
+        run: yarn lint
       - name: test
         #TODO Remove this when we have tests
         run: yarn test --passWithNoTests
