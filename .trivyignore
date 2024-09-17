@@ -5,3 +5,9 @@
 
 # https://atlassian.thetradedesk.com/jira/browse/UID2-3953
 CVE-2022-25883
+
+# https://atlassian.thetradedesk.com/jira/browse/UID2-4121
+CVE-2024-45590
+
+# https://atlassian.thetradedesk.com/jira/browse/UID2-4091
+CVE-2024-45296
