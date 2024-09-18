@@ -10,7 +10,7 @@ import winston from 'winston';
 
 import makeMetricsApiMiddleware from './middleware/metrics';
 import indexRouter from './routes/index';
-import logger from './utils/logging';
+import logger, { getLoggingMiddleware } from './utils/logging';
 import {
   environment, ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, 
 } from './utils/process';
@@ -28,6 +28,8 @@ const viewPath = path.join(__dirname, VIEW_FOLDER);
 const layoutPath = path.join(viewPath, 'layouts');
 app.set('views', viewPath);
 app.set('view engine', 'hbs');
+
+app.use(getLoggingMiddleware());
 
 app.use(
   makeMetricsApiMiddleware({

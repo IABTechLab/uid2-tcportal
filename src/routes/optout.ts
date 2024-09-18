@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import crypto from 'crypto';
 
-import { OPTOUT_API_SECRET, OPTOUT_ENDPOINT_URL } from '../utils/process';
+import { OPTOUT_API_KEY, OPTOUT_API_SECRET, OPTOUT_ENDPOINT_URL } from '../utils/process';
 
 interface Optout {
   phone?: string;
@@ -38,6 +38,7 @@ export async function optout(identityInput: string): Promise<any> {
   return axios.post(OPTOUT_ENDPOINT_URL, body,
     {
       headers: {
+        Authorization: `Bearer ${OPTOUT_API_KEY}`,
         'Content-Type': 'text/plain',
       },
     });
