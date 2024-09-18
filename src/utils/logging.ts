@@ -13,8 +13,7 @@ const logger = createLogger({
 
 const headersToRedact = ['authorization'];
 
-export const getLoggingMiddleware = () =>
-  expressWinston.logger({
+export const getLoggingMiddleware = () => expressWinston.logger({
     winstonInstance: logger,
     headerBlacklist: headersToRedact,
   });
