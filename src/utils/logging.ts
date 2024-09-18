@@ -1,5 +1,5 @@
-import winston, { createLogger } from 'winston';
 import expressWinston from 'express-winston';
+import winston, { createLogger } from 'winston';
 
 import { isProduction } from './process';
 
