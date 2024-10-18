@@ -57,6 +57,14 @@
   padding-top: 20px;
 }
 
+.form__vulnerability-link {
+  color: gray;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  font-size: 12px;
+}
+
 .error {
   color: red;
   margin-top: 0;
