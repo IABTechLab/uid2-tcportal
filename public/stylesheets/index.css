@@ -50,11 +50,19 @@
   border-left: none;
 }
 
-.form__privacy-link {
+.privacy-link {
   color: green;
   display: flex;
   justify-content: center;
   padding-top: 20px;
+}
+
+.vulnerability-link {
+  color: gray;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  font-size: 12px;
 }
 
 .error {
