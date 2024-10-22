@@ -1,3 +1,8 @@
+h2 {
+    margin-top: 16px;
+    text-transform: uppercase;
+}
+
 img.title {
     height: 40px;
     margin: 0 0 60px;
@@ -9,7 +14,6 @@ img.title {
 
 ul {
     padding-left: 24px;
-    line-height: 120%;
 }
 ul.spaced li {
     margin-bottom: 18px;
