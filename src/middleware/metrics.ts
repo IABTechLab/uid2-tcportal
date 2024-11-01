@@ -80,10 +80,14 @@ const makeMetricsApiMiddleware = (options: Options = {}) => {
         return false;
       }
 
-      if (route.path.match(path)) {
-        return true;
+      try {
+        if (route.path.match(path)) {
+          return true;
+        }
+      } catch (e: unknown) {
+        logger.error('Error: something went wrong.');
+        return false;
       }
-
       return false;
     })[0]?.pattern;
 
