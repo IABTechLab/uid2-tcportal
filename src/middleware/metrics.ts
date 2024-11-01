@@ -85,7 +85,7 @@ const makeMetricsApiMiddleware = (options: Options = {}) => {
           return true;
         }
       } catch (e: unknown) {
-        logger.error(`Error: something went wrong.`);
+        logger.error("Error: something went wrong.");
         return false;
       }
       return false;
