@@ -1,4 +1,3 @@
-
 import express, { RequestHandler } from 'express';
 import listEndpoints from 'express-list-endpoints';
 import promBundle, { NormalizePathFn } from 'express-prom-bundle';
