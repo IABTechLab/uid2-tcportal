@@ -84,10 +84,9 @@ const makeMetricsApiMiddleware = (options: Options = {}) => {
           return true;
         }
       } catch (e: unknown) {
-        logger.error(`Unable to perform regex match on path: ${e}`);
+        logger.error('Error: something went wrong.');
         return false;
       }
-
       return false;
     })[0]?.pattern;
 
