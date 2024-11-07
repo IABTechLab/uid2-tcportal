@@ -1,6 +1,7 @@
 import express, { RequestHandler } from 'express';
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import Handlebars from 'hbs';
+import createError from 'http-errors';
 import i18n from 'i18n';
 import { z } from 'zod';
 
@@ -118,13 +119,6 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
   res.render('confirmation', { message : '' });
 };
 
-const steps: Record<string, RequestHandler> = {
-  /* eslint-disable quote-props */
-  'email_prompt': handleEmailPromptSubmission,
-  'optout_submit' : handleOptoutSubmit,
-  /* eslint-enable quote-props */
-} as const;
-
 /* GET home page. */
 router.get('/', (_req, res, _next) => {
   res.render('index', {
@@ -133,32 +127,37 @@ router.get('/', (_req, res, _next) => {
   });
 });
 
+enum Step {
+  'email_prompt' = 'email_prompt',
+  'optout_submit' = 'optout_submit',
+}
+
+const stepHandlers: Record<Step, RequestHandler> = {
+  [Step.email_prompt]: handleEmailPromptSubmission,
+  [Step.optout_submit]: handleOptoutSubmit,
+};
+
 const DefaultRouteRequest = z.object({
-  step: z.string(),
+  step: z.nativeEnum(Step).optional(),
 });
 
 const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteRequest>> = async (req, res, next) => {
-  let step;
-
+  let requestStep: Step | undefined;
   try {
-    step = DefaultRouteRequest.parse(req.body).step; 
+    requestStep = DefaultRouteRequest.parse(req.body).step; 
   } catch (e) {
     logger.log('error', 'error while parsing the request');
-    return;
-  }
-
-  if (!step) {
-    logger.log('error', 'no step');
+    next(createError(500));
     return;
   }
   
-  const handler = Object.prototype.hasOwnProperty.call(steps, step) && steps[step];
-  if (!handler) {
-    logger.log('error', `invalid step ${step}`);
-    return;
+  if (requestStep) {
+    const handler = stepHandlers[requestStep];
+    await handler(req, res, next);
+  } else {
+    logger.log('error', 'no step');
+    next(createError(500));
   }
-
-  await handler(req, res, next);
 };
 
 router.post('/', defaultRouteHandler);
