@@ -9,12 +9,8 @@ function truncateMessage(message: string, maxChars: number): string {
 
 const formatInfo = format((info) => {
   if (info.private) { return false; }
-  info.message = truncateMessage(info.message, 250);
-  if (info.meta) {
-    const {meta, ...rest} = info;
-   return rest;
-  }
-  return info;
+  const shortenedMessage = truncateMessage(info.message, 250);
+  return { ...info, message: shortenedMessage };
 });
 
 const logger = createLogger({
@@ -39,6 +35,7 @@ const headersToRedact = ['authorization', 'authentication'];
 export const getLoggingMiddleware = () => expressWinston.logger({
   winstonInstance: logger,
   headerBlacklist: headersToRedact,
+  meta: false,
 });
 
 export default logger;

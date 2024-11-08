@@ -1,12 +1,10 @@
 import cookieParser from 'cookie-parser';
 import express, { NextFunction, Request, Response } from 'express';
-import winstonExpress from 'express-winston';
 import Handlebars from 'hbs';
 import helmet from 'helmet';
 import createError from 'http-errors';
 import i18n from 'i18n';
 import path from 'path';
-import winston from 'winston';
 
 import makeMetricsApiMiddleware from './middleware/metrics';
 import indexRouter from './routes/index';
@@ -38,21 +36,6 @@ app.use(
     discardUnmatched: false,
   }),
 );
-
-app.use(winstonExpress.logger({
-  transports: [
-    new winston.transports.Console(),
-  ],
-  format: winston.format.combine(
-    winston.format.colorize(),
-    winston.format.json(),
-  ),
-  meta: true, // optional: control whether you want to log the meta data about the request (default to true)
-  msg: 'HTTP {{req.method}} {{req.url}}', // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
-  expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
-  colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
-  ignoreRoute: (_req, _res) => false, // optional: allows to skip some log messages based on request and/or response
-}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
