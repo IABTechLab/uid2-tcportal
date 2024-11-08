@@ -10,6 +10,10 @@ const logger = createLogger({
     }),
   ],
 });
+logger.exceptions.handle(new winston.transports.Console({
+  level: isProduction ? 'info' : 'debug',
+}));
+logger.exitOnError = false;
 
 const headersToRedact = ['authorization', 'authentication'];
 
