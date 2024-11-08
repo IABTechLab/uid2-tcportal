@@ -55,9 +55,17 @@ const EmailPromptRequest = z.object({
 });
 
 const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>> = async (req, res, _next) => {
+  try {
+    EmailPromptRequest.parse(req.body);
+  } catch (e) {
+    logger.log('error', 'error while parsing the request');
+    _next(createError(500));
+    return;
+  }
   const {
     email, countryCode, phone, recaptcha, idType,
   } = EmailPromptRequest.parse(req.body);
+
 
   let idInput = '';
   if (ID_TYPE === 'EUID') {
@@ -146,7 +154,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
   try {
     requestStep = DefaultRouteRequest.parse(req.body).step; 
   } catch (e) {
-    logger.log('error', 'error while parsing the request');
+    logger.log('error', 'error while parsing step');
     next(createError(500));
     return;
   }
