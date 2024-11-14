@@ -33,7 +33,7 @@ app.use(
   makeMetricsApiMiddleware({
     port: 9082,
     isNormalizePathEnabled: true,
-    discardUnmatched: false,
+    discardUnmatched: true,
   }),
 );
 
