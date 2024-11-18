@@ -38,6 +38,7 @@
     "country-flag-icons": "^1.5.4",
     "country-list-js": "^3.1.7",
     "cross-env": "^7.0.3",
+    "cross-spawn": "^7.0.6",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-basic-auth": "^1.2.0",
