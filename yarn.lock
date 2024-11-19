@@ -4290,11 +4290,6 @@ semver@^7.5.3, semver@^7.5.4:
   dependencies:
     lru-cache "^6.0.0"
 
-semver@~7.0.0:
-  version "7.5.2"
-  resolved "https://registry.npmjs.org/semver/-/semver-7.5.2.tgz"
-  integrity sha512-SoftuTROv/cRjCze/scjGyiDtcUyxw1rgYQSZY7XTmtR5hX+dm76iDbTH8TkLPHCQmlbQVSSbNZCPM2hb0knnQ==
-
 send@0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/send/-/send-0.19.0.tgz#bbc5a388c8ea6c048967049dbeac0e4a3f09d7f8"
@@ -4399,12 +4394,12 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-simple-update-notifier@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/simple-update-notifier/-/simple-update-notifier-2.0.0.tgz"
-  integrity "sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==
+simple-update-notifier@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/simple-update-notifier/-/simple-update-notifier-1.0.7.tgz"
+  integrity sha512-BBKgR84BJQJm6WjWFMHgLVuo61FBDSj1z/xSFUIozqO6wO7ii0JxCqlIud7Enr/+LhlbNI0whErq96P2qHNWew==
   dependencies:
-    semver "^7.5.3"
+    semver "~7.0.0"
 
 sisteransi@^1.0.5:
   version "1.0.5"
