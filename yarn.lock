@@ -4403,8 +4403,6 @@ simple-update-notifier@^1.0.7:
   version "1.0.7"
   resolved "https://registry.npmjs.org/simple-update-notifier/-/simple-update-notifier-1.0.7.tgz"
   integrity sha512-BBKgR84BJQJm6WjWFMHgLVuo61FBDSj1z/xSFUIozqO6wO7ii0JxCqlIud7Enr/+LhlbNI0whErq96P2qHNWew==
-  dependencies:
-    semver "~7.0.0"
 
 sisteransi@^1.0.5:
   version "1.0.5"
