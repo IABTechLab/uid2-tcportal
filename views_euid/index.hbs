@@ -1,13 +1,70 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-  <meta charset='UTF-8' />
-  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-  <link rel='shortcut icon' href='/images/favicon.png' />
-  <meta name='og:type' content='website' />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="/images/favicon.png" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script>
+    $(function () {
+      $.widget("custom.iconselectmenu", $.ui.selectmenu, {
+        _renderItem: function (ul, item) {
+          var li = $("<li>"),
+            wrapper = $("<div>", { text: item.label });
+
+          if (item.disabled) {
+            li.addClass("ui-state-disabled");
+          }
+
+          $("<span>", {
+            style: item.element.attr("data-style"),
+            "class": "ui-icon " + item.element.attr("data-class")
+          })
+            .appendTo(wrapper);
+
+          return li.append(wrapper).appendTo(ul);
+        },
+        _renderButtonItem: function (item) {
+          var buttonItem = $("<span>", {
+            "class": "ui-selectmenu-text"
+          });
+          if (item.value !== "") {
+            let callingCode = item.label.substring(item.label.indexOf("+"))
+            this._setText(buttonItem, callingCode);
+          } else {
+            this._setText(buttonItem, "Country");
+          }
+          return buttonItem;
+        }
+      });
+
+      $("#input_country_code")
+        .iconselectmenu({
+          create: function (event, ui) {
+            var widget = $(this).iconselectmenu("widget");
+            $span = $('<span id="' + this.id + 'selected" class="avatar-selected"> ').prependTo(widget);
+            $span.attr("style", $(this).children(":first").data("style"));
+            if (widget.text() === "Country") {
+              $span.attr("class", "avatar-selected--hidden");
+            }
+          },
+          change: function (event, ui) {
+            $span = $("#" + this.id + 'selected');
+            $span.attr("style", ui.item.element.data("style"));
+            $span.attr("class", "avatar-selected");
+          }
+        })
+        .iconselectmenu("menuWidget")
+        .addClass("ui-menu-icons avatar");
+    });
+  </script>
+  <meta name="og:type" content="website" />
   {{{recaptchaScript}}}
-  <link rel='stylesheet' type='text/css' href='/stylesheets/index.css' />
-  <link rel='stylesheet' type='text/css' href='/stylesheets/style.css' />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
+  <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 </head>
 
 <body style='margin: 0; background: rgba(255, 255, 255, 1)'>
@@ -16,7 +73,7 @@
     <div class='main-content'>
       <h1 class='main-content__header'>
         {{__ 'euid-portal-title'}}
-      </h1>
+    </h1
       <div class='main-content__divider'></div>
       <p class='main-content__description'>
         {{__ 'euid-this-site-allows-you' }}
@@ -37,7 +94,7 @@
         {{message}}
       </p>
       {{/if}}
-      <form class='main-content__form' id='email_prompt' action='/' method='post'>
+      {{!-- <form class='main-content__form' id='email_prompt' action='/' method='post'>
         {{{siteKeyInput}}}
         <input type='hidden' name='step' value='email_prompt' />
         <input type='hidden' id='recaptcha' name='recaptcha' />
@@ -47,13 +104,54 @@
         <button>
           {{__ 'NEXT'}}
         </button>
+      </form> --}}
+
+      <form class="main-content__form" id="email_prompt" action="/" method="post">
+        {{{siteKeyInput}}}
+        <input type="hidden" name="step" value="email_prompt">
+        <input type="hidden" id="recaptcha" name="recaptcha" />
+        <input type="hidden" id="email" name="email" />
+        <input type="hidden" id="countryCode" name="countryCode" />
+        <input type="hidden" id="phone" name="phone" />
+        <div class="form__radio-group">
+          <div class="form__radio-button">
+            <input type="radio" id="email_type" name="idType" value="email" onclick="handleIdTypeClick(this)" {{#unless countryCode}}checked{{/unless}}>
+            <label style="border-style: none" class="form__radio-label" for="email_type">{{__ "Email Address"}}</label>
+          </div>
+          <div class="form__radio-button">
+            <input type="radio" id="phone_type" name="idType" value="phone" onclick="handleIdTypeClick(this)" {{#if countryCode}}checked{{/if}}>
+            <label style="border-style: none" class="form__radio-label" for="phone_type">{{__ "Phone Number"}}</label>
+          </div>
+        </div>
+        <div class="form__input-container" id="email-input-container" {{#if countryCode}} style="display: none" {{/if}}>
+          <input type="text" id="id_input_email" class="form__input" placeholder="{{__ "Enter your email address"}}" value="{{email}}" />
+        </div>
+        <div class="form__input-container" id="phone-input-container" {{#unless countryCode}} style="display:none" {{/unless}}>
+          <div class="form__input-country-code">
+            <select id="input_country_code">
+              <option disabled selected value></option>
+              {{#each countryList}}
+              <option value="{{this.countryCode}}" data-class="avatar" data-style="background-image: url(&apos;/images/flags/{{this.countryCode}}.svg&apos;);">
+                {{this.countryName}} +{{this.callingCode}}
+              </option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="form__input-phone">
+            <input type="text" id="input_phone" class="form__input" placeholder="{{__ "Enter phone number"}}" value="{{phone}}" />
+          </div>
+        </div>
+        <button class="form__next-button">
+          {{__ "NEXT"}}
+        </button>
       </form>
+
       <p class='main-content__description'>
         {{__ "euid-for-more-information" }}
         <a href='/privacy'>{{__ 'euid-privacy-notice'}}</a>.
       </p>
       <a target="_blank" href="https://www.thetradedesk.com/us/trust/report-a-vulnerability" class="vulnerability-link">{{__ 'Report-vulnerability'}}</a>
-      <script>
+      {{!-- <script>
         const form = document.getElementById("email_prompt");
         form.addEventListener("submit", onSubmit); function onSubmit(e) {
           e.preventDefault(); grecaptcha.ready(function () {
@@ -66,6 +164,50 @@
             });
           });
         }
+      </script> --}}
+      <script>
+        function handleIdTypeClick(idType) {
+          if (idType.value === "email") {
+            document.getElementById('phone-input-container').style.display = "none";
+            document.getElementById('email-input-container').style.display = "inline-flex";
+          } else if (idType.value === "phone") {
+            document.getElementById('phone-input-container').style.display = "inline-flex";
+            document.getElementById('email-input-container').style.display = "none";
+          }
+        }
+
+        const form = document.getElementById("email_prompt");
+        form.addEventListener("submit", onSubmit);
+        function onSubmit(e) {
+          e.preventDefault();
+
+          if (form.querySelector('input[name=idType]:checked').value === 'email') {
+            $('#email').val($('#id_input_email').val());
+            $('#countryCode').val("");
+            $('#phone').val("");
+          } else {
+            $('#email').val("");
+            $('#countryCode').val($('#input_country_code').val());
+            $('#phone').val($('#input_phone').val());
+          }
+
+          grecaptcha.ready(function () {
+            const key = $('#recpatchaSiteKey').val();
+            grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {
+              $('#recaptcha').val(token);
+              form.submit();
+            });
+          });
+        }
+
+        {{#if countryCode}}
+          $('#input_country_code').val('{{countryCode}}')
+
+          $(document).ready(function () {
+            $('#input_country_codeselected').attr('style', "background-image: url('images/flags/{{countryCode}}.svg');")
+            $('#input_country_codeselected').trigger('refresh')
+          })
+        {{/if}}
       </script>
     </div>
     <div class='main__footer'>

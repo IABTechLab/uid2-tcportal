@@ -68,13 +68,14 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
 
 
   let idInput = '';
-  if (ID_TYPE === 'EUID') {
-    if (!isValidEmail(email)) {
-      res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address') });
-      return;
-    }
-    idInput = email;
-  } else if (idType === 'email') {
+  // if (ID_TYPE === 'EUID') {
+  //   if (!isValidEmail(email)) {
+  //     res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address') });
+  //     return;
+  //   }
+  //   idInput = email;
+  // } else 
+  if (idType === 'email') {
     if (!isValidEmail(email)) {
       res.render('index', { email, countryList, error: i18n.__('Please enter a valid email address') });
       return;
