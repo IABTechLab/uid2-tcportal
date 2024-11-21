@@ -73,7 +73,7 @@
     <div class='main-content'>
       <h1 class='main-content__header'>
         {{__ 'euid-portal-title'}}
-    </h1
+      </h1>
       <div class='main-content__divider'></div>
       <p class='main-content__description'>
         {{__ 'euid-this-site-allows-you' }}
@@ -85,26 +85,19 @@
         {{__ 'euid-by-entering-your-email-below' }}
       </p>
       {{#if error}}
-      <p class='error'>
+      <p class="error">
         {{error}}
+        {{#if phoneExample}}
+        <br>
+        {{__ "For-example"}} {{phoneExample}}
+        {{/if}}
       </p>
       {{/if}}
       {{#if message}}
-      <p class='message'>
+      <p class="message">
         {{message}}
       </p>
       {{/if}}
-      {{!-- <form class='main-content__form' id='email_prompt' action='/' method='post'>
-        {{{siteKeyInput}}}
-        <input type='hidden' name='step' value='email_prompt' />
-        <input type='hidden' id='recaptcha' name='recaptcha' />
-        <div class='form__input-container'>
-          <input type='text' class='form__input' name='email' placeholder='{{__ "Enter your email address"}}' value='{{email}}' />
-        </div>
-        <button>
-          {{__ 'NEXT'}}
-        </button>
-      </form> --}}
 
       <form class="main-content__form" id="email_prompt" action="/" method="post">
         {{{siteKeyInput}}}
@@ -151,20 +144,6 @@
         <a href='/privacy'>{{__ 'euid-privacy-notice'}}</a>.
       </p>
       <a target="_blank" href="https://www.thetradedesk.com/us/trust/report-a-vulnerability" class="vulnerability-link">{{__ 'Report-vulnerability'}}</a>
-      {{!-- <script>
-        const form = document.getElementById("email_prompt");
-        form.addEventListener("submit", onSubmit); function onSubmit(e) {
-          e.preventDefault(); grecaptcha.ready(function () {
-            const key =
-              document.getElementById('recpatchaSiteKey').value;
-            grecaptcha.execute(key, { action: 'email_prompt' }).then(function
-              (token) {
-                document.getElementById('recaptcha').value = token;
-              form.submit();
-            });
-          });
-        }
-      </script> --}}
       <script>
         function handleIdTypeClick(idType) {
           if (idType.value === "email") {
