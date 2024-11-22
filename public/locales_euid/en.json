@@ -1,10 +1,10 @@
 {
   "euid-portal-title": "European Unified ID (EUID) Portal",
   "euid-this-site-allows-you": "This site allows you to withdraw consent and object to targeted advertising based on EUID.",
-  "euid-transforms-your-email-address": "EUID transforms your email address into an advertising identifier, which allows websites, apps, advertisers, and advertising companies to show you relevant advertising.",
+  "euid-transforms-your-email-address": "EUID transforms your email address or phone number into an advertising identifier, which allows websites, apps, advertisers, and advertising companies to show you relevant advertising.",
   "euid-your-choice-to-withdraw-consent": "Your choice to withdraw consent and/or object to targeted advertising based on EUID will mean that sites or apps you interact with, and advertising companies working with them, will no longer process your EUID to serve targeted advertising. This is limited to sites which use EUID.",
   "euid-for-choice-with-respect": "For choice with respect to advertising based on cookies, please visit",
-  "euid-by-entering-your-email-below": "By entering your email below, you confirm that this is your information.",
+  "euid-by-entering-your-email-below": "By entering your email or phone number below, you confirm that this is your information.",
   "Enter your email address": "Enter your email address",
   "NEXT": "NEXT",
   "Please enter a valid email address": "Please enter a valid email address.",
