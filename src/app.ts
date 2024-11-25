@@ -112,7 +112,6 @@ Handlebars.registerHelper('__n', (s, count) => {
   return i18n.__n(s, count);
 });
 
-
 Handlebars.registerPartials(layoutPath);
 
 export default app;
