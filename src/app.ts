@@ -78,13 +78,11 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   
   let errorPageMessage;
   if (err.status === 404) {
-    errorPageMessage = res.__("Page Not Found")
-  }
-  else if (err.status === 500) {
-    errorPageMessage = res.__("Internal Server Error")
-  }
-  else {
-    errorPageMessage = res.__("Unknown Error")
+    errorPageMessage = res.__('Page Not Found');
+  } else if (err.status === 500) {
+    errorPageMessage = res.__('Internal Server Error');
+  } else {
+    errorPageMessage = res.__('Unknown Error');
   }
 
   res.render('error', { errorPageMessage });
