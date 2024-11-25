@@ -45,7 +45,6 @@ app.use(helmet());
 app.use(i18n.init);
 app.use((req, _res, next) => {
   const locale = req.acceptsLanguages()[0] || LanguagesUID2.English;
-  console.log(locale)
   i18n.setLocale(locale);
   next();
 });
@@ -87,7 +86,7 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   else {
     errorPageMessage = res.__("Unknown Error")
   }
-  
+
   res.render('error', { errorPageMessage });
 });
 
