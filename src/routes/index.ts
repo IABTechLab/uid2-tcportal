@@ -158,7 +158,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
     await handler(req, res, next);
   } else {
     logger.log('error', 'no step');
-    next(createError(400));
+    next(createError(500));
   }
 };
 
