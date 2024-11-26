@@ -59,7 +59,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     EmailPromptRequest.parse(req.body);
   } catch (e) {
     logger.log('error', 'error while parsing the request');
-    _next(createError(500));
+    _next(createError(400));
     return;
   }
   const {
@@ -149,7 +149,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
     requestStep = DefaultRouteRequest.parse(req.body).step; 
   } catch (e) {
     logger.log('error', 'error while parsing step');
-    next(createError(500));
+    next(createError(400));
     return;
   }
   
