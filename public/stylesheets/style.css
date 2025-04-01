@@ -163,3 +163,59 @@ screen and (max-height: 767.98px) {
     max-width: 100%;
   }
 }
+
+.privacy-main-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 16px;
+  }
+
+  h2 {
+    text-transform: uppercase;
+  }
+
+  p {
+    
+  }
+
+  ul {
+    margin-top: 0;
+
+    li {
+      padding: 8px 0;
+    }
+  }
+
+  table {
+    border: #e0e0e0 solid 1px;
+    margin: 16px 0;
+    border-collapse: collapse;
+  }
+
+  th {
+    border: #e0e0e0 solid 1px;
+    font-size: small;
+    font-weight: 700;
+  }
+
+  td {
+    border: #e0e0e0 solid 1px;
+  }
+
+  .updated {
+    text-align: center;
+  }
+
+  .padded {
+    padding-bottom: 16px;
+  }
+
+  .bold {
+    font-weight: 700;
+  }
+}
