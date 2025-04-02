@@ -9,7 +9,7 @@ import {
   countryDict, countryList, phoneExampleDict, phoneLibSupportedCountries, 
 } from '../utils/countries';
 import logger from '../utils/logging';
-import { ID_TYPE, isDevelopment, RECAPTCHA_SITE_KEY } from '../utils/process';
+import { isDevelopment, RECAPTCHA_SITE_KEY } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
 import { validate } from './recaptcha';
@@ -164,14 +164,12 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
 
 router.post('/', defaultRouteHandler);
 
-if (ID_TYPE === 'EUID') {
-  router.get('/privacy', (req, res, _next) => {
-    res.render('privacy');
-  });
-  router.get('/privacynotice', (req, res, _next) => {
-    res.render('privacy');
-  });
-}
+router.get('/privacy', (req, res, _next) => {
+  res.render('privacy');
+});
+router.get('/privacynotice', (req, res, _next) => {
+  res.render('privacy');
+});
 
 router.get('/ops/healthcheck', (req, res, _next) => {
   res.send('OK');
