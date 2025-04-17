@@ -1,13 +1,47 @@
-import axios from 'axios';
+import { RecaptchaEnterpriseServiceClient } from '@google-cloud/recaptcha-enterprise';
 
-const { RECAPTCHA_SECRET } = process.env;
-const API_ENDPOINT = 'https://www.google.com/recaptcha/api/siteverify';
+import logger from '../utils/logging';
 
-export async function validate(recaptchaData: string): Promise<boolean> {
-  const url = `${API_ENDPOINT}?response=${recaptchaData}&secret=${RECAPTCHA_SECRET}`;
+const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY, GOOGLE_APPLICATION_CREDENTIALS_JSON } = process.env;
+const SCORE_THRESHOLD = 0.5;
 
-  const response = await axios.post<{ score: number }>(url);
-  return response.data.score >= 0.5;
+export default async function createAssessment(token: string, recaptchaAction: string) {
+  const projectId = RECAPTCHA_PROJECT_ID;
+  const serviceAccount = JSON.parse(GOOGLE_APPLICATION_CREDENTIALS_JSON);
+  const client = new RecaptchaEnterpriseServiceClient({ credentials: serviceAccount });
+  const projectPath = client.projectPath(projectId);
+
+  // Build the assessment request.
+  const request = ({
+    assessment: {
+      event: {
+        token,
+        siteKey: RECAPTCHA_V3_SITE_KEY,
+        // ** available but currently unused
+        //userIpAddress: userIpAddress,
+        //userAgent: userAgent,
+      },
+    },
+    parent: projectPath,
+  });
+
+  const [response] = await client.createAssessment(request);
+
+  // Check if the token is valid.
+  if (!response.tokenProperties?.valid) {
+    logger.error(`The CreateAssessment call failed because the token was: ${response.tokenProperties?.invalidReason}`);
+    return null;
+  }
+
+  if (response.tokenProperties.action !== recaptchaAction) {
+    logger.error('recaptcha action does not match expected value');
+    return null;
+  }
+
+  if (response.riskAnalysis) {
+    return (response.riskAnalysis.score ?? 0) >= SCORE_THRESHOLD;
+  } 
+  
+  logger.error('unknown recaptcha error');
+  return null;
 }
-
-export default validate;
