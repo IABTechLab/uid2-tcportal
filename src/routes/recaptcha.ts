@@ -29,12 +29,12 @@ export default async function createAssessment(token: string, recaptchaAction: s
 
   // Check if the token is valid.
   if (!response.tokenProperties?.valid) {
-    logger.error(`The CreateAssessment call failed because the token was: ${response.tokenProperties?.invalidReason}`);
+    logger.error('error', `The CreateAssessment call failed because the token was: ${response.tokenProperties?.invalidReason}`);
     return null;
   }
 
   if (response.tokenProperties.action !== recaptchaAction) {
-    logger.error('recaptcha action does not match expected value');
+    logger.error('error', 'recaptcha action does not match expected value');
     return null;
   }
 
@@ -42,6 +42,6 @@ export default async function createAssessment(token: string, recaptchaAction: s
     return (response.riskAnalysis.score ?? 0) >= SCORE_THRESHOLD;
   } 
   
-  logger.error('unknown recaptcha error');
+  logger.error('error', 'unknown recaptcha error');
   return null;
 }
