@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "@google-cloud/recaptcha-enterprise": "^6.0.1",
     "@types/country-flag-icons": "^1.2.0",
     "@types/country-list-js": "^3.1.2",
     "@types/google-libphonenumber": "^7.4.23",

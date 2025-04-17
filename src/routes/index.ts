@@ -9,10 +9,11 @@ import {
   countryDict, countryList, phoneExampleDict, phoneLibSupportedCountries, 
 } from '../utils/countries';
 import logger from '../utils/logging';
-import { isDevelopment, RECAPTCHA_SITE_KEY } from '../utils/process';
+import { isDevelopment, RECAPTCHA_V3_SITE_KEY } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
-import { validate } from './recaptcha';
+//import { validate } from './recaptcha';
+import createAssessment from './recaptchav3'; 
 
 const router = express.Router();
 
@@ -91,7 +92,8 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     }
   }
 
-  const success = await validate(recaptcha);
+  //const success = await validate(recaptcha);
+  const success = await createAssessment(recaptcha, 'email_prompt');
   if (!success) {
     res.render('index', {
       email, countryCode, phone, countryList, error : i18n.__('Blocked-a-potentially-automated-request'), 
@@ -176,11 +178,13 @@ router.get('/ops/healthcheck', (req, res, _next) => {
 });
 
 Handlebars.registerHelper('siteKeyInput', () => {
-  return `<input type="hidden" name="recpatchaSiteKey" id="recpatchaSiteKey" value="${RECAPTCHA_SITE_KEY}">`;
+  // return `<input type="hidden" name="recpatchaSiteKey" id="recpatchaSiteKey" value="${RECAPTCHA_SITE_KEY}">`;
+  return `<input type="hidden" name="recpatchaSiteKey" id="recpatchaSiteKey" value="${RECAPTCHA_V3_SITE_KEY}">`;
 });
 
 Handlebars.registerHelper('recaptchaScript', () => {
-  return `<script src="https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}"></script>`;
+  //return `<script src="https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}"></script>`;
+  return `<script src="https://www.google.com/recaptcha/enterprise.js?render=${RECAPTCHA_V3_SITE_KEY}"></script>`;
 });
 
 export default router;
