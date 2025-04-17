@@ -170,9 +170,9 @@
             $('#phone').val($('#input_phone').val());
           }
 
-          grecaptcha.ready(function () {
+          grecaptcha.enterprise.ready(function () {
             const key = $('#recpatchaSiteKey').val();
-            grecaptcha.execute(key, { action: 'email_prompt' }).then(function (token) {
+            grecaptcha.enterprise.execute(key, { action: 'email_prompt' }).then(function (token) {
               $('#recaptcha').val(token);
               form.submit();
             });
