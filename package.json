@@ -29,6 +29,7 @@
     ]
   },
   "dependencies": {
+    "@google-cloud/recaptcha-enterprise": "^6.0.1",
     "@types/country-flag-icons": "^1.2.0",
     "@types/country-list-js": "^3.1.2",
     "@types/google-libphonenumber": "^7.4.23",
@@ -69,7 +70,6 @@
     "@types/http-errors": "^1.8.0",
     "@types/i18n": "^0.13.1",
     "@types/jest": "^26.0.24",
-    "@types/node": "^15.12.4",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.1",
     "eslint": "^7.29.0",

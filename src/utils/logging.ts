@@ -9,7 +9,7 @@ function truncateMessage(message: string, maxChars: number): string {
 
 const formatInfo = format((info) => {
   if (info.private) { return false; }
-  const shortenedMessage = truncateMessage(info.message, 250);
+  const shortenedMessage = truncateMessage(info.message as string, 250);
   return { ...info, message: shortenedMessage };
 });
 

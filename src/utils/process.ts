@@ -7,6 +7,9 @@ declare global {
       // Recaptcha
       RECAPTCHA_SITE_KEY: string;
       RECAPTCHA_SECRET: string;
+      RECAPTCHA_PROJECT_ID: string;
+      RECAPTCHA_V3_SITE_KEY: string;
+      GOOGLE_APPLICATION_CREDENTIALS_JSON: string;
 
       OPTOUT_ENDPOINT_URL: string;
       OPTOUT_API_KEY: string;
@@ -41,8 +44,9 @@ export function normalizePort(val: any): string | number | boolean {
 
 export const PORT = (process.env.PORT && normalizePort(process.env.PORT)) || '3000';
 
-export const { RECAPTCHA_SITE_KEY } = process.env;
-export const { RECAPTCHA_SECRET } = process.env;
+export const { 
+  RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET, RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY, GOOGLE_APPLICATION_CREDENTIALS_JSON, 
+} = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
 export const OPTOUT_API_SECRET = Buffer.from(process.env.OPTOUT_API_SECRET || 'trasb', 'base64') || 'trasb';

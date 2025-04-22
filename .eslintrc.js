@@ -22,7 +22,6 @@ module.exports = {
         $: 'writable',
     },
     rules: {
-        'linebreak-style': ['error', 'unix'],
         'constructor-super': ['error'],
         'no-var': ['error'],
         'no-useless-constructor': 0,
