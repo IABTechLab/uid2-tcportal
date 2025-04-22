@@ -9,7 +9,7 @@ declare global {
       RECAPTCHA_SECRET: string;
       RECAPTCHA_PROJECT_ID: string;
       RECAPTCHA_V3_SITE_KEY: string;
-      GOOGLE_APPLICATION_CREDENTIALS_JSON: string;
+      GOOGLE_APPLICATION_CREDENTIALS: string;
 
       OPTOUT_ENDPOINT_URL: string;
       OPTOUT_API_KEY: string;
@@ -45,7 +45,7 @@ export function normalizePort(val: any): string | number | boolean {
 export const PORT = (process.env.PORT && normalizePort(process.env.PORT)) || '3000';
 
 export const { 
-  RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET, RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY, GOOGLE_APPLICATION_CREDENTIALS_JSON, 
+  RECAPTCHA_SITE_KEY, RECAPTCHA_SECRET, RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY, GOOGLE_APPLICATION_CREDENTIALS, 
 } = process.env;
 
 export const { OPTOUT_API_KEY } = process.env;
