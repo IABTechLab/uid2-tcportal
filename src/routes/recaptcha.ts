@@ -2,13 +2,13 @@ import { RecaptchaEnterpriseServiceClient } from '@google-cloud/recaptcha-enterp
 
 import logger from '../utils/logging';
 
-const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY, GOOGLE_APPLICATION_CREDENTIALS } = process.env;
+const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY } = process.env;
 const SCORE_THRESHOLD = 0.5;
 
 export default async function createAssessment(token: string, recaptchaAction: string) {
   const projectId = RECAPTCHA_PROJECT_ID;
-  const serviceAccount = JSON.parse(GOOGLE_APPLICATION_CREDENTIALS);
-  const client = new RecaptchaEnterpriseServiceClient({ credentials: serviceAccount });
+  // RecaptchaEnterpriseServiceClient() automatically looks for a credentials file path in GOOGLE_APPLICATION_CREDENTIALS
+  const client = new RecaptchaEnterpriseServiceClient();
   const projectPath = client.projectPath(projectId);
 
   // Build the assessment request.
