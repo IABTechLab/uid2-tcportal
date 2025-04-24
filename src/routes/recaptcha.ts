@@ -17,9 +17,9 @@ export default async function createAssessment(token: string, recaptchaAction: s
       return;
     }
     try {
-      logger.info(`raw data: ${data}`);
+      console.log(`raw data: ${data}`);
       const jsonData = JSON.parse(data);
-      logger.info(`json data: ${jsonData}`);
+      console.log(`json data: ${jsonData.private_key}`);
     } catch (parseError) {
       logger.info(`Error parsing json: ${parseError}`);
     }
