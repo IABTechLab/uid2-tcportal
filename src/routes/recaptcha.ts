@@ -2,12 +2,28 @@ import { RecaptchaEnterpriseServiceClient } from '@google-cloud/recaptcha-enterp
 
 import logger from '../utils/logging';
 
-const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY } = process.env;
+const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY, GOOGLE_APPLICATION_CREDENTIALS } = process.env;
 const SCORE_THRESHOLD = 0.5;
 
 export default async function createAssessment(token: string, recaptchaAction: string) {
   const projectId = RECAPTCHA_PROJECT_ID;
   // RecaptchaEnterpriseServiceClient() automatically looks for a credentials file path in GOOGLE_APPLICATION_CREDENTIALS
+  logger.info(GOOGLE_APPLICATION_CREDENTIALS);
+  // eslint-disable-next-line global-require
+  const fs = require('fs');
+  fs.readFile(GOOGLE_APPLICATION_CREDENTIALS, 'utf8', (err: any, data: string) => {
+    if (err) {
+      logger.info(`Error reading file: ${err}`);
+      return;
+    }
+    try {
+      const jsonData = JSON.parse(data);
+      logger.info(`data: ${jsonData}`);
+    } catch (parseError) {
+      logger.info(`Error parsing json: ${parseError}`);
+    }
+  });
+  
   const client = new RecaptchaEnterpriseServiceClient();
   const projectPath = client.projectPath(projectId);
 
@@ -24,7 +40,7 @@ export default async function createAssessment(token: string, recaptchaAction: s
     },
     parent: projectPath,
   });
-
+  
   const [response] = await client.createAssessment(request);
 
   // Check if the token is valid.
