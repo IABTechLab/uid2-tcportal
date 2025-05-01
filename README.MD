@@ -27,13 +27,14 @@ Create a file called `.env` in this folder. Variables defined in this file will 
 OPTOUT_API_KEY=test-optout-key
 OPTOUT_API_SECRET=734UijWRaviZ28bulrlO5yGsEUB5oQrTFHyVICWkCXo=
 OPTOUT_ENDPOINT_URL=http://localhost:8080/v2/token/logout
-RECAPTCHA_SITE_KEY=
-RECAPTCHA_SECRET=
+RECAPTCHA_PROJECT_ID=
+RECAPTCHA_V3_SITE_KEY=
+GOOGLE_APPLICATION_CREDENTIALS="./creds.json"
 ```
 
 You should set the values to match your local test environment. The provided `OPTOUT_` values are taken from the test values in `/src/main/resources/com.uid2.core/test/clients/clients.json` in the UID2 Operator repo. You will need the Operator and Optout services (in other repos) running for opt-out requests to work. If you use the `port_offset` variable to run Operator on a different port, make sure you use a matching port number in `ENDPOINT_URL`.
 
-To get values for the `RECAPTCHA_` settings, you will need to create your own keys. Visit the [Google Recaptcha admin console](https://www.google.com/recaptcha/admin/) and create a reCAPTCHA v3 site with domains set to `localhost` and `127.0.0.1`.
+To get values for the `RECAPTCHA_` settings, you will need to create your own keys. Google requires that reCAPTCHA use Google Cloud Platform (GCP) for managing reCAPTCHA keys.  You will need to create a reCAPTCHA v3 site key with domains set to `localhost` and `127.0.0.1`.  Also create a service account with the proper role (roles/recaptchaenterprise.agent).  Create a key for that service account and add it to a file called creds.json at the root of this project.  
 
 ## Running in developer mode
 
@@ -61,4 +62,4 @@ You should then be able to visit [localhost:3000](http://localhost:3000/) to see
 
 If port 3000 is in use and you need to run it on a different port, replace the *first* 3000 in the `docker run` command with the port you want to use (ensure the second one is still `3000`).
 
-To shut down the Docker instance, run `docker stop containedID` where `containerID` is the ID returned by the `docker run` command when you launched it.
+To shut down the Docker instance, run `docker stop containerID` where `containerID` is the ID returned by the `docker run` command when you launched it.
