@@ -165,10 +165,18 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
 router.post('/', defaultRouteHandler);
 
 router.get('/privacy', (req, res, _next) => {
-  res.render('privacy');
+  const language = req.acceptsLanguages()[0] ?? '';
+  console.log(language);
+  if (language === 'ja') {
+    //res.render('privacy_ja');
+    res.render('privacy');
+  } else {
+    res.render('privacy');
+  }
 });
-router.get('/privacynotice', (req, res, _next) => {
-  res.render('privacy');
+
+router.get('/privacy-ja', (req, res, _next) => {
+  res.render('privacy_ja');
 });
 
 router.get('/ops/healthcheck', (req, res, _next) => {
