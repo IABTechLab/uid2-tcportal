@@ -166,17 +166,11 @@ router.post('/', defaultRouteHandler);
 
 router.get('/privacy', (req, res, _next) => {
   const language = req.acceptsLanguages()[0] ?? '';
-  console.log(language);
   if (language === 'ja') {
-    //res.render('privacy_ja');
-    res.render('privacy');
+    res.render('privacy_ja');
   } else {
     res.render('privacy');
   }
-});
-
-router.get('/privacy-ja', (req, res, _next) => {
-  res.render('privacy_ja');
 });
 
 router.get('/ops/healthcheck', (req, res, _next) => {
