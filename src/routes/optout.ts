@@ -9,7 +9,7 @@ interface Optout {
   email?: string;
 }
 
-export async function optout(identityInput: string): Promise<any> {
+export async function optout(identityInput: string, serviceId: string): Promise<any> {
   const optoutInfo: Optout = {};
   if (identityInput[0] === '+') {
     optoutInfo.phone = identityInput;
@@ -40,6 +40,7 @@ export async function optout(identityInput: string): Promise<any> {
       headers: {
         Authorization: `Bearer ${OPTOUT_API_KEY}`,
         'Content-Type': 'text/plain',
+        'UID-Trace-Id': serviceId,
       },
     });
 }
