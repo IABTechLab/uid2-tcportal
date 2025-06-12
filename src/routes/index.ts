@@ -109,9 +109,10 @@ const OptoutSubmitRequest = z.object({
 
 const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, _next) => {
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
+  const serviceId = req.headers['X-Amzn-Trace-Id']?.toString() ?? 'service-id-unavailable';
   try {
     const payload = await decrypt(encrypted);
-    await optout(payload);
+    await optout(payload, serviceId);
 
   } catch (e) {
     res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
