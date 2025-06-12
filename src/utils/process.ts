@@ -18,7 +18,8 @@ declare global {
       SYSTEM_SECRET: string;
       SYSTEM_SALT: string;
       SYSTEM_CODE_SECRET:string;
-      ID_TYPE:string
+      ID_TYPE:string;
+      SERVICE_INSTANCE_ID_PREFIX:string;
     }
   }
 }
@@ -59,6 +60,7 @@ export const VIEW_FOLDER = process.env.VIEW_FOLDER as string || '/../views';
 export const LOCALE_FOLDER = process.env.LOCALE_FOLDER as string || '/../public/locales';
 
 export const { ID_TYPE } = process.env;
+export const SERVICE_INSTANCE_ID_PREFIX = process.env.SERVICE_INSTANCE_ID_PREFIX as string || '';
 
 export const environment = ((): 'production' | 'development' => {
   const env = process.env.NODE_ENV as unknown as string[] | undefined;

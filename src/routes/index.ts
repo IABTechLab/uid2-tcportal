@@ -9,7 +9,7 @@ import {
   countryDict, countryList, phoneExampleDict, phoneLibSupportedCountries, 
 } from '../utils/countries';
 import logger from '../utils/logging';
-import { isDevelopment, RECAPTCHA_V3_SITE_KEY } from '../utils/process';
+import { isDevelopment, RECAPTCHA_V3_SITE_KEY, SERVICE_INSTANCE_ID_PREFIX } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
 import createAssessment from './recaptcha'; 
@@ -109,10 +109,11 @@ const OptoutSubmitRequest = z.object({
 
 const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, _next) => {
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
-  const serviceId = req.headers['X-Amzn-Trace-Id']?.toString() ?? 'service-id-unavailable';
+  const traceId = req.headers['X-Amzn-Trace-Id']?.toString() ?? '';
+  const serviceId = `${SERVICE_INSTANCE_ID_PREFIX}:${crypto.randomUUID()}`;
   try {
     const payload = await decrypt(encrypted);
-    await optout(payload, serviceId);
+    await optout(payload, traceId, serviceId);
 
   } catch (e) {
     res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
