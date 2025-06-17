@@ -110,7 +110,7 @@ const OptoutSubmitRequest = z.object({
 const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, _next) => {
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
   const traceId = req.headers['X-Amzn-Trace-Id']?.toString() ?? '';
-  const instanceId = `${SERVICE_INSTANCE_ID_PREFIX}:${crypto.randomUUID()}`;
+  const instanceId = SERVICE_INSTANCE_ID_PREFIX;
   try {
     const payload = await decrypt(encrypted);
     await optout(payload, traceId, instanceId);
