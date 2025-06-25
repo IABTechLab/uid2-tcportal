@@ -1,11 +1,12 @@
 import { RecaptchaEnterpriseServiceClient } from '@google-cloud/recaptcha-enterprise';
 
-import logger from '../utils/logging';
+import { getLoggers, TraceId } from '../utils/loggingHelpers';
 
 const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY } = process.env;
 const SCORE_THRESHOLD = 0.5;
 
-export default async function createAssessment(token: string, recaptchaAction: string) {
+export default async function createAssessment(token: string, recaptchaAction: string, traceId: TraceId) {
+  const { errorLogger } = getLoggers();
   const projectId = RECAPTCHA_PROJECT_ID;
   const client = new RecaptchaEnterpriseServiceClient();
   const projectPath = client.projectPath(projectId);
@@ -28,12 +29,12 @@ export default async function createAssessment(token: string, recaptchaAction: s
 
   // Check if the token is valid.
   if (!response.tokenProperties?.valid) {
-    logger.error(`The CreateAssessment call failed because the token was: ${response.tokenProperties?.invalidReason}`);
+    errorLogger.error(`The CreateAssessment call failed because the token was: ${response.tokenProperties?.invalidReason}`, traceId);
     return null;
   }
 
   if (response.tokenProperties.action !== recaptchaAction) {
-    logger.error('recaptcha action does not match expected value');
+    errorLogger.error('recaptcha action does not match expected value', traceId);
     return null;
   }
 
@@ -41,6 +42,6 @@ export default async function createAssessment(token: string, recaptchaAction: s
     return (response.riskAnalysis.score ?? 0) >= SCORE_THRESHOLD;
   } 
   
-  logger.error('unknown recaptcha error');
+  errorLogger.error('unknown recaptcha error', traceId);
   return null;
 }

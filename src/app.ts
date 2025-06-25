@@ -8,7 +8,7 @@ import path from 'path';
 
 import makeMetricsApiMiddleware from './middleware/metrics';
 import indexRouter from './routes/index';
-import logger, { getLoggingMiddleware } from './utils/logging';
+import { getErrorLoggingMiddleware, getLoggers } from './utils/loggingHelpers';
 import {
   environment, ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, 
 } from './utils/process';
@@ -19,15 +19,16 @@ enum LanguagesEUID {English = 'en'}
 const locales = ID_TYPE === 'EUID' ? Object.values(LanguagesEUID) : Object.values(LanguagesUID2);
 
 const app = express();
+const { localLogger } = getLoggers();
 
 // view engine setup
-logger.log('info', `Using views at ${VIEW_FOLDER}`);
+localLogger.info(`Using views at ${VIEW_FOLDER}`);
 const viewPath = path.join(__dirname, VIEW_FOLDER);
 const layoutPath = path.join(viewPath, 'layouts');
 app.set('views', viewPath);
 app.set('view engine', 'hbs');
 
-app.use(getLoggingMiddleware());
+app.use(getErrorLoggingMiddleware());
 
 app.use(
   makeMetricsApiMiddleware({
@@ -88,7 +89,7 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
   res.render('error', { errorPageMessage });
 });
 
-logger.log('info', `Using locales from ${LOCALE_FOLDER}`);
+localLogger.log('info', `Using locales from ${LOCALE_FOLDER}`);
 i18n.configure({
   locales,
   directory: path.join(__dirname, LOCALE_FOLDER),
@@ -96,7 +97,7 @@ i18n.configure({
   missingKeyFn(_, value) {
     if (environment === 'development' && locales.length > 1) {
       // Warn the developer about this - but it's not actually a problem worth reporting in production
-      logger.log('warning', `There are multiple locales, but there's no current locale value for ${value}`);
+      localLogger.log('warning', `There are multiple locales, but there's no current locale value for ${value}`);
     }
     return value;
   },
