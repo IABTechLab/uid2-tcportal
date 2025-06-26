@@ -23,6 +23,7 @@ module.exports = {
     },
     rules: {
         "linebreak-style": 0,
+        'no-plusplus': 'off',
         'constructor-super': ['error'],
         'no-var': ['error'],
         'no-useless-constructor': 0,

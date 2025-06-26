@@ -1,7 +1,7 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-restricted-syntax */
 import expressWinston from 'express-winston';
 import winston, { Logform } from 'winston';
-
-import { SSP_APP_NAME } from '../envars';
 
 interface RequestMeta {
   req: {
@@ -39,8 +39,8 @@ interface Actor {
 }
 
 interface NoActor {
-	ip: string;
-	userAgent: string;
+  ip: string;
+  userAgent: string;
 }
 
 interface AuditFieldConfig {
@@ -125,7 +125,7 @@ const extractFieldsFromObject = (obj: unknown, fields: string[]): Record<string,
 
 export const extractConfiguredFields = (
   data: unknown,
-  config?: AuditFieldConfig['requestBody']
+  config?: AuditFieldConfig['requestBody'],
 ): Record<string, unknown> => {
   if (!config || !data || typeof data !== 'object') return {} as Record<string, unknown>;
 
@@ -181,21 +181,21 @@ const extractUserFromAuth = (authHeader?: string): UserInfo | null => {
 };
 
 const extractActor = (userInfo: UserInfo | null, meta?: RequestMeta): Actor | NoActor => {
-		if(userInfo) {
-			return {
-				ip: meta?.req?.ip ?? '',
-				userAgent: meta?.req?.headers?.['user-agent'] ?? '',
-				type: userInfo.email ? 'user' : meta?.req?.headers?.['user-agent'] ?? '',
-				email: userInfo.email,
-				id: userInfo.email,
-				sub: userInfo.sub,
-				roles: userInfo.roles,
-			};
-		}
-		return {
-			ip: meta?.req?.ip ?? '',
-			userAgent: '',
-		};
+  if (userInfo) {
+    return {
+      ip: meta?.req?.ip ?? '',
+      userAgent: meta?.req?.headers?.['user-agent'] ?? '',
+      type: userInfo.email ? 'user' : meta?.req?.headers?.['user-agent'] ?? '',
+      email: userInfo.email,
+      id: userInfo.email,
+      sub: userInfo.sub,
+      roles: userInfo.roles,
+    };
+  }
+  return {
+    ip: meta?.req?.ip ?? '',
+    userAgent: '',
+  };
 };
 
 const toSnakeCase = (str: string): string => {
@@ -212,7 +212,7 @@ export const convertToSnakeCase = (obj: Record<string, unknown>): Record<string,
 export const createAuditLogData = (
   timestamp: string,
   meta: RequestMeta | undefined,
-  actor: Actor | NoActor
+  actor: Actor | NoActor,
 ) => {
   const path = meta?.req?.path ?? '';
   const config = getAuditConfig(path);
@@ -221,7 +221,7 @@ export const createAuditLogData = (
   return {
     timestamp,
     logType: 'audit',
-    source: SSP_APP_NAME,
+    source: 'uid2-tcportal',
     status: meta?.res?.statusCode ?? 0,
     method: meta?.req?.method ?? '',
     endpoint: path,
@@ -253,7 +253,7 @@ const auditLoggerFormat = () => {
     winston.format.printf((info) => {
       const { message } = info as { message: string };
       return message;
-    })
+    }),
   );
 };
 
@@ -266,11 +266,10 @@ const auditLogger = winston.createLogger({
   format: auditLoggerFormat(),
 });
 
-export const getAuditLoggingMiddleware = () =>
-  expressWinston.logger({
-    winstonInstance: auditLogger,
-    expressFormat: true,
-    meta: true,
-    requestWhitelist: ['body', 'headers', 'query', 'method', 'path', 'ip'],
-    responseWhitelist: ['statusCode'],
-  });
+export const getAuditLoggingMiddleware = () => expressWinston.logger({
+  winstonInstance: auditLogger,
+  expressFormat: true,
+  meta: true,
+  requestWhitelist: ['body', 'headers', 'query', 'method', 'path', 'ip'],
+  responseWhitelist: ['statusCode'],
+});
