@@ -8,7 +8,8 @@ import path from 'path';
 
 import makeMetricsApiMiddleware from './middleware/metrics';
 import indexRouter from './routes/index';
-import { getErrorLoggingMiddleware, getLoggers } from './utils/loggingHelpers';
+import { getAuditLoggingMiddleware } from './utils/auditLogging';
+import { getLoggers } from './utils/loggingHelpers';
 import {
   environment, ID_TYPE, LOCALE_FOLDER, VIEW_FOLDER, 
 } from './utils/process';
@@ -28,7 +29,7 @@ const layoutPath = path.join(viewPath, 'layouts');
 app.set('views', viewPath);
 app.set('view engine', 'hbs');
 
-app.use(getErrorLoggingMiddleware());
+app.use(getAuditLoggingMiddleware());
 
 app.use(
   makeMetricsApiMiddleware({

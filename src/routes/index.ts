@@ -119,7 +119,7 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
     await optout(payload, traceId, instanceId);
 
   } catch (e) {
-    errorLogger.error(`optout error: ${e instanceof AxiosError && e.response?.data}`, traceId);
+    errorLogger.error(`optout error: ${e instanceof AxiosError && e.response?.data?.status}`, traceId);
     res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
     return;
   }

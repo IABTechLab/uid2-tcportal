@@ -70,6 +70,7 @@ const logger = winston.createLogger({
 
 const errorLogger = winston.createLogger({
   transports: getTransports(),
+  level: 'error',
   format: winston.format.combine(
     winston.format.errors({ stack: isDevelopment }), // only show stack in development
     winston.format.label({ label: 'uid2-tcportal' }),

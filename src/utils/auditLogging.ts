@@ -22,22 +22,6 @@ interface RequestMeta {
   };
 }
 
-interface UserInfo {
-  sub: string;
-  email: string;
-  roles: string[];
-}
-
-interface Actor {
-  ip: string;
-  userAgent: string;
-  type: string;
-  email: string;
-  id: string;
-  sub: string;
-  roles: string[];
-}
-
 interface NoActor {
   ip: string;
   userAgent: string;
@@ -55,32 +39,9 @@ interface PathConfig {
 
 const PATH_CONFIGS: PathConfig[] = [
   {
-    pattern: /^\/api\/participants\/\d+\/apiKey$/,
+    pattern: /^\/$/,
     config: {
-      requestBody: ['name', 'roles'],
-    },
-  },
-  {
-    pattern: /^\/api\/participants\/\d+\/keyPair\/add$/,
-    config: {
-      requestBody: ['name'],
-    },
-  },
-  {
-    pattern: /^\/api\/participants\/\d+\/keyPair$/,
-    config: {
-      requestBody: [
-        {
-          path: 'keyPair',
-          fields: ['subscriptionId', 'name', 'siteId'],
-        },
-      ],
-    },
-  },
-  {
-    pattern: /^\/api\/participants\/\d+\/sharingPermission\/shareWithTypes$/,
-    config: {
-      requestBody: ['types'],
+      requestBody: ['idType'],
     },
   },
 ];
@@ -156,42 +117,7 @@ const getAuditConfig = (path: string): AuditFieldConfig => {
   return matchingConfig?.config ?? {};
 };
 
-const extractUserFromAuth = (authHeader?: string): UserInfo | null => {
-  if (!authHeader?.startsWith('Bearer ')) return null;
-  try {
-    const token = authHeader.split(' ')[1];
-    const base64Payload = token.split('.')[1];
-    const payload = JSON.parse(Buffer.from(base64Payload, 'base64').toString()) as {
-      sub: string;
-      email: string;
-      resource_access?: {
-        self_serve_portal_apis?: {
-          roles?: string[];
-        };
-      };
-    };
-    return {
-      sub: payload.sub,
-      email: payload.email,
-      roles: payload.resource_access?.self_serve_portal_apis?.roles || [],
-    };
-  } catch (e) {
-    return null;
-  }
-};
-
-const extractActor = (userInfo: UserInfo | null, meta?: RequestMeta): Actor | NoActor => {
-  if (userInfo) {
-    return {
-      ip: meta?.req?.ip ?? '',
-      userAgent: meta?.req?.headers?.['user-agent'] ?? '',
-      type: userInfo.email ? 'user' : meta?.req?.headers?.['user-agent'] ?? '',
-      email: userInfo.email,
-      id: userInfo.email,
-      sub: userInfo.sub,
-      roles: userInfo.roles,
-    };
-  }
+const extractActor = (meta?: RequestMeta): NoActor => {
   return {
     ip: meta?.req?.ip ?? '',
     userAgent: '',
@@ -212,7 +138,7 @@ export const convertToSnakeCase = (obj: Record<string, unknown>): Record<string,
 export const createAuditLogData = (
   timestamp: string,
   meta: RequestMeta | undefined,
-  actor: Actor | NoActor,
+  actor: NoActor,
 ) => {
   const path = meta?.req?.path ?? '';
   const config = getAuditConfig(path);
@@ -236,10 +162,7 @@ export const createAuditLogData = (
 export const auditTraceFormat = winston.format((info: Logform.TransformableInfo) => {
   const timestamp = info.timestamp as string;
   const meta = info.meta as RequestMeta | undefined;
-  const userInfo = meta?.req?.headers?.authorization
-    ? extractUserFromAuth(meta.req.headers.authorization)
-    : null;
-  const actor = extractActor(userInfo, meta);
+  const actor = extractActor(meta);
 
   const logData = createAuditLogData(timestamp, meta, actor);
   return { ...info, message: JSON.stringify(convertToSnakeCase(logData)) };
@@ -264,6 +187,7 @@ const getTransports = () => {
 const auditLogger = winston.createLogger({
   transports: getTransports(),
   format: auditLoggerFormat(),
+  
 });
 
 export const getAuditLoggingMiddleware = () => expressWinston.logger({
@@ -272,4 +196,7 @@ export const getAuditLoggingMiddleware = () => expressWinston.logger({
   meta: true,
   requestWhitelist: ['body', 'headers', 'query', 'method', 'path', 'ip'],
   responseWhitelist: ['statusCode'],
+  ignoreRoute: (req) => {
+    return /\.(css|js|png|jpg|jpeg|gif|svg)$/.test(req.url);
+  },
 });
