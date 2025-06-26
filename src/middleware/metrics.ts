@@ -6,8 +6,9 @@ import promClient from 'prom-client';
 import url from 'url';
 import UrlPattern from 'url-pattern';
 
-import logger from '../utils/logging';
+import { getLoggers, getTraceId } from '../utils/loggingHelpers';
 
+const { localLogger, errorLogger } = getLoggers();
 const withoutTrailingSlash = (path: string) => {
   // Express routes don't include a trailing slash unless it's actually just `/` path, then it stays
   if (path !== '/' && path.endsWith('/')) {
@@ -36,7 +37,7 @@ const setupMetricService = ({ port }: Options = { port: 9082 }) => {
 
 
   metricServer.listen(port, () => {
-    logger.log('info', `Metrics server listening on ${port}`);
+    localLogger.log('info', `Metrics server listening on ${port}`);
   });
 };
 
@@ -70,7 +71,7 @@ const makeMetricsApiMiddleware = (options: Options = {}) => {
         const match: null | object = route.pattern.match(path);
         return match !== null;
       } catch (e: unknown) {
-        logger.error('Error: something went wrong.');
+        localLogger.error('Error: something went wrong.');
         return false;
       }
     });
@@ -98,6 +99,7 @@ const makeMetricsApiMiddleware = (options: Options = {}) => {
   }
 
   const handler: RequestHandler = (req, res, next) => {
+    const traceId = getTraceId(req);
     if (!allRoutes) {
       // Scrape all the paths registered with express on the first recording of metrics. These paths will later be used
       // to ensure we don't use unknown paths (ie spam calls) in metric labels and don't overwhelm Prometheus.
@@ -111,7 +113,7 @@ const makeMetricsApiMiddleware = (options: Options = {}) => {
             pattern: new UrlPattern(route.path),
           }));
       } catch (e) {
-        logger.log('error', `unable to capture route for prom-metrics: ${e}`);
+        errorLogger.error(`unable to capture route for prom-metrics: ${e}`, traceId);
       }
     }
     metricsMiddleware(req, res, next);

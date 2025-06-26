@@ -1,12 +1,11 @@
-#!/usr/bin/env node
-
 import http from 'http';
 
 import app from '../app';
-import logger from '../utils/logging';
+import { getLoggers } from '../utils/loggingHelpers';
 import { PORT } from '../utils/process';
 
 const server = http.createServer(app);
+const { localLogger } = getLoggers();
 
 function isHttpError(error: Error): error is Error & { syscall: string; code: string } {
   return Object.prototype.hasOwnProperty.call(error, 'syscall') && Object.prototype.hasOwnProperty.call(error, 'code');
@@ -35,11 +34,11 @@ function onError(error: Error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      logger.log('error', `${bind} requires elevated privileges`);
+      localLogger.log('error', `${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      logger.log('error', `${bind} is already in use`);
+      localLogger.log('error', `${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -53,14 +52,14 @@ function onError(error: Error) {
 function onListening() {
   const addr = server.address();
   if (!addr) {
-    logger.log('error', 'No address available');
+    localLogger.log('error', 'No address available');
     return;
   }
 
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`
     : `port ${addr.port}`;
-  logger.log('info', `Listening on ${bind}`);
+  localLogger.log('info', `Listening on ${bind}`);
 }
 
 app.set('port', PORT);

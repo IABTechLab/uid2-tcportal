@@ -2,14 +2,16 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import crypto from 'crypto';
 
+import { TraceId } from '../utils/loggingHelpers';
 import { OPTOUT_API_KEY, OPTOUT_API_SECRET, OPTOUT_ENDPOINT_URL } from '../utils/process';
+
 
 interface Optout {
   phone?: string;
   email?: string;
 }
 
-export async function optout(identityInput: string, traceId: string, instanceId: string): Promise<any> {
+export async function optout(identityInput: string, traceId: TraceId, instanceId: string): Promise<any> {
   const optoutInfo: Optout = {};
   if (identityInput[0] === '+') {
     optoutInfo.phone = identityInput;
@@ -40,7 +42,7 @@ export async function optout(identityInput: string, traceId: string, instanceId:
       headers: {
         Authorization: `Bearer ${OPTOUT_API_KEY}`,
         'Content-Type': 'text/plain',
-        'uid-trace-id': traceId,
+        'uid-trace-id': traceId.uidTraceId,
         'uid-instance-id': instanceId,
       },
     });

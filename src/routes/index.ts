@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import express, { RequestHandler } from 'express';
 import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import Handlebars from 'hbs';
@@ -8,13 +9,14 @@ import { z } from 'zod';
 import {
   countryDict, countryList, phoneExampleDict, phoneLibSupportedCountries, 
 } from '../utils/countries';
-import logger from '../utils/logging';
+import { getLoggers, getTraceId } from '../utils/loggingHelpers';
 import { isDevelopment, RECAPTCHA_V3_SITE_KEY, SERVICE_INSTANCE_ID_PREFIX } from '../utils/process';
 import { decrypt, encrypt } from './encryption';
 import { optout } from './optout';
 import createAssessment from './recaptcha'; 
 
 const router = express.Router();
+const { localLogger, errorLogger } = getLoggers();
 
 const isValidEmail = (email: string) => {
   // eslint-disable-next-line no-control-regex
@@ -30,7 +32,7 @@ const validateAndNormalizePhone = (countryCode: string, phone: string) => {
       if (!phoneUtil.isValidNumberForRegion(p, countryCode)) return '';
       return phoneUtil.format(p, PhoneNumberFormat.E164);
     } catch (err) {
-      if (isDevelopment && err instanceof Error) logger.error(`Phone lib error: ${err.message}`);
+      if (isDevelopment && err instanceof Error) localLogger.error(`Phone lib error: ${err.message}`);
       return '';
     }
   }
@@ -55,10 +57,11 @@ const EmailPromptRequest = z.object({
 });
 
 const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPromptRequest>> = async (req, res, _next) => {
+  const traceId = getTraceId(req);
   try {
     EmailPromptRequest.parse(req.body);
   } catch (e) {
-    logger.log('error', 'error while parsing the request');
+    errorLogger.error('error while parsing the request', traceId);
     _next(createError(400));
     return;
   }
@@ -91,7 +94,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     }
   }
 
-  const success = await createAssessment(recaptcha, 'email_prompt');
+  const success = await createAssessment(recaptcha, 'email_prompt', traceId);
   if (!success) {
     res.render('index', {
       email, countryCode, phone, countryList, error : i18n.__('Blocked-a-potentially-automated-request'), 
@@ -109,13 +112,14 @@ const OptoutSubmitRequest = z.object({
 
 const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, _next) => {
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
-  const traceId = req.headers['x-amzn-trace-id']?.toString() ?? '';
+  const traceId = getTraceId(req);
   const instanceId = SERVICE_INSTANCE_ID_PREFIX;
   try {
     const payload = await decrypt(encrypted);
     await optout(payload, traceId, instanceId);
 
   } catch (e) {
+    errorLogger.error(`optout error: ${e instanceof AxiosError && e.response?.data?.status}`, traceId);
     res.render('index', { countryList, error : i18n.__('Sorry, we could not process your request.') });
     return;
   }
@@ -147,10 +151,11 @@ const DefaultRouteRequest = z.object({
 
 const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteRequest>> = async (req, res, next) => {
   let requestStep: Step | undefined;
+  const traceId = getTraceId(req);
   try {
     requestStep = DefaultRouteRequest.parse(req.body).step; 
   } catch (e) {
-    logger.log('error', 'error while parsing step');
+    errorLogger.error('error while parsing step', traceId);
     next(createError(400));
     return;
   }
@@ -159,7 +164,7 @@ const defaultRouteHandler: RequestHandler<{}, {}, z.infer<typeof DefaultRouteReq
     const handler = stepHandlers[requestStep];
     await handler(req, res, next);
   } else {
-    logger.log('error', 'no step');
+    errorLogger.error('no step', traceId);
     next(createError(400));
   }
 };
