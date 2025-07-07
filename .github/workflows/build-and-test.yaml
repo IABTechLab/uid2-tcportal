@@ -23,4 +23,6 @@ jobs:
         #TODO Remove this when we have tests
         run: yarn test --passWithNoTests
       - name: Vulnerability Scan
-        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan_filesystem@v3
+        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan@v3
+        with:
+          scan_type: 'fs'
