@@ -6,7 +6,6 @@ import createError from 'http-errors';
 import i18n from 'i18n';
 import path from 'path';
 
-import makeMetricsApiMiddleware from './middleware/metrics';
 import indexRouter from './routes/index';
 import { getAuditLoggingMiddleware } from './utils/auditLogging';
 import { getLoggers } from './utils/loggingHelpers';
@@ -30,14 +29,6 @@ app.set('views', viewPath);
 app.set('view engine', 'hbs');
 
 app.use(getAuditLoggingMiddleware());
-
-app.use(
-  makeMetricsApiMiddleware({
-    port: 9082,
-    isNormalizePathEnabled: true,
-    discardUnmatched: true,
-  }),
-);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
