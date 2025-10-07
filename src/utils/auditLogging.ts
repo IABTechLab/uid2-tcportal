@@ -197,6 +197,6 @@ export const getAuditLoggingMiddleware = () => expressWinston.logger({
   requestWhitelist: ['body', 'headers', 'query', 'method', 'path', 'ip'],
   responseWhitelist: ['statusCode'],
   ignoreRoute: (req) => {
-    return /\.(css|js|png|jpg|jpeg|gif|svg|ico)$/.test(req.url) || req.path === '/ops/healthcheck';
+    return /\.(css|js|png|jpg|jpeg|gif|svg|ico)$/.test(req.url);
   },
 });
