@@ -1,3 +1,38 @@
+name: Build, Test, and Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests (if present)
+        run: npm test --if-present
+
+      - name: Vulnerability scan (Trivy filesystem)
+        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan@v3
+        with:
+          scan_type: 'fs'
+
 name: Build and Test
 on: [pull_request, push, workflow_dispatch]
 
