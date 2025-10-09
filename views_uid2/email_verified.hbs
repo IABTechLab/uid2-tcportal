@@ -39,6 +39,7 @@
         <br /><br />
       </p>
       <form id='optout-form' action='/' method='post' onsubmit='return onSubmitOptout(this);'>
+        <input type="hidden" name="context" value="confirmation">
         <input type='hidden' name='step' value='optout_submit' />
         <input type='hidden' name='encrypted' value='{{encrypted}}' />
         <button type='submit' name='submitButton' class='submit-button'>
