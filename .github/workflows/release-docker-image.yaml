@@ -1,4 +1,4 @@
-name: Trivy Vulnerability Scan (Release Workflow)
+name: Release Docker Image - Scan
 on:
   pull_request:
 
