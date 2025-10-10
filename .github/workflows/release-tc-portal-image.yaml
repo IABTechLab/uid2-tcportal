@@ -1,0 +1,45 @@
+name: Release TCPORTAL Image
+run-name: ${{ inputs.release_type == 'Snapshot' && 'Publish Pre-release' || format('Release {0}', inputs.release_type)}} Docker Image by @${{ github.actor }}  
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        description: 'The type of release'
+        options:
+        - Major
+        - Minor
+        - Patch
+        - Snapshot
+
+jobs:
+  incrementVersionNumber:
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-increase-version-number.yaml@v2
+    with:
+      release_type: ${{ inputs.release_type }}
+    secrets: inherit
+    
+  publishToUID2:
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@v3
+    needs: incrementVersionNumber
+    with: 
+      new_version: ${{ needs.incrementVersionNumber.outputs.new_version }}
+      image_tag: ${{ needs.incrementVersionNumber.outputs.image_tag }}
+      release_type: ${{ inputs.release_type }}
+      docker_file: Dockerfile_uid2
+      docker_image_name: iabtechlab/uid2-tcportal
+      docker_registry: ghcr.io
+    secrets: inherit
+
+  publishToEUID:
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@v3
+    needs: incrementVersionNumber
+    with: 
+      new_version: ${{ needs.incrementVersionNumber.outputs.new_version }}
+      image_tag: ${{ needs.incrementVersionNumber.outputs.image_tag }}
+      release_type: ${{ inputs.release_type }}
+      docker_file: Dockerfile_euid
+      docker_image_name: iabtechlab/euid-tcportal
+      docker_registry: ghcr.io
+    secrets: inherit
+
