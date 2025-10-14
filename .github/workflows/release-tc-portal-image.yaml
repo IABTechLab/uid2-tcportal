@@ -42,4 +42,16 @@ jobs:
       docker_image_name: iabtechlab/euid-tcportal
       docker_registry: ghcr.io
     secrets: inherit
+  buildImage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Vulnerability Scan
+        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan@v3
+        with:
+          scan_type: 'fs'
 

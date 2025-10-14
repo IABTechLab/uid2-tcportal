@@ -1,4 +1,4 @@
-name: Release Docker Image - Scan
+name: Release Docker Image - Scan 
 on:
   pull_request:
 
