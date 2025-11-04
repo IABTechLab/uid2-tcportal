@@ -10,13 +10,11 @@ interface Optout {
   phone?: string;
   email?: string;
   clientIp: string;
-  instanceId: string;
 }
 
 export async function optout(identityInput: string, traceId: TraceId, instanceId: string, clientIp: string): Promise<any> {
   const optoutInfo: Optout = {
     clientIp,
-    instanceId,
   };
   if (identityInput[0] === '+') {
     optoutInfo.phone = identityInput;
