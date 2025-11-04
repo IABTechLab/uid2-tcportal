@@ -114,9 +114,10 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
   const traceId = getTraceId(req);
   const instanceId = SERVICE_INSTANCE_ID_PREFIX;
+  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || 'unknown';
   try {
     const payload = await decrypt(encrypted);
-    await optout(payload, traceId, instanceId);
+    await optout(payload, traceId, instanceId, clientIp);
 
   } catch (e) {
     errorLogger.error(`optout error: ${e instanceof AxiosError && e.response?.data?.status}`, traceId);

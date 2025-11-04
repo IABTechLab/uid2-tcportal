@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { Request } from 'express';
 import expressWinston from 'express-winston';
 import winston from 'winston';
@@ -108,9 +109,17 @@ export interface TraceId {
 }
 
 export const getTraceId = (request: Request): TraceId => {
-  const traceId = request?.headers?.traceId?.toString() || '';
+  const headerTraceId = request?.headers?.traceId?.toString() || '';
+  const amznTraceId = request?.headers['x-amzn-trace-id']?.toString() || '';
+  
+  // local development trace id
+  const generatedTraceId = crypto.randomUUID();
+  
+  const traceId = headerTraceId || generatedTraceId;
+  const uidTraceId = amznTraceId || headerTraceId || generatedTraceId;
+  
   return {
     traceId,
-    uidTraceId: request?.headers['x-amzn-trace-id']?.toString() || traceId || '',
+    uidTraceId,
   };
 };
