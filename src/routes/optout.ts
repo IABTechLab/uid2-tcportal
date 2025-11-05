@@ -9,10 +9,13 @@ import { OPTOUT_API_KEY, OPTOUT_API_SECRET, OPTOUT_ENDPOINT_URL } from '../utils
 interface Optout {
   phone?: string;
   email?: string;
+  clientIp: string;
 }
 
-export async function optout(identityInput: string, traceId: TraceId, instanceId: string): Promise<any> {
-  const optoutInfo: Optout = {};
+export async function optout(identityInput: string, traceId: TraceId, instanceId: string, clientIp: string): Promise<any> {
+  const optoutInfo: Optout = {
+    clientIp,
+  };
   if (identityInput[0] === '+') {
     optoutInfo.phone = identityInput;
   } else {
