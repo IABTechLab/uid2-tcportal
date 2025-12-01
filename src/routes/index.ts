@@ -69,6 +69,8 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     email, countryCode, phone, recaptcha, idType,
   } = EmailPromptRequest.parse(req.body);
 
+  // Extract client IP address for reCaptcha assessment
+  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || 'unknown';
 
   let idInput = '';
   if (idType === 'email') {
@@ -94,7 +96,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     }
   }
 
-  const success = await createAssessment(recaptcha, 'email_prompt', traceId);
+  const success = await createAssessment(recaptcha, 'email_prompt', traceId, clientIp);
   if (!success) {
     res.render('index', {
       email, countryCode, phone, countryList, error : i18n.__('Blocked-a-potentially-automated-request'), 

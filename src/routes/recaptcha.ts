@@ -5,7 +5,7 @@ import { getLoggers, TraceId } from '../utils/loggingHelpers';
 const { RECAPTCHA_PROJECT_ID, RECAPTCHA_V3_SITE_KEY } = process.env;
 const SCORE_THRESHOLD = 0.5;
 
-export default async function createAssessment(token: string, recaptchaAction: string, traceId: TraceId) {
+export default async function createAssessment(token: string, recaptchaAction: string, traceId: TraceId, userIpAddress?: string) {
   const { errorLogger } = getLoggers();
   const projectId = RECAPTCHA_PROJECT_ID;
   const client = new RecaptchaEnterpriseServiceClient();
@@ -18,8 +18,8 @@ export default async function createAssessment(token: string, recaptchaAction: s
         token,
         siteKey: RECAPTCHA_V3_SITE_KEY,
         // ** available but currently unused
-        //userIpAddress: userIpAddress,
         //userAgent: userAgent,
+        ...(userIpAddress && { userIpAddress }),
       },
     },
     parent: projectPath,
