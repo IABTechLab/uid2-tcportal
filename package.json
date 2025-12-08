@@ -87,5 +87,8 @@
   },
   "overrides": {
     "jws": "4.0.1"
+  },
+  "resolutions": {
+    "jws": "4.0.1"
   }
 }
