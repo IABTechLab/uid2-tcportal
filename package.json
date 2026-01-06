@@ -1,6 +1,6 @@
 {
   "name": "tc-portal",
-  "version": "1.18.14",
+  "version": "1.19.0",
   "private": true,
   "engineStrict": true,
   "scripts": {
