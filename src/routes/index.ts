@@ -52,7 +52,7 @@ const EmailPromptRequest = z.object({
   email: z.string(),
   countryCode: z.string().optional(),
   phone: z.string().optional(),
-  recaptcha: z.string(),
+  recaptcha: z.string().min(1, 'reCAPTCHA token is required'),
   idType: z.string().optional(),
 });
 

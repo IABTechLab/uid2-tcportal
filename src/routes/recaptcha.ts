@@ -7,6 +7,13 @@ const SCORE_THRESHOLD = 0.5;
 
 export default async function createAssessment(token: string, recaptchaAction: string, traceId: TraceId, userIpAddress?: string) {
   const { errorLogger } = getLoggers();
+
+  // Validate token before making the API call
+  if (!token || token.trim() === '') {
+    errorLogger.error('reCAPTCHA token is empty or missing', traceId);
+    return null;
+  }
+
   const projectId = RECAPTCHA_PROJECT_ID;
   const client = new RecaptchaEnterpriseServiceClient();
   const projectPath = client.projectPath(projectId);
