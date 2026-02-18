@@ -33,7 +33,7 @@
     "@types/country-flag-icons": "^1.2.0",
     "@types/country-list-js": "^3.1.2",
     "@types/google-libphonenumber": "^7.4.23",
-    "axios": "^1.12.2",
+    "axios": "^1.13.5",
     "cookie-parser": "~1.4.4",
     "country-codes-list": "^1.6.8",
     "country-flag-icons": "^1.5.4",
