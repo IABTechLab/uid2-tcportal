@@ -85,7 +85,8 @@
     "handlebars": "^4.7.9",
     "path-to-regexp@0": "0.1.13",
     "picomatch": "^2.3.2",
-    "lodash": ">=4.18.1"
+    "lodash": ">=4.18.1",
+    "protobufjs": ">=7.5.5"
   },
   "resolutions": {
     "jws": "4.0.1",
@@ -95,6 +96,7 @@
     "handlebars": "^4.7.9",
     "picomatch": "^2.3.2",
     "path-to-regexp": "0.1.13",
-    "lodash": ">=4.18.1"
+    "lodash": ">=4.18.1",
+    "protobufjs": ">=7.5.5"
   }
 }
