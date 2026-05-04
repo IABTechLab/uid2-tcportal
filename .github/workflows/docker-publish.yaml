@@ -33,7 +33,7 @@ jobs:
           tags: |
             type=sha,prefix=${{ steps.version.outputs.package_version }}-,format=short
       - name: Build and push Docker image (UID2)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: .
           file: Dockerfile_uid2
@@ -49,7 +49,7 @@ jobs:
           tags: |
             type=sha,prefix=${{ steps.version.outputs.package_version }}-,format=short
       - name: Build and push Docker image (EUID)
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: .
           file: Dockerfile_euid
