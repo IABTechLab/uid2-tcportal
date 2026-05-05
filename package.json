@@ -46,7 +46,6 @@
     "express-list-endpoints": "^4.0.1",
     "express-prom-bundle": "^6.3.4",
     "express-winston": "^4.1.0",
-    "form-data": "^4.0.4",
     "google-libphonenumber": "^3.2.27",
     "hbs": "^4.1.1",
     "helmet": "^4.4.1",
