@@ -41,7 +41,7 @@ const PATH_CONFIGS: PathConfig[] = [
   {
     pattern: /^\/$/,
     config: {
-      requestBody: ['idType'],
+      requestBody: ['idType', 'context'],
     },
   },
 ];
@@ -197,6 +197,6 @@ export const getAuditLoggingMiddleware = () => expressWinston.logger({
   requestWhitelist: ['body', 'headers', 'query', 'method', 'path', 'ip'],
   responseWhitelist: ['statusCode'],
   ignoreRoute: (req) => {
-    return /\.(css|js|png|jpg|jpeg|gif|svg)$/.test(req.url);
+    return /\.(css|js|png|jpg|jpeg|gif|svg|ico)$/.test(req.url);
   },
 });

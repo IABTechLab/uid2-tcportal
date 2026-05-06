@@ -52,7 +52,7 @@ const EmailPromptRequest = z.object({
   email: z.string(),
   countryCode: z.string().optional(),
   phone: z.string().optional(),
-  recaptcha: z.string(),
+  recaptcha: z.string().min(1, 'reCAPTCHA token is required'),
   idType: z.string().optional(),
 });
 
@@ -69,6 +69,8 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     email, countryCode, phone, recaptcha, idType,
   } = EmailPromptRequest.parse(req.body);
 
+  // Extract client IP address for reCaptcha assessment
+  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || 'unknown';
 
   let idInput = '';
   if (idType === 'email') {
@@ -94,7 +96,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     }
   }
 
-  const success = await createAssessment(recaptcha, 'email_prompt', traceId);
+  const success = await createAssessment(recaptcha, 'email_prompt', traceId, clientIp);
   if (!success) {
     res.render('index', {
       email, countryCode, phone, countryList, error : i18n.__('Blocked-a-potentially-automated-request'), 
@@ -114,9 +116,10 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
   const { encrypted } = OptoutSubmitRequest.parse(req.body);
   const traceId = getTraceId(req);
   const instanceId = SERVICE_INSTANCE_ID_PREFIX;
+  const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || 'unknown';
   try {
     const payload = await decrypt(encrypted);
-    await optout(payload, traceId, instanceId);
+    await optout(payload, traceId, instanceId, clientIp);
 
   } catch (e) {
     errorLogger.error(`optout error: ${e instanceof AxiosError && e.response?.data?.status}`, traceId);

@@ -25,7 +25,7 @@ type Options = {
   createServer?: boolean
 };
 
-const setupMetricService = ({ port }: Options = { port: 9082 }) => {
+const setupMetricService = ({ port = 9082 }: Options = {}) => {
   // Setup server on a second port to display metrics
   const metricApp = express();
   const metricServer = http.createServer(metricApp);

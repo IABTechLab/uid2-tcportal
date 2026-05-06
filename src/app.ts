@@ -30,14 +30,7 @@ app.set('views', viewPath);
 app.set('view engine', 'hbs');
 
 app.use(getAuditLoggingMiddleware());
-
-app.use(
-  makeMetricsApiMiddleware({
-    port: 9082,
-    isNormalizePathEnabled: true,
-    discardUnmatched: true,
-  }),
-);
+app.use(makeMetricsApiMiddleware({ isNormalizePathEnabled: true, discardUnmatched: true }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

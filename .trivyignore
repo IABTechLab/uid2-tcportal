@@ -1,0 +1,19 @@
+# CVE-2026-26996: minimatch ReDoS vulnerability
+# Tracked in: https://thetradedesk.atlassian.net/browse/UID2-6617
+#
+# Suppressed for minimatch 3.1.2 and 5.1.6 which are pulled in ONLY by
+# devDependencies (eslint, eslint-plugin-import, eslint-plugin-jsx-a11y,
+# eslint-plugin-react, jest/test-exclude, jake/filelist). These versions
+# are not reachable at runtime in the production application.
+#
+# The production dependency (nodemon) is pinned to minimatch ^10.2.1
+# via a Yarn selective resolution, which resolves to 10.2.2 (fixed).
+#
+# Yarn v1's flat node_modules model cannot install two different versions
+# of minimatch simultaneously without breaking eslint-plugin-import, which
+# calls minimatch() as a default-export function (pre-v6 API). Upgrading
+# eslint-plugin-import to a version supporting minimatch v10 requires
+# migrating to ESLint v9, which is a separate effort.
+#
+# Expires: 2027-02-20 — revisit when eslint-plugin-import or ESLint is upgraded.
+CVE-2026-26996 exp:2027-02-20
