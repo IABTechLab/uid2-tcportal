@@ -14,14 +14,14 @@ on:
 
 jobs:
   incrementVersionNumber:
-    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-increase-version-number.yaml@sch-UID2-6742-update-node20-actions
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-increase-version-number.yaml@v3
     with:
       release_type: ${{ inputs.release_type }}
       merge_environment: ${{ github.ref_protected && 'ci-auto-merge' || '' }}
     secrets: inherit
     
   publishToUID2:
-    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@sch-UID2-6742-update-node20-actions
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@v3
     needs: incrementVersionNumber
     with: 
       new_version: ${{ needs.incrementVersionNumber.outputs.new_version }}
@@ -33,7 +33,7 @@ jobs:
     secrets: inherit
 
   publishToEUID:
-    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@sch-UID2-6742-update-node20-actions
+    uses: IABTechLab/uid2-shared-actions/.github/workflows/shared-publish-to-docker-versioned.yaml@v3
     needs: incrementVersionNumber
     with: 
       new_version: ${{ needs.incrementVersionNumber.outputs.new_version }}
@@ -53,7 +53,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
       - name: Vulnerability Scan
-        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan@sch-UID2-6742-update-node20-actions
+        uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan@v3
         with:
           scan_type: 'fs'
 
