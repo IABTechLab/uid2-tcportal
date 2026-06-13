@@ -34,31 +34,45 @@ export async function decrypt(input: string): Promise<string> {
   }
 
   const iv = Uint8Array.from(Buffer.from(parts[0], 'base64'));
+  // aes-128-cbc requires a 16-byte IV; reject a bad length up front. This throw is
+  // synchronous within the async function, so it surfaces as a promise rejection
+  // the caller can catch (unlike a throw inside the scrypt callback below).
+  if (iv.length !== 16) {
+    throw new Error('Invalid Enrypted payload');
+  }
   return new Promise((resolve, reject) => {
     crypto.scrypt(SYSTEM_SECRET, SYSTEM_SALT, 16, (err, key) => {
       if (err) {
         reject(err);
         return;
       }
-    
-      const decipher = crypto.createDecipheriv(algo, key, iv);
-    
-      let decrypted = '';
-      decipher.on('readable', () => {
-        let chunk = decipher.read();
-        while (chunk) {
-          decrypted += chunk.toString('utf8');
-          chunk = decipher.read();
-        }
-      });
-    
-      decipher.on('end', () => {
-        resolve(decrypted);
-      });
-    
-      decipher.write(parts[1], 'base64');
-      decipher.end();
-    
+
+      // createDecipheriv and the stream write/end run inside this native callback;
+      // a throw here escapes the Promise and becomes an uncaught exception. Wrap them
+      // and route every failure (including the decipher 'error' event for bad padding)
+      // through reject so the caller's try/catch handles it.
+      try {
+        const decipher = crypto.createDecipheriv(algo, key, iv);
+        decipher.on('error', reject);
+
+        let decrypted = '';
+        decipher.on('readable', () => {
+          let chunk = decipher.read();
+          while (chunk) {
+            decrypted += chunk.toString('utf8');
+            chunk = decipher.read();
+          }
+        });
+
+        decipher.on('end', () => {
+          resolve(decrypted);
+        });
+
+        decipher.write(parts[1], 'base64');
+        decipher.end();
+      } catch (e) {
+        reject(e);
+      }
     });
   });
 

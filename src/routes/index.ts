@@ -112,9 +112,20 @@ const OptoutSubmitRequest = z.object({
   encrypted: z.string(),
 });
 
-const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, _next) => {
-  const { encrypted } = OptoutSubmitRequest.parse(req.body);
+const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: string }, z.infer<typeof OptoutSubmitRequest>> = async (req, res, next) => {
   const traceId = getTraceId(req);
+  // Validate inside try/catch: a malformed body (e.g. `encrypted` not a string)
+  // makes .parse() throw a ZodError. In an async handler an uncaught throw becomes
+  // an unhandled rejection that crashes the process rather than reaching the Express
+  // error handler, so reject it explicitly with a 400.
+  let encrypted: string;
+  try {
+    ({ encrypted } = OptoutSubmitRequest.parse(req.body));
+  } catch (e) {
+    errorLogger.error('error while parsing optout submit request', traceId);
+    next(createError(400));
+    return;
+  }
   const instanceId = SERVICE_INSTANCE_ID_PREFIX;
   const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || 'unknown';
   try {

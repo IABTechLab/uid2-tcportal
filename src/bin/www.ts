@@ -5,7 +5,8 @@ import { getLoggers } from '../utils/loggingHelpers';
 import { PORT } from '../utils/process';
 
 const server = http.createServer(app);
-const { localLogger } = getLoggers();
+const { localLogger, errorLogger } = getLoggers();
+const processTraceId = { traceId: 'process', uidTraceId: 'process' };
 
 function isHttpError(error: Error): error is Error & { syscall: string; code: string } {
   return Object.prototype.hasOwnProperty.call(error, 'syscall') && Object.prototype.hasOwnProperty.call(error, 'code');
@@ -13,6 +14,15 @@ function isHttpError(error: Error): error is Error & { syscall: string; code: st
 
 process.on('SIGINT', () => {
   process.exit();
+});
+
+// Diagnostic only: per-handler try/catch is the real defence. This listener exists
+// so any rejection that still escapes gets logged to the monitoring pipeline before
+// Node's default behaviour takes over. We deliberately do NOT add an uncaughtException
+// handler — Node's docs are explicit that resuming after one leaves the process in
+// an undefined state; the pod supervisor will restart us cleanly instead.
+process.on('unhandledRejection', (reason) => {
+  errorLogger.error(`Unhandled rejection: ${reason instanceof Error ? (reason.stack ?? reason.message) : String(reason)}`, processTraceId);
 });
 
 /**
