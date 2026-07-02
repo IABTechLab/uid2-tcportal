@@ -1,10 +1,13 @@
-FROM node:20.11.0-alpine3.18
+FROM node:20-alpine3.21
+
+# Patch OS packages and the base-image-bundled npm to clear known HIGH/CRITICAL vulns
+RUN apk upgrade --no-cache && npm install -g npm@latest
 
 WORKDIR /usr/src/app
 
 COPY ["*.json", "yarn.lock", "./"]
 
-RUN yarn
+RUN yarn && yarn cache clean
 
 COPY . .
 RUN rm -rf ./views_euid
