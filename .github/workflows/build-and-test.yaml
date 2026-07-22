@@ -14,8 +14,10 @@ jobs:
         with:
           node-version: '20.11.0'
           cache: 'yarn'
-      - run: yarn install
-      - name: build 
+      - run: yarn install --frozen-lockfile
+      - name: lint lockfile (single registry host + https)
+        run: npx --yes lockfile-lint --path yarn.lock --type yarn --allowed-hosts npm --validate-https
+      - name: build
         run: yarn build
       - name: lint 
         run: yarn lint
