@@ -12,10 +12,12 @@ jobs:
       - name: setup yarn
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '20.11.0'
+          node-version-file: '.nvmrc'
           cache: 'yarn'
-      - run: yarn install
-      - name: build 
+      - run: yarn install --frozen-lockfile
+      - name: lint lockfile (single registry host + https)
+        run: npx --yes lockfile-lint --path yarn.lock --type yarn --allowed-hosts npm --validate-https
+      - name: build
         run: yarn build
       - name: lint 
         run: yarn lint

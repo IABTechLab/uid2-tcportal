@@ -3,6 +3,7 @@
   "version": "1.20.41",
   "private": true,
   "engineStrict": true,
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "start": "yarn build && cross-env NODE_ENV=production node -r dotenv/config ./build/bin/www",
     "start:debug": "yarn build -- --build && cross-env NODE_ENV=development node -r dotenv/config ./build/bin/www",
