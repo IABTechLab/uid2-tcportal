@@ -17,3 +17,21 @@
 #
 # Expires: 2027-02-20 — revisit when eslint-plugin-import or ESLint is upgraded.
 CVE-2026-26996 exp:2027-02-20
+
+# CVE-2026-14257: brace-expansion ReDoS
+# Tracked in: https://thetradedesk.atlassian.net/browse/UID2-7576
+#
+# Every brace-expansion instance in yarn.lock (1.1.16, 2.1.2, 5.0.7) is pulled
+# in ONLY by devDependencies (eslint-plugin-import -> minimatch@3 -> brace-expansion@1;
+# other eslint/jest dev tooling -> brace-expansion@2; nodemon -> minimatch@10 ->
+# brace-expansion@5). None are reachable at runtime in the production application.
+#
+# The only patched release is 5.0.8 — there is NO in-major fix: 1.1.16 and 2.1.2 are
+# already the latest 1.x / 2.x releases and remain vulnerable. Forcing the 1.x/2.x
+# instances to 5.0.8 breaks eslint-plugin-import, which drives minimatch's pre-v6
+# default-export API under Yarn v1's flat node_modules model — the exact same blocker
+# as CVE-2026-26996 above. The unblock is the same ESLint v9 / eslint-plugin-import
+# migration, so this expiry is aligned with that suppression.
+#
+# Expires: 2027-02-20 — revisit when eslint-plugin-import or ESLint is upgraded.
+CVE-2026-14257 exp:2027-02-20
