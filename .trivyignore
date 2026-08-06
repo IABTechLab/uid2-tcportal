@@ -41,4 +41,4 @@ CVE-2026-14257 exp:2027-02-20
 # (eslint-plugin-import->minimatch@3, jest/eslint tooling, nodemon->minimatch@10); existing
 # .trivyignore documents devDependency-only, not runtime-reachable
 # See: UID2-7619
-CVE-2026-69152 exp:2026-09-06
+CVE-2026-69152 exp:2026-11-06
