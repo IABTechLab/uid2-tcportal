@@ -35,3 +35,11 @@ CVE-2026-26996 exp:2027-02-20
 #
 # Expires: 2027-02-20 — revisit when eslint-plugin-import or ESLint is upgraded.
 CVE-2026-14257 exp:2027-02-20
+
+# CVE-2026-69152 — brace-expansion (npm) (HIGH).
+# Not exploitable here: yarn.lock has brace-expansion 1.1.16/2.1.2/5.0.7 all pulled only by
+# minimatch under eslint-plugin-import, jest and nodemon (dev tooling). No
+# minimatch/glob/brace-expansion use in src or bin; production start is `node ./build/bin/www`.
+# Existing .trivyignore documents the same dev-only chain for CVE-2026-14257.
+# See: UID2-7619
+CVE-2026-69152 exp:2026-09-06
