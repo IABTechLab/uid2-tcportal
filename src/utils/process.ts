@@ -17,7 +17,6 @@ declare global {
 
       SYSTEM_SECRET: string;
       SYSTEM_SALT: string;
-      SYSTEM_CODE_SECRET:string;
       ID_TYPE:string;
       SERVICE_INSTANCE_ID_PREFIX:string;
     }
@@ -53,9 +52,13 @@ export const { OPTOUT_API_KEY } = process.env;
 export const OPTOUT_API_SECRET = Buffer.from(process.env.OPTOUT_API_SECRET || 'trasb', 'base64') || 'trasb';
 export const OPTOUT_ENDPOINT_URL = process.env.OPTOUT_ENDPOINT_URL || 'https://prod.uidapi.com/v2/token/logout';
 
-export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET as string || 'dev';
-export const SYSTEM_SALT = process.env.TCP_SYSTEM_SALT as string || 'dev';
-export const SYSTEM_CODE_SECRET = process.env.TCP_SYSTEM_CODE_SECRET as string || 'dev';
+if (!process.env.TCP_SYSTEM_SECRET || !process.env.TCP_SYSTEM_SALT) {
+  console.error('TCP_SYSTEM_SECRET and TCP_SYSTEM_SALT must be set');
+  process.exit(1);
+}
+export const SYSTEM_SECRET = process.env.TCP_SYSTEM_SECRET;
+export const SYSTEM_SALT = process.env.TCP_SYSTEM_SALT;
+
 export const VIEW_FOLDER = process.env.VIEW_FOLDER as string || '/../views';
 export const LOCALE_FOLDER = process.env.LOCALE_FOLDER as string || '/../public/locales';
 
