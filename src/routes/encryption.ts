@@ -2,67 +2,38 @@ import crypto from 'crypto';
 
 import { SYSTEM_SALT, SYSTEM_SECRET } from '../utils/process';
 
-const algo = 'aes-128-cbc';
+const algo = 'aes-128-gcm';
+const ivLength = 12;
+const authTagLength = 16;
 
 const key = Buffer.from(crypto.hkdfSync('sha256', SYSTEM_SECRET, SYSTEM_SALT, '', 16));
 
-export async function encrypt(input: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    crypto.randomFill(new Uint8Array(16), (err, iv) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      const cipher = crypto.createCipheriv(algo, key, iv);
-      let encrypted = '';
-      cipher.setEncoding('base64');
-      cipher.on('data', ((chunk) => { encrypted += chunk; }));
-      cipher.on('end', () => resolve(`${Buffer.from(iv).toString('base64')};${encrypted}`));
-      cipher.write(input);
-      cipher.end();
-    });
-  });  
+export function encrypt(input: string): string {
+  const iv = crypto.randomBytes(ivLength);
+  const cipher = crypto.createCipheriv(algo, key, iv);
+  const encrypted = cipher.update(input, 'utf8', 'base64') + cipher.final('base64');
+
+  return `${iv.toString('base64')};${encrypted};${cipher.getAuthTag().toString('base64')}`;
 }
 
-export async function decrypt(input: string): Promise<string> {
+export function decrypt(input: string): string {
   const parts = input.split(';');
 
-  if (!parts || parts.length !== 2) {
+  if (!parts || parts.length !== 3) {
     throw new Error('Invalid Enrypted payload');
   }
 
-  const iv = Uint8Array.from(Buffer.from(parts[0], 'base64'));
-  // aes-128-cbc requires a 16-byte IV; reject a bad length up front. This throw is
-  // synchronous within the async function, so it surfaces as a promise rejection
-  // the caller can catch.
-  if (iv.length !== 16) {
+  const iv = Buffer.from(parts[0], 'base64');
+  const authTag = Buffer.from(parts[2], 'base64');
+  // Reject bad lengths up front: the IV has to match what encrypt produced, and
+  // setAuthTag would otherwise accept a truncated tag, weakening the integrity check.
+  if (iv.length !== ivLength || authTag.length !== authTagLength) {
     throw new Error('Invalid Enrypted payload');
   }
-  return new Promise((resolve, reject) => {
-    // createDecipheriv and the stream write/end can throw synchronously; wrap them
-    // and route every failure (including the decipher 'error' event for bad padding)
-    // through reject so the caller's try/catch handles it.
-    try {
-      const decipher = crypto.createDecipheriv(algo, key, iv);
-      decipher.on('error', reject);
 
-      let decrypted = '';
-      decipher.on('readable', () => {
-        let chunk = decipher.read();
-        while (chunk) {
-          decrypted += chunk.toString('utf8');
-          chunk = decipher.read();
-        }
-      });
+  const decipher = crypto.createDecipheriv(algo, key, iv);
+  decipher.setAuthTag(authTag);
 
-      decipher.on('end', () => {
-        resolve(decrypted);
-      });
-
-      decipher.write(parts[1], 'base64');
-      decipher.end();
-    } catch (e) {
-      reject(e);
-    }
-  });
+  // final() throws if the payload fails authentication.
+  return decipher.update(parts[1], 'base64', 'utf8') + decipher.final('utf8');
 }
