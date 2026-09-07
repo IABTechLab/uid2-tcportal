@@ -8,7 +8,7 @@ The UID 2 Project is subject to Tech Lab IPR’s Policy and is managed by the IA
 
 ## Prerequisites
 
-- Node >=20.11
+- Node >=24.20.0
 - Yarn 1.x: `npm install --global yarn`
 - You will need to have [UID2 Operator](https://github.com/IABTechLab/uid2-operator) running somewhere in order to submit opt-outs.
 -- Operator runs on port 8080 by default. If you provide the `port_offset` environment variable, it will add that value to the port it uses (e.g. with `port_offset=1200` it will run on port 9280).

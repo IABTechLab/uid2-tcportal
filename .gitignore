@@ -7,3 +7,5 @@ build
 yarn-error.log
 .env
 creds.json
+# To prevent release workflow from adding it back
+package-lock.json
