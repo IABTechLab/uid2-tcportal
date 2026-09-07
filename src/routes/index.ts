@@ -104,7 +104,7 @@ const handleEmailPromptSubmission: RequestHandler<{}, z.infer<typeof EmailPrompt
     return;
   }
 
-  const encrypted = await encrypt(idInput);
+  const encrypted = encrypt(idInput);
   res.render('email_verified', { email: idInput, encrypted });
 };
 
@@ -129,7 +129,7 @@ const handleOptoutSubmit: RequestHandler<{}, { message: string } | { error: stri
   const instanceId = SERVICE_INSTANCE_ID_PREFIX;
   const clientIp = (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() || req.ip || 'unknown';
   try {
-    const payload = await decrypt(encrypted);
+    const payload = decrypt(encrypted);
     await optout(payload, traceId, instanceId, clientIp);
 
   } catch (e) {

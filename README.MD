@@ -30,11 +30,15 @@ OPTOUT_ENDPOINT_URL=http://localhost:8080/v2/token/logout
 RECAPTCHA_PROJECT_ID=
 RECAPTCHA_V3_SITE_KEY=
 GOOGLE_APPLICATION_CREDENTIALS="./creds.json"
+TCP_SYSTEM_SECRET=
+TCP_SYSTEM_SALT=
 ```
 
 You should set the values to match your local test environment. The provided `OPTOUT_` values are taken from the test values in `/src/main/resources/com.uid2.core/test/clients/clients.json` in the UID2 Operator repo. You will need the Operator and Optout services (in other repos) running for opt-out requests to work. If you use the `port_offset` variable to run Operator on a different port, make sure you use a matching port number in `ENDPOINT_URL`.
 
 To get values for the `RECAPTCHA_` settings, you will need to create your own keys. Google requires that reCAPTCHA use Google Cloud Platform (GCP) for managing reCAPTCHA keys.  You will need to create a reCAPTCHA v3 site key with domains set to `localhost` and `127.0.0.1`.  Also create a service account with the proper role (roles/recaptchaenterprise.agent).  Create a key for that service account and add it to a file called creds.json at the root of this project.  
+
+`TCP_SYSTEM_SECRET` and `TCP_SYSTEM_SALT` are required - the server will log an error and exit on startup if either is missing. They're used to derive the key that encrypts identifiers passed through opt-out links, so set them to your own arbitrary values locally and to real secrets in deployed environments.
 
 ## Running in developer mode
 
