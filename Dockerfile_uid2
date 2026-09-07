@@ -1,7 +1,15 @@
-FROM node:20-alpine3.21
+# node:24-alpine (Node 24.20.0, Alpine 3.24) — https://hub.docker.com/_/node
+FROM node:24-alpine@sha256:e67514e5d0f6c46656005e1b693b2ec9d52e80b641307de684d4a015ba7a4eaf
 
-# Patch OS packages and the base-image-bundled npm to clear known HIGH/CRITICAL vulns
-RUN apk upgrade --no-cache && npm install -g npm@latest
+# Patch OS packages to clear known HIGH/CRITICAL vulns. Also remove the base-image-bundled
+# npm/corepack entirely: they vendor a tar/ip-address with unfixed HIGH CVEs (CVE-2026-73566,
+# CVE-2026-69192) that no current npm release has patched, and this project is yarn-only and
+# never invokes npm — yarn itself ships independently of npm/corepack in this image — so
+# removing them is safer than trying to patch or suppress vulnerabilities in code we never run.
+RUN apk upgrade --no-cache \
+    && NPM_DIR="$(npm root -g)" \
+    && rm -rf "$NPM_DIR/npm" "$NPM_DIR/corepack" \
+    && rm -f /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
 
 WORKDIR /usr/src/app
 
