@@ -5,7 +5,9 @@
 name: TEMP - Test Shared Version Bump (UID2-7820)
 run-name: TEMP test version bump shared action by @${{ github.actor }}
 on:
-  pull_request:
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   incrementVersionNumber:
