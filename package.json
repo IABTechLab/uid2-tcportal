@@ -1,6 +1,6 @@
 {
   "name": "tc-portal",
-  "version": "1.20.50",
+  "version": "1.20.52",
   "private": true,
   "engineStrict": true,
   "packageManager": "yarn@1.22.22",
