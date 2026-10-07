@@ -46,3 +46,8 @@ CVE-2026-69152 exp:2026-11-06
 # CVE-2026-93687 — braces (HIGH). Vulnerable code path is not reachable in this configuration.
 # See: UID2-8026
 CVE-2026-93687 exp:2027-01-06
+
+# CVE-2026-90711 — proxy-addr (CRITICAL). Required attack preconditions are absent in this
+# configuration.
+# See: UID2-8049
+CVE-2026-90711 exp:2027-01-07
