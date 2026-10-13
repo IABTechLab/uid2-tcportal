@@ -53,6 +53,10 @@ If port 3000 is in use and you need to use a different port, and a line to your 
 PORT=nnnn
 ```
 
+## Running tests
+
+Run `yarn test`. Tests live next to the code as `src/**/*.test.ts`, and `src/jest.setup.ts` provides the environment variables the app reads on import, so no `.env` is needed. Test files are excluded from `tsconfig.json` so they never land in `build/`; ESLint uses `tsconfig.eslint.json`, which includes them.
+
 ## Confirming it works!
 
 The actual deployment will use the two dockerfiles to build images for deployment. Before you request a merge, make sure it works in both! This is a production-like test - the dev experience won't be quite as good. From this folder:

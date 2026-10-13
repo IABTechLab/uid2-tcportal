@@ -22,8 +22,7 @@ jobs:
       - name: lint 
         run: yarn lint
       - name: test
-        #TODO Remove this when we have tests
-        run: yarn test --passWithNoTests
+        run: yarn test
       - name: Vulnerability Scan
         uses: IABTechLab/uid2-shared-actions/actions/vulnerability_scan@v3
         with:

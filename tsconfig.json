@@ -17,5 +17,7 @@
     "exclude": [
       "public",
       "build",
+      "src/**/*.test.ts",
+      "src/jest.setup.ts",
     ]
   }
