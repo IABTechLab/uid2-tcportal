@@ -4,7 +4,7 @@ const mockCreateAssessment = jest.fn();
 jest.mock('@google-cloud/recaptcha-enterprise', () => ({
   RecaptchaEnterpriseServiceClient: jest.fn().mockImplementation(() => ({
     projectPath: (projectId: string) => `projects/${projectId}`,
-    createAssessment: mockCreateAssessment,
+    createAssessment: (...args: unknown[]) => mockCreateAssessment(...args),
   })),
 }));
 
