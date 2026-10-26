@@ -59,3 +59,7 @@ CVE-2026-111755 exp:2027-04-21
 # CVE-2026-111756 — follow-redirects (HIGH). Not vulnerable.
 # See: UID2-8120
 CVE-2026-111756 exp:2027-04-21
+
+# CVE-2023-54404 — zod (HIGH). Not vulnerable.
+# See: UID2-8176
+CVE-2023-54404 exp:2027-10-26
