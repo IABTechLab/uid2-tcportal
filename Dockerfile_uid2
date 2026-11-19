@@ -26,6 +26,7 @@ RUN rm ./public/images/EUID.png
 
 RUN yarn build
 RUN yarn lint
+RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 ENV ID_TYPE UID2
 
